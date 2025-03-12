@@ -1,0 +1,40 @@
+# Virtual environment
+venv/
+.env
+
+# Byte-compiled / cached files
+__pycache__/
+*.py[cod]
+*.so
+
+# Logs and debugging
+logs/
+*.log
+*.out
+*.err
+
+# Jupyter Notebook checkpoints (if using Jupyter)
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependencies (if using pipenv or poetry)
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.iml
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Build and distribution files
+build/
+dist/
+*.egg-info/
