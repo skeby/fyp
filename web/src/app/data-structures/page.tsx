@@ -135,7 +135,7 @@ const DataStructures = () => {
               {quizData.description}
             </p>
             <p className="mb-4">
-              This quiz contains {quizData.questions.length} multiple choice
+              This contains {quizData.questions.length} multiple choice
               questions.
             </p>
             <Button
@@ -143,7 +143,7 @@ const DataStructures = () => {
               onClick={handleStartQuiz}
               className="w-full sm:w-auto"
             >
-              Start Quiz
+              Start
             </Button>
           </Card>
         </div>
@@ -198,7 +198,7 @@ const DataStructures = () => {
 
             <div className="flex justify-end gap-4">
               <Button size="lg" variant="destructive" onClick={handleEnd}>
-                End Quiz
+                End
               </Button>
               <Button size="lg" onClick={handleNext} disabled={!selectedAnswer}>
                 Continue
@@ -264,7 +264,7 @@ const DataStructures = () => {
 
             <div className="flex justify-end gap-4">
               <Button size="lg" variant="destructive" onClick={handleEnd}>
-                End Quiz
+                End
               </Button>
               <Button size="lg" onClick={handleContinue}>
                 {currentQuestion < quizData.questions.length - 1
