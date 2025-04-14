@@ -11,3 +11,5 @@ export type Topic = {
         explanation: string
     }[]
 }
+
+export type Params = { [key: string]: string }
