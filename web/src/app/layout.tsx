@@ -1,11 +1,11 @@
-import type { Metadata } from "next"
+// import type { Metadata } from "next"
 import "./globals.css"
 import Header from "@/components/ui/header"
 
-export const metadata: Metadata = {
-  title: "AdaptLearn",
-  description: "Adaptive Learning Using Item Response Theory",
-}
+// export const metadata: Metadata = {
+//   title: "AdaptLearn",
+//   description: "Adaptive Learning Using Item Response Theory",
+// }
 
 export default function RootLayout({
   children,
