@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        destination: "/data-structures",
+        destination: "/course/data-structures",
         permanent: true,
       },
     ]
