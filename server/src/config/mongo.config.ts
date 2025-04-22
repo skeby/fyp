@@ -1,4 +1,4 @@
-import { connect, connection } from "mongoose";
+import { connect, connection, MongooseError } from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -19,8 +19,10 @@ export const dbConnect = async (databaseName: string) => {
       console.log("Database connected succesfully");
     });
   } catch (err) {
-    console.log(err);
-    console.error("Database connection failed, retrying...");
+    console.error(
+      "Database connection failed, retrying...\nReason:",
+      (err as MongooseError)?.message
+    );
     // await errorHandler(err, "Database Connection");
     await retryDBConnect(databaseName);
   }
@@ -50,9 +52,9 @@ export const retryDBConnect = async (databaseName: string) => {
       });
     } catch (err) {
       retries++;
-      console.log(err);
       console.error(
-        `Database connection failed, retrying... (${retries}/${maxRetries})`
+        `Database connection failed, retrying... (${retries}/${maxRetries})\nReason:`,
+        (err as MongooseError)?.message
       );
       setTimeout(tryConnect, retryDelay);
     }

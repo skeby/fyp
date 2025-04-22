@@ -13,17 +13,18 @@ const TopicCard = ({
   return (
     <Link href={`/course/${course_slug}/${topic.slug}`}>
       <Card className="gap-0 overflow-hidden rounded-xl">
-        {topic.cover_image && (
-          <Image
-            priority
-            quality={100}
-            src={topic.cover_image}
-            alt={`${topic.title} cover image`}
-            width={800}
-            height={350}
-            className="h-36 w-full object-center"
-          />
-        )}
+        {/* {topic.cover_image && ( */}
+        <Image
+          priority
+          quality={100}
+          src="/images/cover-image.png"
+          // src={topic.cover_image}
+          alt={`${topic.title} cover image`}
+          width={800}
+          height={350}
+          className="h-36 w-full object-center"
+        />
+        {/* )} */}
         <CardContent className="flex flex-col space-y-2 p-4">
           <CardTitle>{topic.title}</CardTitle>
           <CardDescription>{topic.description}</CardDescription>

@@ -8,7 +8,6 @@ const CoursePage = async ({
   params?: Promise<{ course: string }>
 }) => {
   const course = (await params)?.course
-  console.log(course, API_BASE_URL.concat(paths.course.get))
   const res = await fetch(API_BASE_URL.concat(paths.course.get), {
     method: "POST",
     headers: {
