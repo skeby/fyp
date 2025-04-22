@@ -1,7 +1,10 @@
 const auth = "/auth"
 const course = "/course"
 
-export const API_BASE_URL = process.env.BASE_URL || ""
+export const API_BASE_URL =
+  process.env.BASE_URL ||
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  "http://localhost:2000"
 
 export const paths = {
   auth: {

@@ -3,11 +3,27 @@ import { Card, CardContent, CardDescription, CardTitle } from "./ui/card"
 import Link from "next/link"
 import Image from "next/image"
 
-const TopicCard = ({ topic }: { topic: Pick<Topic, "title" | "description" | "slug" | "cover_image"> }) => {
+const TopicCard = ({
+  topic,
+  course_slug,
+}: {
+  topic: Pick<Topic, "title" | "description" | "slug" | "cover_image">
+  course_slug: string
+}) => {
   return (
-    <Link href={`/data-structures/${topic.slug}`}>
-      <Card className="rounded-xl overflow-hidden gap-0">
-        {topic.cover_image && <Image priority quality={100} src={topic.cover_image} alt={`${topic.title} cover image`} width={800} height={350} className="h-36 w-full object-center" />}
+    <Link href={`/course/${course_slug}/${topic.slug}`}>
+      <Card className="gap-0 overflow-hidden rounded-xl">
+        {topic.cover_image && (
+          <Image
+            priority
+            quality={100}
+            src={topic.cover_image}
+            alt={`${topic.title} cover image`}
+            width={800}
+            height={350}
+            className="h-36 w-full object-center"
+          />
+        )}
         <CardContent className="flex flex-col space-y-2 p-4">
           <CardTitle>{topic.title}</CardTitle>
           <CardDescription>{topic.description}</CardDescription>
