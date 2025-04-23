@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+      lowercase: true,
     },
     first_name: {
       type: String,
@@ -51,15 +52,9 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next(); // Skip if password wasn't changed
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  console.log("Hashed password: ", this.password);
   next();
 });
-
-// Optional method to compare password
-userSchema.methods.comparePassword = async function (
-  candidatePassword: string
-) {
-  return await bcrypt.compare(candidatePassword, this.password);
-};
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
@@ -71,6 +66,4 @@ export type UserType = InferSchemaType<typeof userSchema> & {
 };
 
 // Optional: With methods & Mongoose hydration
-export type UserDocument = HydratedDocument<UserType> & {
-  comparePassword: (password: string) => Promise<boolean>;
-};
+export type UserDocument = HydratedDocument<UserType> & {};

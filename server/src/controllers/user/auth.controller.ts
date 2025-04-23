@@ -22,15 +22,13 @@ export const signUp = async (
 
       return;
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       try {
         const user: UserDocument = await User.create({
           email,
           first_name,
           last_name,
           username,
-          password: hashedPassword,
+          password,
         });
 
         const userData = {
@@ -85,7 +83,14 @@ export const login = async (
       return;
     }
 
-    const isValidPassword = await user.comparePassword(password);
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    console.log(
+      "Is valid password: ",
+      isValidPassword,
+      password,
+      user.password
+    );
 
     if (!isValidPassword) {
       res.status(400).json({
