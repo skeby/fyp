@@ -4,8 +4,8 @@ import argparse
 import random
 import os
 import yaml
-from dataset import Dataset, collate_fn
-from model import MAMLModel
+from model.dataset import Dataset, collate_fn
+from model.model import MAMLModel
 from torch.optim import Adam, SGD
 
 # Device configuration
@@ -220,7 +220,7 @@ def train_model():
 
     # Adaptive testing
     if params.run_adaptive_test:
-        from irt import AdaptiveTester
+        from model.irt import AdaptiveTester
         tester = AdaptiveTester(train_dataset.data)
         test_results = tester.run_test(params.max_questions)
         print(f"\nAdaptive Test Results:")

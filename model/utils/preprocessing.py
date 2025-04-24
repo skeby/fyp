@@ -1,10 +1,6 @@
 import os
-import numpy as np
-import pandas as pd
-import numpy as np
-import json
 import time
-from utils import dump_json, open_json
+from model.utils import dump_json, open_json
 import pandas as pd
 from multiprocessing import Pool
 import argparse
