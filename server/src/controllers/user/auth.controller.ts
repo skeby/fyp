@@ -39,16 +39,11 @@ export const signUp = async (
           username: user.username,
         };
 
-        const token = jwt.sign(userData, process.env.JWT_SECRET ?? "", {
-          expiresIn: "14d",
-        });
-
         res.status(201).json({
           status: "success",
           message: "Account successfully created.",
           data: {
             user: userData,
-            token,
           },
         });
       } catch (error) {
