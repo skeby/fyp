@@ -1,0 +1,7 @@
+Flask>=2.0
+gunicorn
+pymongo>=4.0
+torch
+pandas
+numpy
+scipy
