@@ -3,6 +3,7 @@
 import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { AppProgressBar } from "next-nprogress-bar"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,17 @@ const Providers = ({ children }: { children: ReactNode }) => {
         initialIsOpen={false}
         buttonPosition="bottom-right"
         position="right"
+      />
+      <AppProgressBar
+        style="style"
+        options={{
+          showSpinner: false,
+          easing: "ease",
+          // speed: 200,
+          // trickle: true,
+          // trickleSpeed: 200,
+        }}
+        shallowRouting
       />
       {children}
     </QueryClientProvider>

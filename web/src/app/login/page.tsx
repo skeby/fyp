@@ -11,7 +11,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,6 +24,7 @@ import { Input } from "@/components/ui/input"
 import { useAppMutation, useAppUser } from "@/hooks/use-app"
 import { paths } from "@/services/endpoint"
 import { User } from "@/types"
+import { useRouter } from "next-nprogress-bar"
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({
@@ -34,6 +34,8 @@ const LoginPage = () => {
       password: "",
     },
   })
+
+  const router = useRouter()
 
   const { setUser } = useAppUser()
 
@@ -46,6 +48,7 @@ const LoginPage = () => {
     onSuccess: (data) => {
       if (data?.data?.user && data?.data?.token) {
         setUser(data.data.user, data.data.token)
+        router.push("/course/data-structures")
       }
     },
   })

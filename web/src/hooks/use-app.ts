@@ -1,3 +1,4 @@
+import { setCookieWithEvent } from "@/lib/utils"
 import { apiCall } from "@/services/endpoint"
 import { USER } from "@/static"
 import { User } from "@/types"
@@ -8,6 +9,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query"
 import Cookies from "js-cookie"
+import { useEffect, useState } from "react"
 
 interface MutationData<T> {
   mutationKey: any[]
@@ -142,16 +144,45 @@ export const useAppQuery = <T>(queryData: QueryData) => {
 }
 
 export const useAppUser = () => {
-  const user = JSON.parse(Cookies.get(USER) ?? "null") as User | null
+  const [user, setUserState] = useState<User | null>(
+    JSON.parse(Cookies.get(USER) ?? "null")
+  )
+
   const setUser = (user: User, token?: string) => {
-    Cookies.set(USER, JSON.stringify(user), {
-      expires: 14,
-    })
+    setCookieWithEvent(USER, JSON.stringify(user), { expires: 14 })
     if (token) {
-      Cookies.set("token", token, {
-        expires: 14,
-      })
+      setCookieWithEvent("token", token, { expires: 14 })
     }
   }
-  return { user, setUser }
+
+  const removeUser = () => {
+    // Remove the USER cookie and trigger the cookieChange event
+    Cookies.remove(USER)
+    const event = new CustomEvent("cookieChange", {
+      detail: { name: USER, value: null },
+    })
+    window.dispatchEvent(event)
+
+    // Optionally, remove the token cookie as well
+    Cookies.remove("token")
+  }
+
+  useEffect(() => {
+    const handleCookieChange = (event: CustomEvent) => {
+      if (event.detail.name === USER) {
+        setUserState(JSON.parse(event.detail.value))
+      }
+    }
+
+    window.addEventListener("cookieChange", handleCookieChange as EventListener)
+
+    return () => {
+      window.removeEventListener(
+        "cookieChange",
+        handleCookieChange as EventListener
+      )
+    }
+  }, [])
+
+  return { user, setUser, removeUser }
 }
