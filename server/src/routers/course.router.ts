@@ -3,6 +3,7 @@ import {
   createCourse,
   createTopic,
   getCourse,
+  getCourses,
   getTopic,
 } from "../controllers/user/course.controller";
 import authAdmin from "../middlewares/auth-admin.middleware";
@@ -13,6 +14,7 @@ import validate from "../middlewares/validate.middleware";
 const courseRouter = Router();
 
 courseRouter.post("/", getCourse);
+courseRouter.get("/courses", getCourses);
 courseRouter.post("/topic", authUser, getTopic);
 courseRouter.post("/create", authAdmin, validate(CourseSchema), createCourse);
 courseRouter.post(

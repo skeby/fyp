@@ -1,5 +1,12 @@
 import { Topic } from "@/types"
 
+export const API_BASE_URL =
+  process.env.BASE_URL ||
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  "https://adaptlearn-api.onrender.com"
+export const AUTH_TOKEN = "auth_token"
+export const USER = "user"
+
 export const topics: Topic[] = new Array(4).fill(0).map(() => ({
   title: "Arrays",
   description: "This topic is a test of your understanding of arrays",

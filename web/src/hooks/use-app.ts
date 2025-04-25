@@ -1,15 +1,22 @@
+import { apiCall } from "@/services/endpoint"
+import { USER } from "@/static"
+import { User } from "@/types"
 import {
   QueryFilters,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { apiCall } from "../services/endpoint"
+import Cookies from "js-cookie"
 
 interface MutationData<T> {
   mutationKey: any[]
   path: string
-  onSuccess?: (data: any) => void
+  onSuccess?: (data: {
+    data?: T
+    message: string
+    status: "success" | "error"
+  }) => void
   onError?: (data?: any) => void
   method?: string
   extraHeaders?: any
@@ -132,4 +139,19 @@ export const useAppQuery = <T>(queryData: QueryData) => {
     staleTime,
     refetchOnMount: refetchOnMount ?? false,
   })
+}
+
+export const useAppUser = () => {
+  const user = JSON.parse(Cookies.get(USER) ?? "null") as User | null
+  const setUser = (user: User, token?: string) => {
+    Cookies.set(USER, JSON.stringify(user), {
+      expires: 14,
+    })
+    if (token) {
+      Cookies.set("token", token, {
+        expires: 14,
+      })
+    }
+  }
+  return { user, setUser }
 }

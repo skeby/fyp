@@ -1,14 +1,8 @@
-import axiosClient from "./axios-client"
 import { AxiosResponse } from "axios"
+import axiosClient from "./axios-client"
 
 const auth = "/auth"
 const course = "/course"
-
-export const API_BASE_URL =
-  process.env.BASE_URL ||
-  process.env.NEXT_PUBLIC_BASE_URL ||
-  "https://adaptlearn-api.onrender.com"
-export const AUTH_TOKEN = "auth_token"
 
 export const paths = {
   auth: {
@@ -54,28 +48,28 @@ export const apiCall = async (
       }
     }
 
-    if (showLoader && typeof window !== "undefined")
-      // hide = message.loading({
-      //   content: showLoader === true ? "Loading" : showLoader,
-      //   duration: 0,
-      //   key: messageId,
-      // })
-      switch (method) {
-        case "post":
-          res = await client.post(path, body, { params })
-          break
-        case "get":
-          res = await client.get(path, { params })
-          break
-        case "put":
-          res = await client.put(path, body, { params })
-          break
-        case "delete":
-          res = await client.delete(path, { params })
-          break
-        default:
-          throw new Error(`Unsupported method: ${method}`)
-      }
+    // if (showLoader && typeof window !== "undefined")
+    // hide = message.loading({
+    //   content: showLoader === true ? "Loading" : showLoader,
+    //   duration: 0,
+    //   key: messageId,
+    // })
+    switch (method) {
+      case "post":
+        res = await client.post(path, body, { params })
+        break
+      case "get":
+        res = await client.get(path, { params })
+        break
+      case "put":
+        res = await client.put(path, body, { params })
+        break
+      case "delete":
+        res = await client.delete(path, { params })
+        break
+      default:
+        throw new Error(`Unsupported method: ${method}`)
+    }
 
     // if (!res) {
     //   throw new Error("Empty response from server")

@@ -2,6 +2,36 @@ import { NextFunction, Request, Response } from "express";
 import Course, { CourseDocument } from "../../models/course";
 import { CourseFields, TopicFields } from "../../types/schema";
 
+export const getCourses = async (
+  req: Request<any, any>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const courses: CourseDocument[] | null = await Course.find({
+      status: "active",
+    });
+
+    // TODO: Find a way to use .select to remove the questions from the topics
+
+    if (!courses) {
+      res.status(401).json({
+        status: "error",
+        message: "Courses not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Courses fetched successfully",
+      data: { courses },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getCourse = async (
   req: Request<any, any, { slug: string }>,
   res: Response,

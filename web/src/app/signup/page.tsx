@@ -17,58 +17,92 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { LoginFields, LoginSchema } from "@/types/schema"
+import { SignUpFields, SignUpSchema } from "@/types/schema"
 import Link from "next/link"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input"
 import { useAppMutation, useAppUser } from "@/hooks/use-app"
 import { paths } from "@/services/endpoint"
-import { User } from "@/types"
 
-const LoginPage = () => {
-  const form = useForm<LoginFields>({
-    resolver: zodResolver(LoginSchema),
+const SignUpPage = () => {
+  const form = useForm<SignUpFields>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       email: "",
+      first_name: "",
+      last_name: "",
+      username: "",
       password: "",
     },
   })
 
-  const { setUser } = useAppUser()
-
-  const { mutate: login, isPending } = useAppMutation<{
-    user: User
-    token: string
-  }>({
-    mutationKey: ["login"],
-    path: paths.auth.login,
-    onSuccess: (data) => {
-      if (data?.data?.user && data?.data?.token) {
-        setUser(data.data.user, data.data.token)
-      }
-    },
+  const { mutate: signup, isPending } = useAppMutation({
+    mutationKey: ["signup"],
+    path: paths.auth.signup,
+    // onSuccess: (data) => {
+    //   setUser(data)
+    // },
   })
 
-  const onSubmit: SubmitHandler<LoginFields> = (data) => {
-    login(data)
+  const onSubmit: SubmitHandler<SignUpFields> = (data) => {
+    signup(data)
   }
 
   return (
     <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-6 py-20">
       <Card className="h-full w-full max-w-md p-6">
         <CardHeader className="p-0">
-          <CardTitle className="p-0">Login</CardTitle>
+          <CardTitle className="p-0">Sign Up</CardTitle>
           <CardDescription>
-            Don't have an account yet?{" "}
-            <Link href="/signup" className="text-primary">
-              Sign Up
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary">
+              Login
             </Link>
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your first name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your last name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -108,7 +142,7 @@ const LoginPage = () => {
                 type="submit"
                 className="w-full"
               >
-                Login
+                Sign Up
               </Button>
             </form>
           </Form>
@@ -118,4 +152,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default SignUpPage

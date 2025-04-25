@@ -1,6 +1,7 @@
 import TopicCard from "@/components/topic-card"
 import { Course } from "@/types"
-import { API_BASE_URL, paths } from "../../../services/endpoint"
+import { paths } from "../../../services/endpoint"
+import { API_BASE_URL } from "@/static"
 
 const CoursePage = async ({
   params,

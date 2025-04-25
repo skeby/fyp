@@ -1,7 +1,6 @@
+import { AUTH_TOKEN, USER } from "@/static"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { API_BASE_URL, AUTH_TOKEN } from "./endpoint"
-// import { cookies } from "next/headers"
 
 const client = axios.create({
   baseURL:
@@ -33,7 +32,7 @@ client.interceptors.response.use(
     if (status === 401) {
       if (typeof window !== "undefined") {
         Cookies.remove(AUTH_TOKEN)
-        // localStorage.removeItem(USER)
+        Cookies.remove(USER)
       }
       // message.error("Session expired. Please login again.")
       // window.history.pushState({}, "", "/login")

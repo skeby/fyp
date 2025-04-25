@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { AUTH_TOKEN } from "./services/endpoint"
+import { AUTH_TOKEN } from "./static"
 
 export function middleware(req: NextRequest) {
   // Get the auth token from cookies
