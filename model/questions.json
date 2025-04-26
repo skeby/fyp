@@ -1,0 +1,72 @@
+[
+    {
+        "Question ID": 2,
+        "Question Text": "The minimum number of comparisons required to determine if an integer appears more than n/2 times in a sorted array of n integers is",
+        "Option A": "\u0398(n)",
+        "Option B": "\u0398(logn)",
+        "Option C": "\u0398(n*logn)",
+        "Option D": "\u0398(1)",
+        "Correct Answer": "B",
+        "Explanation": "If you answered Theta(1), then think of examples {1, 2, 2, 2, 4, 4}, {1, 1, 2, 2, 2, 2, 3, 3} The Best way to find out whether an integer appears more than n/2 times in a sorted array(Ascending Order) of n integers, would be binary search approach.The First occurrence of an element can be found out in O(log(n)) time using divide and conquer technique,lets say it is i.The Last occurrence of an element can be found out in O(log(n)) time using divide and conquer technique,lets say it is j.Now number of occurrence of that element(count) is (j-i+1). Overall time complexity = log n +log n +1 = O(logn)See Check for Majority Element in a sorted array This solution is contributed by Nirmal Bharadwaj",
+        "Concept": "Array",
+        "Difficulty": 2.5,
+        "Discrimination": 2.5,
+        "Guessing Probability": 0.25
+    },
+    {
+        "Question ID": 3,
+        "Question Text": "An algorithm performs (logN)1/2  find operations, N insert operations, (logN)1/2 , delete operations, and (logN)1/2  decrease-key operations on a set of data items with keys drawn from a linearly ordered set. For a delete operation, a pointer is provided to the record that must be deleted. For the decrease-key operation, a pointer is provided to the record that has its key decreased. Which one of the following data structures is the most suited for the algorithm to use, if the goal is to achieve the best total asymptotic complexity considering all the operations?",
+        "Option A": "Unsorted array",
+        "Option B": "Min-heap",
+        "Option C": "Sorted array",
+        "Option D": "Sorted doubly linked list",
+        "Correct Answer": "A",
+        "Explanation": "The time complexity of insert in unsorted array is O(1), O(Logn) in Min-Heap, O(n) in sorted array and sorted DLL. For unsorted array, we can always insert an element at end and do insert in O(1) timeFor Min Heap, insertion takes O(Log n) time. Refer Binary Heap operations for details. For sorted array, insert takes O(n) time as we may have to move all elements worst case. For sorted doubly linked list, insert takes O(n) time to find position of element to be inserted. Since number of insertion operations is asymptotically higher, unsorted array is preferred.",
+        "Concept": "Array",
+        "Difficulty": 2.5,
+        "Discrimination": 2.5,
+        "Guessing Probability": 0.25
+    },
+    {
+        "Question ID": 4,
+        "Question Text": "Consider an array consisting of \u2013ve and +ve numbers. What would be the worst case time complexity of an algorithm to segregate the numbers having same sign altogether i.e all +ve on one side and then all -ve on the other ?",
+        "Option A": "O(N)",
+        "Option B": "O(N Log N)",
+        "Option C": "O(N * N)",
+        "Option D": "O(N Log Log N)",
+        "Correct Answer": "A",
+        "Explanation": "Here we can use the partition algorithm of quick sort for segregation and answer will be O(N).",
+        "Concept": "Array",
+        "Difficulty": 1.5,
+        "Discrimination": 2.5,
+        "Guessing Probability": 0.25
+    },
+    {
+        "Question ID": 5,
+        "Question Text": "Let A[1...n] be an array of n distinct numbers. If i &lt; j and A[i] &gt; A[j], then the pair (i, j) is called an inversion of A. What is the expected number of inversions in any permutation on n elements ?",
+        "Option A": "n(n-1)/2",
+        "Option B": "n(n-1)/4",
+        "Option C": "n(n+1)/4",
+        "Option D": "2n[logn]",
+        "Correct Answer": "B",
+        "Explanation": "There are n(n-1)/2 pairs such that i &lt; j. For a pair (ai, aj), probability of being inversion is 1/2. Therefore expected value of inversions = 1/2 * (n(n-1)/2) = n(n-1)/4.",
+        "Concept": "Array",
+        "Difficulty": 2.5,
+        "Discrimination": 2.5,
+        "Guessing Probability": 0.25
+    },
+    {
+        "Question ID": 6,
+        "Question Text": "Consider a two dimensional array A[20][10]. Assume 4 words per memory cell, the base address of array A is 100, elements are stored in row-major order and first element is A[0][0]. What is the address of A[11][5] ?",
+        "Option A": "560",
+        "Option B": "460",
+        "Option C": "570",
+        "Option D": "575",
+        "Correct Answer": "A",
+        "Explanation": "Element A[11][0] is stored at \"Base Address + 11 * 10 * 4\" which is  \"Base Address + 440\" = 540.  So A[11][5] is stored at 540 + 5*4 = 560.",
+        "Concept": "Array",
+        "Difficulty": 1.5,
+        "Discrimination": 1.5,
+        "Guessing Probability": 0.25
+    }
+]
