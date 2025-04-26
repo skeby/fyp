@@ -6,7 +6,7 @@ const client = axios.create({
   baseURL:
     process.env.BASE_URL ||
     process.env.NEXT_PUBLIC_BASE_URL ||
-    "https://adaptlearn-api.onrender.com",
+    "https://adaptlearn-api-aahj.onrender.com",
   headers: {
     Accept: "application/json",
   },
