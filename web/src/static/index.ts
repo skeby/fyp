@@ -1,11 +1,11 @@
-import { Topic } from "@/types"
+import { Topic } from "@/types";
 
 export const API_BASE_URL =
   process.env.BASE_URL ||
   process.env.NEXT_PUBLIC_BASE_URL ||
-  "https://adaptlearn-api.onrender.com"
-export const AUTH_TOKEN = "auth_token"
-export const USER = "user"
+  "https://adaptlearn-api-aahj.onrender.com";
+export const AUTH_TOKEN = "auth_token";
+export const USER = "user";
 
 export const topics: Topic[] = new Array(4).fill(0).map(() => ({
   title: "Arrays",
@@ -54,4 +54,4 @@ export const topics: Topic[] = new Array(4).fill(0).map(() => ({
         "The time complexity for searching in a balanced binary search tree is O(log n) because each comparison allows us to eliminate half of the remaining tree. This is much more efficient than linear search (O(n)) for large datasets.",
     },
   ],
-}))
+}));

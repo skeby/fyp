@@ -1,9 +1,9 @@
-import { AUTH_TOKEN, USER } from "@/static";
+import { API_BASE_URL, AUTH_TOKEN, USER } from "@/static";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 const client = axios.create({
-  baseURL: "https://adaptlearn-api-aahj.onrender.com",
+  baseURL: API_BASE_URL,
   headers: {
     Accept: "application/json",
   },

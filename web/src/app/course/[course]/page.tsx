@@ -15,7 +15,9 @@ const CoursePage = async ({
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ slug: course }),
+    cache: "no-cache",
   });
+  console.log(res);
   const json = await res.json();
   const { status, message, data } = json;
 
