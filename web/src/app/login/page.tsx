@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,16 +15,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { LoginFields, LoginSchema } from "@/types/schema"
-import Link from "next/link"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input"
-import { useAppMutation, useAppUser } from "@/hooks/use-app"
-import { paths } from "@/services/endpoint"
-import { User } from "@/types"
-import { useRouter } from "next-nprogress-bar"
+} from "@/components/ui/form";
+import { LoginFields, LoginSchema } from "@/types/schema";
+import Link from "next/link";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { useAppMutation, useAppUser } from "@/hooks/use-app";
+import { paths } from "@/services/endpoint";
+import { User } from "@/types";
+import { useRouter } from "next-nprogress-bar";
+import { useEffect } from "react";
+import { message } from "@/components/misc/message-provider";
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({
@@ -33,29 +35,29 @@ const LoginPage = () => {
       email: "",
       password: "",
     },
-  })
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const { setUser } = useAppUser()
+  const { setUser } = useAppUser();
 
   const { mutate: login, isPending } = useAppMutation<{
-    user: User
-    token: string
+    user: User;
+    token: string;
   }>({
     mutationKey: ["login"],
     path: paths.auth.login,
     onSuccess: (data) => {
       if (data?.data?.user && data?.data?.token) {
-        setUser(data.data.user, data.data.token)
-        router.push("/course/data-structures")
+        setUser(data.data.user, data.data.token);
+        router.push("/course/data-structures");
       }
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<LoginFields> = (data) => {
-    login(data)
-  }
+    login(data);
+  };
 
   return (
     <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-6 py-20">
@@ -118,7 +120,7 @@ const LoginPage = () => {
         </CardContent>
       </Card>
     </main>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

@@ -7,15 +7,23 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get(AUTH_TOKEN)?.value
 
   // Define the protected route
-  const protectedRoutes = [/^\/course\/[^/]+\/[^/]+$/]
+  const protectedRoutes: (RegExp | string)[] = [/^\/course\/[^/]+\/[^/]+$/]
+  const authRoutes: (RegExp | string)[] = ["/login", "/signup"]
 
   // Check if the request matches the protected route
-  if (protectedRoutes.some((r) => r.test(req.nextUrl.pathname))) {
+  if (protectedRoutes.some((r) => typeof r === "string" ? r === req.nextUrl.pathname : r.test(req.nextUrl.pathname))) {
     // If no token, redirect to /login
     if (!token) {
       const loginUrl = new URL("/login", req.url)
       loginUrl.searchParams.set("next", req.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
+    }
+  }
+
+  if(authRoutes.some((r) => typeof r === "string" ? r === req.nextUrl.pathname : r.test(req.nextUrl.pathname))){
+    if(token){
+      const courseUrl = new URL("/course", req.url)
+      return NextResponse.redirect(courseUrl)
     }
   }
 

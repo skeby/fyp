@@ -4,8 +4,8 @@ import Cookies from "js-cookie"
 
 const client = axios.create({
   baseURL:
-    process.env.BASE_URL ||
-    process.env.NEXT_PUBLIC_BASE_URL ||
+    process.env?.BASE_URL ??
+    process.env?.NEXT_PUBLIC_BASE_URL ??
     "https://adaptlearn-api-aahj.onrender.com",
   headers: {
     Accept: "application/json",

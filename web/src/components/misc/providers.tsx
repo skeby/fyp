@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
-import { ReactNode } from "react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { AppProgressBar } from "next-nprogress-bar"
+import { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AppProgressBar } from "next-nprogress-bar";
+import { MessageProvider } from "./message-provider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,7 +13,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
-})
+});
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
@@ -33,9 +34,9 @@ const Providers = ({ children }: { children: ReactNode }) => {
         }}
         shallowRouting
       />
-      {children}
+      <MessageProvider>{children}</MessageProvider>
     </QueryClientProvider>
-  )
-}
+  );
+};
 
-export default Providers
+export default Providers;

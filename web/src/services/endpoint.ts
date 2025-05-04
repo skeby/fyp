@@ -1,8 +1,9 @@
-import { AxiosResponse } from "axios"
-import axiosClient from "./axios-client"
+import { AxiosResponse } from "axios";
+import axiosClient from "./axios-client";
+import { message } from "@/components/misc/message-provider";
 
-const auth = "/auth"
-const course = "/course"
+const auth = "/auth";
+const course = "/course";
 
 export const paths = {
   auth: {
@@ -10,14 +11,14 @@ export const paths = {
     login: auth.concat("/login"),
   },
   course: {
-    get: course,
+    get: course.concat("/"),
     topic: {
       get: course.concat("/topic"),
     },
   },
-}
+};
 
-let hide: any
+let hide: any;
 
 export const apiCall = async (
   body: any,
@@ -27,25 +28,25 @@ export const apiCall = async (
   headers?: any,
   params?: any,
   showLoader: boolean | string = false,
-  showMessage: boolean = true
+  showMessage: boolean = true,
 ) => {
-  const messageId = "apicall-message-id"
+  const messageId = "apicall-message-id";
   try {
-    const client = await axiosClient()
-    let res: AxiosResponse | null = null
+    const client = await axiosClient();
+    let res: AxiosResponse | null = null;
 
     if (extraHeaders) {
       client.defaults.headers.common = {
         ...client.defaults.headers.common,
         ...extraHeaders,
-      }
+      };
     }
 
     if (headers) {
       client.defaults.headers = {
         ...client.defaults.headers,
         ...headers,
-      }
+      };
     }
 
     // if (showLoader && typeof window !== "undefined")
@@ -56,19 +57,19 @@ export const apiCall = async (
     // })
     switch (method) {
       case "post":
-        res = await client.post(path, body, { params })
-        break
+        res = await client.post(path, body, { params });
+        break;
       case "get":
-        res = await client.get(path, { params })
-        break
+        res = await client.get(path, { params });
+        break;
       case "put":
-        res = await client.put(path, body, { params })
-        break
+        res = await client.put(path, body, { params });
+        break;
       case "delete":
-        res = await client.delete(path, { params })
-        break
+        res = await client.delete(path, { params });
+        break;
       default:
-        throw new Error(`Unsupported method: ${method}`)
+        throw new Error(`Unsupported method: ${method}`);
     }
 
     // if (!res) {
@@ -76,10 +77,10 @@ export const apiCall = async (
     // }
 
     if (hide && typeof window !== "undefined") {
-      hide()
+      hide();
     }
 
-    const responseData: any = res?.data
+    const responseData: any = res?.data;
     if (responseData?.status === "success" || responseData?.success === true) {
       if (
         method !== "get" &&
@@ -87,35 +88,35 @@ export const apiCall = async (
         responseData?.message &&
         !!showMessage
       ) {
-        // message.success(responseData?.message)
+        message.success(responseData?.message);
       }
-      return responseData
+      return responseData;
     } else {
-      const errorMessage = responseData?.message || "Something went wrong!"
+      const errorMessage = responseData?.message || "Something went wrong!";
       if (
         method !== "get" &&
         typeof window !== "undefined" &&
         errorMessage &&
         !!showMessage
       ) {
-        // message.error(errorMessage, 6)
+        message.error(errorMessage, 6);
       }
-      return responseData
+      return responseData;
     }
   } catch (error: any) {
     const errorMessage = error?.message
       ? error?.message
-      : "Something went wrong!"
+      : "Something went wrong!";
     // const errorMessage = "Something went wrong!"
     if (typeof window !== "undefined" && showMessage) {
       // message.error(errorMessage, 6)
-      hide && hide()
+      hide && hide();
     }
-    return error
+    return error;
   } finally {
     if (hide && typeof window !== "undefined") {
-      hide()
+      hide();
       // message.destroy(messageId)
     }
   }
-}
+};
