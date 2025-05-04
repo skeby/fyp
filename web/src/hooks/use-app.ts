@@ -1,48 +1,48 @@
-import { setCookieWithEvent } from "@/lib/utils"
-import { apiCall } from "@/services/endpoint"
-import { USER } from "@/static"
-import { User } from "@/types"
+import { setCookieWithEvent } from "@/lib/utils";
+import { apiCall } from "@/services/endpoint";
+import { AUTH_TOKEN, USER } from "@/static";
+import { User } from "@/types";
 import {
   QueryFilters,
   useMutation,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query"
-import Cookies from "js-cookie"
-import { useEffect, useState } from "react"
+} from "@tanstack/react-query";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 interface MutationData<T> {
-  mutationKey: any[]
-  path: string
+  mutationKey: any[];
+  path: string;
   onSuccess?: (data: {
-    data?: T
-    message: string
-    status: "success" | "error"
-  }) => void
-  onError?: (data?: any) => void
-  method?: string
-  extraHeaders?: any
-  headers?: any
-  params?: any
-  showLoader?: boolean | string
-  showMessage?: boolean
-  removeQueries?: boolean
+    data?: T;
+    message: string;
+    status: "success" | "error";
+  }) => void;
+  onError?: (data?: any) => void;
+  method?: string;
+  extraHeaders?: any;
+  headers?: any;
+  params?: any;
+  showLoader?: boolean | string;
+  showMessage?: boolean;
+  removeQueries?: boolean;
 }
 
 interface QueryData {
-  data?: any
-  queryKey: any[]
-  path: string
-  enabled?: boolean
-  refetchOnMount?: boolean
-  extraHeaders?: any
-  headers?: any
-  params?: any
-  showLoader?: boolean | string
-  showMessage?: boolean
-  gcTime?: number
-  staleTime?: number
-  method?: string
+  data?: any;
+  queryKey: any[];
+  path: string;
+  enabled?: boolean;
+  refetchOnMount?: boolean;
+  extraHeaders?: any;
+  headers?: any;
+  params?: any;
+  showLoader?: boolean | string;
+  showMessage?: boolean;
+  gcTime?: number;
+  staleTime?: number;
+  method?: string;
 }
 
 export const useAppMutation = <T>(mutationData: MutationData<T>) => {
@@ -58,14 +58,14 @@ export const useAppMutation = <T>(mutationData: MutationData<T>) => {
     showLoader,
     showMessage,
     removeQueries,
-  } = mutationData ?? {}
-  const queryClient = useQueryClient()
+  } = mutationData ?? {};
+  const queryClient = useQueryClient();
 
   return useMutation<
     {
-      data?: T
-      message: string
-      status: "success" | "error"
+      data?: T;
+      message: string;
+      status: "success" | "error";
     },
     any,
     unknown
@@ -80,32 +80,32 @@ export const useAppMutation = <T>(mutationData: MutationData<T>) => {
         headers,
         params,
         showLoader,
-        showMessage
-      )
+        showMessage,
+      );
     },
     onSuccess: (data) => {
       if (data?.status === "success") {
         const predicate: QueryFilters["predicate"] = (query) => {
-          return query.queryKey[0] === mutationKey[0]
-        }
+          return query.queryKey[0] === mutationKey[0];
+        };
         queryClient.invalidateQueries({
           predicate,
-        })
+        });
         if (removeQueries) {
           queryClient.removeQueries({
             predicate,
-          })
+          });
         }
-        onSuccess && onSuccess(data)
+        onSuccess && onSuccess(data);
       } else {
-        if (onError) onError(data)
+        if (onError) onError(data);
       }
     },
     onError: () => {
-      if (onError) onError()
+      if (onError) onError();
     },
-  })
-}
+  });
+};
 
 export const useAppQuery = <T>(queryData: QueryData) => {
   const {
@@ -122,7 +122,7 @@ export const useAppQuery = <T>(queryData: QueryData) => {
     gcTime,
     staleTime,
     method = "get",
-  } = queryData
+  } = queryData;
   return useQuery<{ data?: T; message: string; status: "success" | "error" }>({
     queryKey,
     queryFn: () =>
@@ -134,55 +134,58 @@ export const useAppQuery = <T>(queryData: QueryData) => {
         headers,
         params,
         showLoader,
-        showMessage
+        showMessage,
       ),
     enabled,
     gcTime,
     staleTime,
     refetchOnMount: refetchOnMount ?? false,
-  })
-}
+  });
+};
 
 export const useAppUser = () => {
   const [user, setUserState] = useState<User | null>(
-    JSON.parse(Cookies.get(USER) ?? "null")
-  )
+    JSON.parse(Cookies.get(USER) ?? "null"),
+  );
 
   const setUser = (user: User, token?: string) => {
-    setCookieWithEvent(USER, JSON.stringify(user), { expires: 14 })
+    setCookieWithEvent(USER, JSON.stringify(user), { expires: 14 });
     if (token) {
-      setCookieWithEvent("token", token, { expires: 14 })
+      setCookieWithEvent(AUTH_TOKEN, token, { expires: 14 });
     }
-  }
+  };
 
   const removeUser = () => {
     // Remove the USER cookie and trigger the cookieChange event
-    Cookies.remove(USER)
+    Cookies.remove(USER);
     const event = new CustomEvent("cookieChange", {
       detail: { name: USER, value: null },
-    })
-    window.dispatchEvent(event)
+    });
+    window.dispatchEvent(event);
 
     // Optionally, remove the token cookie as well
-    Cookies.remove("token")
-  }
+    Cookies.remove(AUTH_TOKEN);
+  };
 
   useEffect(() => {
     const handleCookieChange = (event: CustomEvent) => {
       if (event.detail.name === USER) {
-        setUserState(JSON.parse(event.detail.value))
+        setUserState(JSON.parse(event.detail.value));
       }
-    }
+    };
 
-    window.addEventListener("cookieChange", handleCookieChange as EventListener)
+    window.addEventListener(
+      "cookieChange",
+      handleCookieChange as EventListener,
+    );
 
     return () => {
       window.removeEventListener(
         "cookieChange",
-        handleCookieChange as EventListener
-      )
-    }
-  }, [])
+        handleCookieChange as EventListener,
+      );
+    };
+  }, []);
 
-  return { user, setUser, removeUser }
-}
+  return { user, setUser, removeUser };
+};
