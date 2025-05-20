@@ -4,11 +4,18 @@ import { message } from "@/components/misc/message-provider";
 
 const auth = "/auth";
 const course = "/course";
+const user = "/user";
 
 export const paths = {
   auth: {
     signup: auth.concat("/signup"),
     login: auth.concat("/login"),
+  },
+  user: {
+    profile: {
+      get: user.concat("/profile"),
+      update: user.concat("/profile/update"),
+    },
   },
   course: {
     get: course.concat("/"),
@@ -109,7 +116,7 @@ export const apiCall = async (
       : "Something went wrong!";
     // const errorMessage = "Something went wrong!"
     if (typeof window !== "undefined" && showMessage) {
-      // message.error(errorMessage, 6)
+      message.error(errorMessage, 6);
       hide && hide();
     }
     return error;

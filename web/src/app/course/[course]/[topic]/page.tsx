@@ -1,14 +1,13 @@
 // import { Params } from "@/types"
-import TopicClient from "@/components/topic"
-import { cookies } from "next/headers"
+import TopicClient from "@/components/topic";
 
 const Topic = async ({ params }: { params?: Promise<{ topic: string }> }) => {
-  const topic = (await params)?.topic
+  const topic = (await params)?.topic;
   return (
-    <main className="max-w-res px-6 py-12">
+    <main className="flex h-full min-h-[calc(100vh-48px)] w-full flex-col">
       {topic && <TopicClient topic={topic} />}
     </main>
-  )
-}
+  );
+};
 
-export default Topic
+export default Topic;

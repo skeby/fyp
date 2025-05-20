@@ -45,8 +45,9 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* @theme {
-} */
+* {
+  box-sizing: border-box;
+}
 
 .max-w-res {
   @apply mx-auto max-w-7xl;

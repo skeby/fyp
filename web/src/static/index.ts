@@ -6,6 +6,12 @@ export const API_BASE_URL =
   "https://adaptlearn-api-aahj.onrender.com";
 export const AUTH_TOKEN = "auth_token";
 export const USER = "user";
+export const LOGIN_ROUTE = "/login";
+
+export const protectedRoutes: (RegExp | string)[] = [
+  /^\/course\/[^/]+\/[^/]+$/,
+];
+export const authRoutes: (RegExp | string)[] = [LOGIN_ROUTE, "/signup"];
 
 export const topics: Topic[] = new Array(4).fill(0).map(() => ({
   title: "Arrays",

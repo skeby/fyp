@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,14 +16,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { SignUpFields, SignUpSchema } from "@/types/schema"
-import Link from "next/link"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "@/components/ui/input"
-import { useAppMutation, useAppUser } from "@/hooks/use-app"
-import { paths } from "@/services/endpoint"
+} from "@/components/ui/form";
+import { SignUpFields, SignUpSchema } from "@/types/schema";
+import Link from "next/link";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { useAppMutation, useAppUser } from "@/hooks/use-app";
+import { paths } from "@/services/endpoint";
+import { LOGIN_ROUTE } from "../../static";
 
 const SignUpPage = () => {
   const form = useForm<SignUpFields>({
@@ -35,7 +36,7 @@ const SignUpPage = () => {
       username: "",
       password: "",
     },
-  })
+  });
 
   const { mutate: signup, isPending } = useAppMutation({
     mutationKey: ["signup"],
@@ -43,11 +44,11 @@ const SignUpPage = () => {
     // onSuccess: (data) => {
     //   setUser(data)
     // },
-  })
+  });
 
   const onSubmit: SubmitHandler<SignUpFields> = (data) => {
-    signup(data)
-  }
+    signup(data);
+  };
 
   return (
     <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-6 py-20">
@@ -56,7 +57,7 @@ const SignUpPage = () => {
           <CardTitle className="p-0">Sign Up</CardTitle>
           <CardDescription>
             Already have an account?{" "}
-            <Link href="/login" className="text-primary">
+            <Link href={LOGIN_ROUTE} className="text-primary">
               Login
             </Link>
           </CardDescription>
@@ -149,7 +150,7 @@ const SignUpPage = () => {
         </CardContent>
       </Card>
     </main>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

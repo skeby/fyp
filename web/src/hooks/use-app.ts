@@ -1,6 +1,6 @@
 import { setCookieWithEvent } from "@/lib/utils";
 import { apiCall } from "@/services/endpoint";
-import { AUTH_TOKEN, USER } from "@/static";
+import { AUTH_TOKEN, LOGIN_ROUTE, protectedRoutes, USER } from "@/static";
 import { User } from "@/types";
 import {
   QueryFilters,
@@ -144,7 +144,7 @@ export const useAppQuery = <T>(queryData: QueryData) => {
 };
 
 export const useAppUser = () => {
-  const [user, setUserState] = useState<User | null>(
+  const [user, setUserState] = useState<User | null>(() =>
     JSON.parse(Cookies.get(USER) ?? "null"),
   );
 
@@ -165,6 +165,19 @@ export const useAppUser = () => {
 
     // Optionally, remove the token cookie as well
     Cookies.remove(AUTH_TOKEN);
+
+    console.log(window.location.pathname);
+
+    // FIX: Doesn't redirect for some reason
+    if (
+      protectedRoutes.some((r) =>
+        typeof r === "string"
+          ? r === window.location.pathname
+          : r.test(window.location.pathname),
+      )
+    ) {
+      window.location.pathname = LOGIN_ROUTE;
+    }
   };
 
   useEffect(() => {

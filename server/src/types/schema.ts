@@ -123,7 +123,19 @@ export const TopicSchema = z.object({
   ),
 });
 
+export const GetTopicSchema = z.object({
+  course_slug: z.string({
+    required_error: "Course is required",
+    invalid_type_error: "Course must be a string",
+  }),
+  topic_slug: z.string({
+    required_error: "Topic is required",
+    invalid_type_error: "Topic must be a string",
+  }),
+});
+
 export type SignUpFields = z.infer<typeof SignUpSchema>;
 export type LoginFields = z.infer<typeof LoginSchema>;
 export type CourseFields = z.infer<typeof CourseSchema>;
 export type TopicFields = z.infer<typeof TopicSchema>;
+export type GetTopicFields = z.infer<typeof GetTopicSchema>;

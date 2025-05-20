@@ -6,6 +6,7 @@ import cors from "cors";
 import { dbConnect } from "./config/mongo.config";
 import authRouter from "./routers/auth.router";
 import courseRouter from "./routers/course.router";
+import userRouter from "./routers/user.router";
 // import crypto from "crypto";
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.get("/", (_, res) => {
 
 app.use("/auth", authRouter);
 app.use("/course", courseRouter);
+app.use("/user", userRouter);
 
 const startServer = async () => {
   const port = process.env.PORT;

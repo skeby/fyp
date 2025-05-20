@@ -1,4 +1,5 @@
-import { API_BASE_URL, AUTH_TOKEN, USER } from "@/static";
+import { message } from "@/components/misc/message-provider";
+import { API_BASE_URL, AUTH_TOKEN, LOGIN_ROUTE, USER } from "@/static";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -31,8 +32,8 @@ client.interceptors.response.use(
         Cookies.remove(AUTH_TOKEN);
         Cookies.remove(USER);
       }
-      // message.error("Session expired. Please login again.")
-      // window.history.pushState({}, "", "/login")
+      message.error("Session expired. Please login again.");
+      window.location.pathname = LOGIN_ROUTE;
       return null;
     } else if (
       status >= 400 &&

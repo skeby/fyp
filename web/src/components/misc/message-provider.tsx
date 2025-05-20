@@ -45,7 +45,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
         () => {
           setMessages((prev) => prev.filter((m) => m.id !== id));
         },
-        duration ?? MESSAGE_DURATION * 1000,
+        duration ? duration * 1000 : MESSAGE_DURATION * 1000,
       );
     },
     [],
@@ -77,7 +77,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
               <Alert
                 variant={message.type === "error" ? "destructive" : "default"}
                 className={cn(
-                  "relative flex items-start pr-8",
+                  "relative flex h-auto items-start pr-8",
                   message.type === "success" && "border-green-500",
                 )}
               >
@@ -94,7 +94,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
                 </div>
                 <Button
                   variant="ghost"
-                  className="hover:bg-muted absolute top-2 right-2 rounded p-1"
+                  className="hover:bg-muted absolute top-2 right-2 size-6 rounded !p-1"
                   onClick={() => removeMessage(message.id)}
                   aria-label="Dismiss"
                 >

@@ -57,6 +57,7 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<LoginFields> = (data) => {
     login(data);
+    // message.success("Logged in successfully", 60);
   };
 
   return (
