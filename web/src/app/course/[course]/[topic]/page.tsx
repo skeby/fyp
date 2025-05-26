@@ -196,13 +196,13 @@ const Topic = () => {
           <h1 className="w-full text-center font-medium capitalize">
             {topic?.title}
           </h1>
-          {/* <p className="min-w-[150px]">
-            {currentQuestion !== -1 && (
+          <p className="min-w-[150px]">
+            {/* {currentQuestion !== -1 && (
               <span className="text-sm font-medium">
                 Question {currentQuestion + 1} of {topic.questions.length}
               </span>
-            )}
-          </p> */}
+            )} */}
+          </p>
         </div>
       )}
       <div className="mx-auto h-full w-full max-w-5xl flex-grow px-6 py-12">
@@ -241,13 +241,13 @@ const Topic = () => {
 
             {quizState === "quiz" && (
               <div className="space-y-6">
-                {/* <div className="flex items-center justify-end">
+                <div className="flex items-center justify-end">
                   <h1 className="text-2xl font-bold">{topic.title}</h1>
                   <span className="text-sm font-medium">
-                    Question {currentQuestion + 1} of{" "}
-                    {topic.questions.length}
+                    {/* Question {currentQuestion + 1} of{" "}
+                    {topic.questions.length} */}
                   </span>
-                </div> */}
+                </div>
 
                 <Card className="p-8 py-6 sm:p-10">
                   <h2 className="mb-4 text-xl font-semibold">
@@ -315,13 +315,13 @@ const Topic = () => {
 
             {quizState === "feedback" && (
               <div className="space-y-6">
-                {/* <div className="flex items-center justify-end">
+                <div className="flex items-center justify-end">
                   <h1 className="text-2xl font-bold">{topic.title}</h1>
                   <span className="text-sm font-medium">
-                    Question {currentQuestion + 1} of{" "}
-                    {topic.questions.length}
+                    {/* Question {currentQuestion + 1} of{" "}
+                    {topic.questions.length} */}
                   </span>
-                </div> */}
+                </div>
 
                 <Card className="p-8 py-6 sm:p-10">
                   <h2 className="mb-4 text-xl font-semibold">

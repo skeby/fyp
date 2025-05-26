@@ -3,8 +3,9 @@ import axiosClient from "./axios-client";
 import { message } from "@/components/misc/message-provider";
 
 const auth = "/auth";
-const course = "/course";
 const user = "/user";
+const course = "/course";
+const topic = course.concat("/topic");
 
 export const paths = {
   auth: {
@@ -21,9 +22,9 @@ export const paths = {
     getOne: course.concat("/"),
     getAll: course.concat("/all"),
     topic: {
-      get: course.concat("/topic"),
-      start: course.concat("/start-test"),
-      submit: course.concat("/submit-answer"),
+      get: topic,
+      start: topic.concat("/start-test"),
+      submit: topic.concat("/submit-answer"),
     },
   },
 };

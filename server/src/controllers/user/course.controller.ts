@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Course, { CourseDocument } from "../../models/course";
-import { CourseFields, TopicFields } from "../../types/schema";
+import {
+  AddQuestionsFields,
+  CourseFields,
+  TopicFields,
+} from "../../types/schema";
 import { AuthenticatedRequest } from "../../types";
 import { MODEL_BASE_URL } from "../../static";
 
@@ -90,6 +94,49 @@ export const createTopic = async (
     res.status(201).json({
       status: "success",
       message: "Topic created successfully",
+      data: { course },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addQuestions = async (
+  req: Request<any, any, AddQuestionsFields>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { course_id, topic_id, questions } = req.body;
+
+    // Find the course by ID and ensure it's active
+    const course = await Course.findOne({ _id: course_id, status: "active" });
+
+    if (!course) {
+      res.status(404).json({
+        status: "error",
+        message: "Course not found",
+      });
+      return;
+    }
+
+    const topic = course.topics.find((t: any) => t.id === topic_id);
+    if (!topic) {
+      res.status(400).json({
+        status: "error",
+        message: "Topic not found in the course",
+      });
+      return;
+    }
+
+    // Add the questions to the topic
+
+    // Save the updated course
+    await course.save();
+
+    res.status(201).json({
+      status: "success",
+      message: "Questions added successfully",
       data: { course },
     });
   } catch (error) {
@@ -300,6 +347,8 @@ export const startTest = async (
           }))
         ),
       });
+
+      console.log("modelResponse", modelResponse);
 
       if (!modelResponse.ok) {
         res.status(400).json({

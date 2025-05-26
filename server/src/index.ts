@@ -8,6 +8,7 @@ import authRouter from "./routers/auth.router";
 import courseRouter from "./routers/course.router";
 import userRouter from "./routers/user.router";
 import crypto from "crypto";
+import morgan from "morgan";
 
 dotenv.config();
 dbConnect("adaptlearn");
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev"));
 
 app.get("/", (_, res) => {
   res.status(200).json({

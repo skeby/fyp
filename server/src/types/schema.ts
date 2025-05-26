@@ -123,6 +123,45 @@ export const TopicSchema = z.object({
   ),
 });
 
+export const AddQuestionsSchema = z.object({
+  course_id: z.string({
+    required_error: "Course ID is required",
+    invalid_type_error: "Course ID must be a string",
+  }),
+  topic_id: z.string({
+    required_error: "Topic ID is required",
+    invalid_type_error: "Topic ID must be a string",
+  }),
+  questions: z.array(
+    z.object({
+      question: z.string({
+        required_error: "Question is required",
+        invalid_type_error: "Question must be a string",
+      }),
+      options: z.array(
+        z.object({
+          id: z.string({
+            required_error: "Option ID is required",
+            invalid_type_error: "Option ID must be a string",
+          }),
+          text: z.string({
+            required_error: "Option text is required",
+            invalid_type_error: "Option text must be a string",
+          }),
+        })
+      ),
+      correct_answer: z.string({
+        required_error: "Correct answer is required",
+        invalid_type_error: "Correct answer must be a string",
+      }),
+      explanation: z.string({
+        required_error: "Explanation is required",
+        invalid_type_error: "Explanation must be a string",
+      }),
+    })
+  ),
+});
+
 export const GetTopicSchema = z.object({
   course_slug: z.string({
     required_error: "Course is required",
@@ -139,3 +178,4 @@ export type LoginFields = z.infer<typeof LoginSchema>;
 export type CourseFields = z.infer<typeof CourseSchema>;
 export type TopicFields = z.infer<typeof TopicSchema>;
 export type GetTopicFields = z.infer<typeof GetTopicSchema>;
+export type AddQuestionsFields = z.infer<typeof AddQuestionsSchema>;
