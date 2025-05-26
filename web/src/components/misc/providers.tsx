@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { AppProgressBar } from "next-nprogress-bar";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { MessageProvider } from "./message-provider";
 
 const queryClient = new QueryClient({
@@ -23,7 +23,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
         buttonPosition="bottom-right"
         position="right"
       />
-      <AppProgressBar
+      <ProgressBar
         style="style"
         options={{
           showSpinner: false,

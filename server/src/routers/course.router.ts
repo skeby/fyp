@@ -5,7 +5,8 @@ import {
   getCourse,
   getCourses,
   getTopic,
-  takeTest,
+  submitAnswer,
+  startTest,
 } from "../controllers/user/course.controller";
 import authAdmin from "../middlewares/auth-admin.middleware";
 import authUser from "../middlewares/auth-user.middeware";
@@ -16,14 +17,15 @@ const courseRouter = Router();
 
 courseRouter.post("/create", authAdmin, validate(CourseSchema), createCourse);
 courseRouter.post(
-  "/topic/create",
+  "/topic/create", // /course/topic/create
   authAdmin,
   validate(TopicSchema),
   createTopic
 );
-courseRouter.post("/", getCourse);
-courseRouter.get("/courses", getCourses);
-courseRouter.post("/topic", authUser, validate(GetTopicSchema), getTopic);
-courseRouter.post("/topic/test", authUser, validate(GetTopicSchema), takeTest);
+courseRouter.post("/", getCourse); // /course
+courseRouter.get("/all", getCourses); // /course/all
+courseRouter.post("/topic", authUser, getTopic); // /course/topic
+courseRouter.post("/topic/start-test", authUser, startTest); // /course/topic/test
+courseRouter.post("/topic/submit-answer", authUser, submitAnswer); // /course/topic/submit-answer
 
 export default courseRouter;

@@ -775,6 +775,7 @@ def start_test():
 
     return jsonify({
         "test_id":  test_id,
+        "id": first_q.get("Question ID", "")
         "question": first_q.get("Question Text", ""),
         "options": {
           "A": first_q.get("Option A", ""),
@@ -818,6 +819,7 @@ def submit_answer():
     q = questions[current_idx]
     answer = (data.get("answer","") or "").strip().upper()
     correct_answer = (q.get("Correct Answer","") or "").strip().upper()
+    explanation = (q.get("Explanation", "") or "").strip().upper()
     was_correct = (answer == correct_answer)
 
     # rebuild tester to update θ and pick next
@@ -850,11 +852,17 @@ def submit_answer():
           {"$unset": {f"testSessions.{test_id}": ""}}
         )
         return jsonify({
-            "message":      "Test complete",
-            "final_theta":  tester.theta,
-            "administered": list(tester.administered),
-            "correct_ids":  correct_list,
-            "wrong_ids":    wrong_list
+            "test_id": test_id,
+            "submitted_answer": answer,
+            "correct_answer": correct_answer,
+            "was_correct": was_correct,
+            "explanation": explanation,
+            "current_theta": tester.theta,
+            "result": {
+                "administered": list(tester.administered),
+                "correct_ids":  correct_list,
+                "wrong_ids":    wrong_list
+            }
         }), 200
 
     # pick next
@@ -882,8 +890,10 @@ def submit_answer():
         "correct_answer":   correct_answer,
         "was_correct":      was_correct,
         "current_theta":    tester.theta,
+        "explanation": explanation,
         "target_difficulty": target_diff,
         "next_question": {
+            "id": next_q.get("Question ID", ""),
           "question": next_q.get("Question Text",""),
           "options": {
             "A": next_q.get("Option A",""),

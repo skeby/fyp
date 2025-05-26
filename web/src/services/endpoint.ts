@@ -18,9 +18,12 @@ export const paths = {
     },
   },
   course: {
-    get: course.concat("/"),
+    getOne: course.concat("/"),
+    getAll: course.concat("/all"),
     topic: {
       get: course.concat("/topic"),
+      start: course.concat("/start-test"),
+      submit: course.concat("/submit-answer"),
     },
   },
 };

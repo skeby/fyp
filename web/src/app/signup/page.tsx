@@ -25,8 +25,11 @@ import { Input } from "@/components/ui/input";
 import { useAppMutation, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { LOGIN_ROUTE } from "../../static";
+import { useRouter } from "next-nprogress-bar";
 
 const SignUpPage = () => {
+  const router = useRouter();
+
   const form = useForm<SignUpFields>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -41,9 +44,9 @@ const SignUpPage = () => {
   const { mutate: signup, isPending } = useAppMutation({
     mutationKey: ["signup"],
     path: paths.auth.signup,
-    // onSuccess: (data) => {
-    //   setUser(data)
-    // },
+    onSuccess: () => {
+      router.push("/login");
+    },
   });
 
   const onSubmit: SubmitHandler<SignUpFields> = (data) => {

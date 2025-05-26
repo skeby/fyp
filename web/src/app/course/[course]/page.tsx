@@ -1,7 +1,7 @@
-import TopicCard from "@/components/topic-card";
 import { Course } from "@/types";
-import { paths } from "../../../services/endpoint";
 import { API_BASE_URL } from "@/static";
+import ListCard from "@/components/list-card";
+import { paths } from "@/services/endpoint";
 
 const CoursePage = async ({
   params,
@@ -9,7 +9,7 @@ const CoursePage = async ({
   params?: Promise<{ course: string }>;
 }) => {
   const course = (await params)?.course;
-  const res = await fetch(API_BASE_URL.concat(paths.course.get), {
+  const res = await fetch(API_BASE_URL.concat(paths.course.getOne), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +39,13 @@ const CoursePage = async ({
     <main className="max-w-res grid grid-cols-1 gap-6 px-6 py-12 sm:grid-cols-2 lg:grid-cols-3">
       {course &&
         ((data?.course as Course)?.topics ?? []).map((topic, index) => (
-          <TopicCard key={index} course_slug={course} topic={topic} />
+          <ListCard
+            key={index}
+            title={topic.title}
+            description={topic.description}
+            cover_image={topic.cover_image}
+            href={`/course/${course}/${topic.slug}`}
+          />
         ))}
     </main>
   );

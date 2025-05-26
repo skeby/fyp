@@ -221,7 +221,7 @@ export const getTopic = async (
   }
 };
 
-export const takeTest = async (
+export const startTest = async (
   req: AuthenticatedRequest<
     any,
     any,
@@ -293,6 +293,7 @@ export const takeTest = async (
             "Option C": q.options?.[2]?.text ?? "",
             "Option D": q.options?.[3]?.text ?? "",
             "Correct Answer": q.correct_answer,
+            Explanation: q.explanation,
             Difficulty: 1.0,
             Discrimination: 1.0,
             "Guessing Probability": 0.25,
@@ -380,27 +381,28 @@ export const submitAnswer = async (
 
       const modelJSON:
         | {
+            test_id: string;
             submitted_answer: string;
             correct_answer: string;
-            explanation: string; // TODO: Add this to model
             was_correct: boolean;
+            explanation: string; // TODO: Add this to model
             current_theta: number;
-            target_difficulty: number;
+            target_difficulty?: number;
             next_question: {
+              id: string; // TODO: Add this to model
               question: string;
               options: { A: string; B: string; C: string; D: string };
             };
-          }
-        | {
-            message: string;
-            final_theta: number;
-            administered: string[]; // Array of question ids
-            correct_ids: string[]; // Array of question ids;
-            wrong_ids: string[]; // Array of question ids;
+            result: {
+              administered: string[];
+              correct_ids: string[];
+              wrong_ids: string[];
+            };
           }
         | undefined = await modelResponse.json();
 
       if (modelJSON) {
+        // const responseData = modelJSON?.message ?
         res.status(200).json({
           status: "success",
           message: "Answer submitted successfully",

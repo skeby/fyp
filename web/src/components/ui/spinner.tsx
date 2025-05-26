@@ -17,12 +17,12 @@ const Spinner = ({ className }: { className?: string }) => {
         cy="12"
         r="10"
         stroke="currentColor"
-        stroke-width="4"
+        strokeWidth="4"
       ></circle>
       <path
-        stroke-linecap="round"
+        strokeLinecap="round"
         className="text-primary opacity-75"
-        stroke-width="4"
+        strokeWidth="4"
         stroke="currentColor"
         d="M 22 12 A 10 10 0 0 1 5 19"
       ></path>

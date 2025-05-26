@@ -8,7 +8,6 @@ const DB_BASE_URL = process.env.DB_BASE_URL as string;
 export const dbConnect = async (databaseName: string) => {
   // Connect to the specified database
   try {
-    console.log(DB_BASE_URL);
     await connect(
       DB_BASE_URL +
         "/" +

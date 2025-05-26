@@ -7,7 +7,7 @@ import { dbConnect } from "./config/mongo.config";
 import authRouter from "./routers/auth.router";
 import courseRouter from "./routers/course.router";
 import userRouter from "./routers/user.router";
-// import crypto from "crypto";
+import crypto from "crypto";
 
 dotenv.config();
 dbConnect("adaptlearn");
@@ -31,8 +31,8 @@ const startServer = async () => {
   const port = process.env.PORT;
   try {
     app.listen(port, () => {
-      console.log(`Server running on port ${port ?? 2000}`);
-      // console.log(crypto.randomBytes(32).toString("hex")); // Random bytes for secrets
+      console.log(`Server running on port ${port || 2000}`);
+      console.log(crypto.randomBytes(32).toString("hex")); // Random bytes for secrets
     });
     // Authenticate mongodb
   } catch (err) {
