@@ -410,15 +410,18 @@ export const submitAnswer = async (
       });
     }
     try {
-      const modelResponse = await fetch(MODEL_BASE_URL.concat("/start_test"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-User-ID": req.user?.id,
-          "X-Test-ID": test_id,
-        },
-        body: JSON.stringify({ answer }),
-      });
+      const modelResponse = await fetch(
+        MODEL_BASE_URL.concat("/submit_answer"),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-User-ID": req.user?.id,
+            "X-Test-ID": test_id,
+          },
+          body: JSON.stringify({ answer }),
+        }
+      );
 
       if (!modelResponse.ok) {
         res.status(400).json({

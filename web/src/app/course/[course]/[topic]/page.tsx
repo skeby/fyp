@@ -103,7 +103,7 @@ const Topic = () => {
     if (selectedAnswer) {
       // Save the answer
       if (test_id) {
-        submitAnswer({ test_id, submitted_answer: selectedAnswer });
+        submitAnswer({ test_id, answer: selectedAnswer });
       } else {
         message.error("Test ID is not available. Please try again.");
       }
