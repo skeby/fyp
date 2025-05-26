@@ -331,8 +331,8 @@ export const startTest = async (
           "Content-Type": "application/json",
           "X-User-ID": req.user?.id,
         },
-        body: JSON.stringify(
-          topic.questions.map((q) => ({
+        body: JSON.stringify({
+          questions: topic.questions.map((q) => ({
             "Question ID": q.id,
             "Question Text": q.question,
             "Option A": q.options?.[0]?.text ?? "",
@@ -344,8 +344,8 @@ export const startTest = async (
             Difficulty: 1.0,
             Discrimination: 1.0,
             "Guessing Probability": 0.25,
-          }))
-        ),
+          })),
+        }),
       });
 
       console.log("modelResponse", modelResponse);
