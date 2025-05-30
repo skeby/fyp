@@ -18,7 +18,7 @@ const ListCard = ({
   const Component = href ? Link : "div";
   return (
     <Component href={href ?? ""} onClick={onClick}>
-      <Card className="gap-0 overflow-hidden rounded-xl">
+      <Card className="h-full gap-0 overflow-hidden rounded-xl">
         {/* {topic.cover_image && ( */}
         <Image
           priority

@@ -52,7 +52,7 @@ const LoginPage = () => {
         setUser(data.data.user, data.data.token);
         // const next = searchParams.get("next");
         // router.push(next || "/course");
-        router.push("/course");
+        router.push("/courses");
       }
     },
   });

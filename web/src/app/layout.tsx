@@ -1,7 +1,7 @@
 // import type { Metadata } from "next"
-import Providers from "@/components/misc/providers"
-import "./globals.css"
-import Header from "@/components/ui/header"
+import Providers from "@/components/misc/providers";
+import "./globals.css";
+import Header from "@/components/ui/header";
 
 // export const metadata: Metadata = {
 //   title: "AdaptLearn",
@@ -11,7 +11,7 @@ import Header from "@/components/ui/header"
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="dark">
@@ -24,5 +24,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }

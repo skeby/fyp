@@ -4,25 +4,20 @@ import ListCard from "@/components/list-card";
 import { paths } from "@/services/endpoint";
 import { BadgeCheck } from "lucide-react";
 
-const CoursePage = async ({
-  params,
-}: {
-  params?: Promise<{ course: string }>;
-}) => {
-  const course = (await params)?.course;
-  const res = await fetch(API_BASE_URL.concat(paths.course.getOne), {
-    method: "POST",
+const CoursesPage = async () => {
+  const res = await fetch(API_BASE_URL.concat(paths.course.getAll), {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ slug: course }),
+    // body: JSON.stringify({ slug: course }),
     cache: "no-cache",
   });
   const json = await res.json();
   const { status, message, data } = json as {
     status: "error" | "success";
     message: string;
-    data?: { course: Course };
+    data?: { courses: Course[] };
   };
 
   if (!res.ok || status !== "success") {
@@ -44,30 +39,30 @@ const CoursePage = async ({
     <main className="px-6 py-12">
       <div className="max-w-res">
         <h2 className="text-primary flex justify-between gap-x-2 font-medium">
-          <span className="text-2xl">{data?.course?.title}</span>
+          <span className="text-2xl">Courses</span>
           <div className="text-muted-foreground flex items-center gap-x-2">
             <BadgeCheck strokeWidth={1.6} />
-            <span>
-              Hone your skills in any of these{" "}
-              {data?.course?.title?.toLowerCase()} topics
-            </span>
+            <span>Hone your skills in any of these courses</span>
           </div>
         </h2>
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {course &&
-            (data?.course?.topics ?? []).map((topic, index) => (
-              <ListCard
-                key={index}
-                title={topic.title}
-                description={topic.description}
-                cover_image={topic.cover_image}
-                href={`/course/${course}/${topic.slug}`}
-              />
-            ))}
+          {[
+            ...(data?.courses ?? []),
+            ...(data?.courses ?? []),
+            ...(data?.courses ?? []),
+          ].map((course, index) => (
+            <ListCard
+              key={index}
+              title={course.title}
+              description={course.description}
+              cover_image={course.cover_image}
+              href={`/course/${course.slug}`}
+            />
+          ))}
         </div>
       </div>
     </main>
   );
 };
 
-export default CoursePage;
+export default CoursesPage;

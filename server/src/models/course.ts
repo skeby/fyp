@@ -33,7 +33,7 @@ const courseSchema = new mongoose.Schema(
               },
             ],
             correct_answer: { type: String, required: true },
-            explanation: { type: String, required: true },
+            explanation: { type: String, required: false },
             difficulty: { type: Number, required: true },
             discrimination: { type: Number, required: true },
             guessing_probability: { type: Number, required: true },

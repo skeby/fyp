@@ -351,6 +351,7 @@ export const startTest = async (
             Discrimination: q.discrimination,
             "Guessing Probability": q.guessing_probability,
           })),
+          test_id: topic.id,
         }),
       });
 
@@ -364,9 +365,16 @@ export const startTest = async (
         return;
       }
 
-      const modelQuestion: { id: string; test_id: string } | undefined =
-        await modelResponse.json();
+      const modelQuestion:
+        | {
+            id: string;
+            test_id: string;
+            question_number: number;
+            current_theta?: number;
+          }
+        | undefined = await modelResponse.json();
 
+      console.log(modelQuestion);
       if (modelQuestion) {
         res.status(200).json({
           status: "success",
@@ -374,6 +382,8 @@ export const startTest = async (
           data: {
             question: topic.questions.find((q) => q.id === modelQuestion?.id),
             test_id: modelQuestion?.test_id,
+            question_number: modelQuestion?.question_number,
+            current_theta: modelQuestion?.current_theta,
           },
         });
       } else {
@@ -451,6 +461,7 @@ export const submitAnswer = async (
             next_question: {
               id: string; // TODO: Add this to model
               question: string;
+              question_number: number;
               difficulty: number;
               discrimination: number;
               guessing_probability: number;

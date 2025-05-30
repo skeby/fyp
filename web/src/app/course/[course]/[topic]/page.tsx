@@ -2,7 +2,7 @@
 
 import { Label } from "@radix-ui/react-label";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { CheckCircle2, AlertCircle, ChevronLeft, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAppMutation, useAppQuery, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
@@ -47,12 +47,11 @@ const Topic = () => {
   const [test_id, setTestId] = useState<string | null>(null);
   const [submitResponse, setSubmitResponse] =
     useState<SubmitResponseType | null>(null);
+  const [currentTheta, setCurrentTheta] = useState<number | null>(null);
 
   const params = useParams();
   const course_slug = params?.course;
   const topic_slug = params?.topic;
-
-  console.log("course:", course_slug, "topic:", topic_slug);
 
   const { data, isLoading, isFetching } = useAppQuery<{
     topic: TopicType;
@@ -72,6 +71,8 @@ const Topic = () => {
   const { mutate: startTest, isPending: isStartTestPending } = useAppMutation<{
     question: Omit<TopicType["questions"][0], "correct_answer" | "explanation">;
     test_id: string;
+    question_number: number;
+    current_theta?: number;
   }>({
     mutationKey: ["test"],
     path: paths.course.topic.start,
@@ -80,11 +81,12 @@ const Topic = () => {
         setTestId(data?.data?.test_id);
         setCurrentQuestion(data?.data?.question);
         setQuizState("quiz");
+        if (typeof data?.data?.current_theta === "number") {
+          setCurrentTheta(data?.data?.current_theta);
+        }
       }
     },
   });
-
-  console.log(submitResponse);
 
   const { mutate: submitAnswer, isPending: isSubmitAnswerPending } =
     useAppMutation<SubmitResponseType>({
@@ -94,6 +96,7 @@ const Topic = () => {
         // Show feedback
         if (data?.data) {
           setSubmitResponse(data?.data);
+          setCurrentTheta(data?.data?.current_theta);
           setQuizState("feedback");
         }
       },
@@ -136,7 +139,6 @@ const Topic = () => {
         });
         setQuizState("quiz");
         setSelectedAnswer(null);
-        // setSubmitResponse(null);
       } else {
         // End the quiz
         handleEnd();
@@ -166,6 +168,8 @@ const Topic = () => {
 
   const handleRetry = () => {
     setQuizState("intro");
+    setSubmitResponse(null);
+    handleStart();
   };
 
   // const isCorrect = () => {
@@ -198,27 +202,35 @@ const Topic = () => {
   return (
     <main className="flex h-full min-h-[calc(100vh-48px)] w-full flex-col">
       {topic && (
-        <div className="sticky top-0 flex h-12 items-center justify-between border-b px-6 py-2">
-          <span className="min-w-[150px]">
-            {course && (
-              <Link href={`/course/${course.slug}`} className="w-full text-sm">
-                Back to {course?.title}
+        <div className="bg-background sticky top-12 z-50 h-12 border-b px-6 py-2">
+          <div className="max-w-res flex h-full items-center justify-between">
+            <div className="min-w-[200px]">
+              <Link
+                href={`/course`}
+                className="hover:text-primary text-primary/80 flex w-full items-center gap-x-1.5 text-sm transition-all duration-200"
+              >
+                <Home className="size-4 shrink-0" />
+                <span className="font-medium">View Courses</span>
               </Link>
-            )}
-          </span>
-          <h1 className="w-full text-center font-medium capitalize">
-            {topic?.title}
-          </h1>
-          <p className="min-w-[150px]">
-            {/* {currentQuestion !== -1 && (
-              <span className="text-sm font-medium">
-                Question {currentQuestion + 1} of {topic.questions.length}
-              </span>
-            )} */}
-          </p>
+            </div>
+            <h1 className="w-full text-center text-sm font-medium capitalize">
+              {topic?.title}
+            </h1>
+            <div className="min-w-[200px]">
+              {course && (
+                <Link
+                  href={`/course/${course.slug}`}
+                  className="hover:text-primary text-primary/80 flex items-center justify-end gap-x-1 text-sm transition-all duration-200"
+                >
+                  <ChevronLeft className="size-4 shrink-0" />
+                  <span className="font-medium">Back to {course?.title}</span>
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       )}
-      <div className="mx-auto h-full w-full max-w-5xl flex-grow px-6 py-12">
+      <div className="mx-auto h-full w-full max-w-4xl flex-grow px-6 py-12">
         {isLoading || isFetching ? (
           <div className="mx-auto flex h-full w-fit items-center justify-center gap-2">
             <Spinner className="size-6" />{" "}
@@ -228,7 +240,7 @@ const Topic = () => {
           <p>No quiz available</p>
         ) : (
           <>
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-0.5">
               {currentQuestion && (
                 <ProgressBar
                   max={2.5}
@@ -247,12 +259,12 @@ const Topic = () => {
                   }}
                 />
               )}
-              {submitResponse && (
+              {typeof currentTheta === "number" && (
                 <ProgressBar
                   max={2.5}
                   type="discrete"
                   variant="success"
-                  value={Math.max(submitResponse?.current_theta || 0, 0)}
+                  value={Math.max(currentTheta, 0)}
                   label={{
                     render: (value) =>
                       `Performance: ${
@@ -269,8 +281,8 @@ const Topic = () => {
             </div>
             {quizState === "intro" && (
               <div className="space-y-6">
-                <Card className="gap-0 p-8 py-6 sm:p-10">
-                  <p className="mb-4 text-base font-semibold text-white">
+                <Card className="gap-0 p-7 sm:p-10">
+                  <p className="mb-2.5 text-base font-semibold text-white">
                     {topic.description}
                   </p>
                   <p className="mb-6 text-sm text-neutral-100">
@@ -301,7 +313,7 @@ const Topic = () => {
                   </span>
                 </div> */}
 
-                <Card className="p-8 py-6 sm:p-10">
+                <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
                       <code>{currentQuestion?.question}</code>
@@ -315,7 +327,7 @@ const Topic = () => {
                         handleAnswer(value);
                       }
                     }}
-                    className="mb-6 space-y-3"
+                    className="space-y-3"
                   >
                     {(currentQuestion?.options ?? [])
                       .filter((option) => option.text)
@@ -380,14 +392,14 @@ const Topic = () => {
                   </span>
                 </div> */}
 
-                <Card className="p-8 py-6 sm:p-10">
+                <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
                       <code>{currentQuestion?.question}</code>
                     </pre>
                   </h2>
 
-                  <div className="mb-6 space-y-3">
+                  <div className="space-y-3">
                     {(currentQuestion?.options ?? [])
                       .filter((option) => option.text)
                       .map((option) => (
@@ -450,7 +462,7 @@ const Topic = () => {
             {quizState === "results" && (
               <div className="space-y-6">
                 {/* <h1 className="text-3xl font-bold">Quiz Results</h1> */}
-                <Card className="p-8 py-6 sm:p-10">
+                <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-2xl font-bold">
                     Your Score:{" "}
                     {(submitResponse?.result?.correct_ids ?? [])?.length} out of{" "}
@@ -467,7 +479,11 @@ const Topic = () => {
                     <Button
                       size="lg"
                       variant="outline"
-                      onClick={() => setQuizState("intro")}
+                      onClick={() => {
+                        setQuizState("intro");
+                        setSubmitResponse(null);
+                        setCurrentTheta(null);
+                      }}
                     >
                       Back to Overview
                     </Button>

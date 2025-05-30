@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { MessageProvider } from "./message-provider";
+import KeyboardShortcutProvider from "./keyboard-shortcut-provider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,7 +35,9 @@ const Providers = ({ children }: { children: ReactNode }) => {
         }}
         shallowRouting
       />
-      <MessageProvider>{children}</MessageProvider>
+      <MessageProvider>
+        <KeyboardShortcutProvider>{children}</KeyboardShortcutProvider>
+      </MessageProvider>
     </QueryClientProvider>
   );
 };

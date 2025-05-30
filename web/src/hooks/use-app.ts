@@ -147,6 +147,7 @@ export const useAppUser = () => {
   const [user, setUserState] = useState<User | null>(() =>
     JSON.parse(Cookies.get(USER) ?? "null"),
   );
+  const [loading, setLoading] = useState(true);
 
   const setUser = (user: User, token?: string) => {
     setCookieWithEvent(USER, JSON.stringify(user), { expires: 14 });
@@ -199,5 +200,12 @@ export const useAppUser = () => {
     };
   }, []);
 
-  return { user, setUser, removeUser };
+  useEffect(() => {
+    const userCookie = JSON.parse(Cookies.get(USER) ?? "null");
+    if (user || !userCookie) {
+      setLoading(false);
+    }
+  }, [user]);
+
+  return { user, setUser, removeUser, loading };
 };

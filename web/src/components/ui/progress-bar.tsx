@@ -53,7 +53,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
       <div className="bg-secondary h-1.5 w-full max-w-30 min-w-30 flex-nowrap overflow-hidden rounded-lg">
         <div
           className={cn(
-            "h-full rounded-lg bg-white transition-all duration-300",
+            "h-full rounded-lg bg-white transition-all duration-400",
             percentage >= 100
               ? variant === "success"
                 ? "bg-green-500"

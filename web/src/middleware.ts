@@ -30,7 +30,7 @@ export function middleware(req: NextRequest) {
     )
   ) {
     if (token) {
-      const courseUrl = new URL("/course", req.url);
+      const courseUrl = new URL("/courses", req.url);
       return NextResponse.redirect(courseUrl);
     }
   }

@@ -17,3 +17,11 @@ export const setCookieWithEvent = (
     window.dispatchEvent(event);
   }
 };
+
+export const unslugify = (slug: string): string => {
+  return slug
+    .replace(/-/g, " ") // Replace hyphens with spaces
+    .replace(/\s+/g, " ") // Normalize multiple spaces
+    .trim() // Trim leading/trailing whitespace
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+};

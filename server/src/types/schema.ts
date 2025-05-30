@@ -115,10 +115,11 @@ export const TopicSchema = z.object({
         required_error: "Correct answer is required",
         invalid_type_error: "Correct answer must be a string",
       }),
-      explanation: z.string({
-        required_error: "Explanation is required",
-        invalid_type_error: "Explanation must be a string",
-      }),
+      explanation: z
+        .string({
+          invalid_type_error: "Explanation must be a string",
+        })
+        .optional(),
       difficulty: z.number({
         required_error: "Difficulty is required",
         invalid_type_error: "Difficulty must be a number",
@@ -156,7 +157,11 @@ export const AddQuestionsSchema = z.object({
             required_error: "Option ID is required",
             invalid_type_error: "Option ID must be a string",
           }),
-          text: z.string().optional(),
+          text: z
+            .string({
+              invalid_type_error: "Option ID must be a string",
+            })
+            .optional(),
         })
       ),
       correct_answer: z.string({
