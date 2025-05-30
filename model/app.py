@@ -686,6 +686,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "ade-yinka")
 # ─── MongoDB Setup ─────────────────────────────────────────────────────────────
 mongo_uri = os.environ.get(
     "MONGO_URI",
+    # "mongodb://localhost:27017")
     "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
 client = MongoClient(mongo_uri)
 db     = client["adaptlearn"]
@@ -710,6 +711,7 @@ def _get_user_and_sessions():
 
     user = users.find_one({"_id": oid})
     if not user:
+        print("User not found")
         return None, ({"error": "User not found"}, 404)
 
     # Ensure there's a top‐level container for multiple sessions
@@ -819,7 +821,7 @@ def submit_answer():
     q = questions[current_idx]
     answer = (data.get("answer","") or "").strip().upper()
     correct_answer = (q.get("Correct Answer","") or "").strip().upper()
-    explanation = (q.get("Explanation", "") or "").strip().upper()
+    explanation = (q.get("Explanation", "") or "").strip()
     was_correct = (answer == correct_answer)
 
     # rebuild tester to update θ and pick next
@@ -829,7 +831,7 @@ def submit_answer():
     tester.response_history = response_history
 
     # update ability & histories
-    tester.irt_model.update_ability(was_correct, q)
+    tester.irt_model.update_ability(was_correct, q, current_idx)
     tester.theta = tester.irt_model.theta
     tester.administered.add(q.get("Question ID"))
     tester.response_history.append(1 if was_correct else 0)
@@ -845,7 +847,10 @@ def submit_answer():
     ]
 
     # if done
-    if not remaining:
+    # if not remaining:
+
+    # if 10 questions done
+    if len(tester.administered) == 10:
         # tear down this sub‐session
         users.update_one(
           {"_id": user_oid},
@@ -895,6 +900,9 @@ def submit_answer():
         "next_question": {
             "id": next_q.get("Question ID", ""),
           "question": next_q.get("Question Text",""),
+          "difficulty": next_q.get("Difficulty", ""),
+          "discrimination": next_q.get("Discrimination", ""),
+          "guessing_probability": next_q.get("Guessing Probability", ""),
           "options": {
             "A": next_q.get("Option A",""),
             "B": next_q.get("Option B",""),

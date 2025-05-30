@@ -166,8 +166,6 @@ export const useAppUser = () => {
     // Optionally, remove the token cookie as well
     Cookies.remove(AUTH_TOKEN);
 
-    console.log(window.location.pathname);
-
     // FIX: Doesn't redirect for some reason
     if (
       protectedRoutes.some((r) =>
@@ -176,7 +174,8 @@ export const useAppUser = () => {
           : r.test(window.location.pathname),
       )
     ) {
-      window.location.pathname = LOGIN_ROUTE;
+      window.location.pathname = `${LOGIN_ROUTE}`;
+      window.location.search = `?next=${window.location.pathname}`;
     }
   };
 

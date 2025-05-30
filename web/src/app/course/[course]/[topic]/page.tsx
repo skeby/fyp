@@ -6,12 +6,14 @@ import { CheckCircle2, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAppMutation, useAppQuery, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
-import { Topic as TopicType, User } from "@/types";
+import { Course, Topic as TopicType, User } from "@/types";
 import { useParams } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { message } from "@/components/misc/message-provider";
+import Link from "next/link";
+import ProgressBar from "@/components/ui/progress-bar";
 
 type SubmitResponseType = {
   test_id: string;
@@ -52,7 +54,10 @@ const Topic = () => {
 
   console.log("course:", course_slug, "topic:", topic_slug);
 
-  const { data, isLoading, isFetching } = useAppQuery<{ topic: TopicType }>({
+  const { data, isLoading, isFetching } = useAppQuery<{
+    topic: TopicType;
+    course: Pick<Course, "title" | "description" | "slug">;
+  }>({
     queryKey: ["topic", { course_slug, topic_slug }],
     data: { course_slug, topic_slug },
     path: paths.course.topic.get,
@@ -60,6 +65,7 @@ const Topic = () => {
   });
 
   const topic = data?.data?.topic;
+  const course = data?.data?.course;
 
   const { user } = useAppUser();
 
@@ -77,6 +83,8 @@ const Topic = () => {
       }
     },
   });
+
+  console.log(submitResponse);
 
   const { mutate: submitAnswer, isPending: isSubmitAnswerPending } =
     useAppMutation<SubmitResponseType>({
@@ -118,8 +126,7 @@ const Topic = () => {
       if (next_question && !submitResponse?.result) {
         // Move to next question
         setCurrentQuestion({
-          id: next_question.id,
-          question: next_question.question,
+          ...next_question,
           options: [
             { id: "A", text: next_question.options.A },
             { id: "B", text: next_question.options.B },
@@ -129,7 +136,7 @@ const Topic = () => {
         });
         setQuizState("quiz");
         setSelectedAnswer(null);
-        setSubmitResponse(null);
+        // setSubmitResponse(null);
       } else {
         // End the quiz
         handleEnd();
@@ -143,7 +150,7 @@ const Topic = () => {
     setQuizState("results");
     setSelectedAnswer(null);
     setCurrentQuestion(null);
-    setSubmitResponse(null);
+    // setSubmitResponse(null);
   };
 
   // const calculateScore = () => {
@@ -191,8 +198,14 @@ const Topic = () => {
   return (
     <main className="flex h-full min-h-[calc(100vh-48px)] w-full flex-col">
       {topic && (
-        <div className="sticky top-0 flex h-12 items-center justify-between border-b p-2">
-          <span className="min-w-[150px]"></span>
+        <div className="sticky top-0 flex h-12 items-center justify-between border-b px-6 py-2">
+          <span className="min-w-[150px]">
+            {course && (
+              <Link href={`/course/${course.slug}`} className="w-full text-sm">
+                Back to {course?.title}
+              </Link>
+            )}
+          </span>
           <h1 className="w-full text-center font-medium capitalize">
             {topic?.title}
           </h1>
@@ -215,13 +228,52 @@ const Topic = () => {
           <p>No quiz available</p>
         ) : (
           <>
+            <div className="mb-4 flex items-center justify-between">
+              {currentQuestion && (
+                <ProgressBar
+                  max={2.5}
+                  type="discrete"
+                  variant="danger"
+                  value={Math.max(currentQuestion?.difficulty || 0, 0)}
+                  label={{
+                    render: (value) =>
+                      `Difficulty: ${
+                        value <= 0.5
+                          ? "Easy"
+                          : value > 0.5 && value <= 1.5
+                            ? "Medium"
+                            : "Hard"
+                      }`,
+                  }}
+                />
+              )}
+              {submitResponse && (
+                <ProgressBar
+                  max={2.5}
+                  type="discrete"
+                  variant="success"
+                  value={Math.max(submitResponse?.current_theta || 0, 0)}
+                  label={{
+                    render: (value) =>
+                      `Performance: ${
+                        value < -1
+                          ? "Poor"
+                          : value > 1
+                            ? "Excellent"
+                            : "Average"
+                      }`,
+                    position: "right",
+                  }}
+                />
+              )}
+            </div>
             {quizState === "intro" && (
               <div className="space-y-6">
                 <Card className="gap-0 p-8 py-6 sm:p-10">
-                  <p className="mb-6 text-lg text-neutral-300">
+                  <p className="mb-4 text-base font-semibold text-white">
                     {topic.description}
                   </p>
-                  <p className="mb-4">
+                  <p className="mb-6 text-sm text-neutral-100">
                     This adaptive test contains {topic.questions.length}{" "}
                     possible questions you can be tested on. Each question has
                     multiple-choice answers, and you will receive feedback on
@@ -241,17 +293,19 @@ const Topic = () => {
 
             {quizState === "quiz" && (
               <div className="space-y-6">
-                <div className="flex items-center justify-end">
+                {/* <div className="flex items-center justify-end">
                   <h1 className="text-2xl font-bold">{topic.title}</h1>
                   <span className="text-sm font-medium">
-                    {/* Question {currentQuestion + 1} of{" "}
-                    {topic.questions.length} */}
+                    Question {currentQuestion + 1} of{" "}
+                    {topic.questions.length}
                   </span>
-                </div>
+                </div> */}
 
                 <Card className="p-8 py-6 sm:p-10">
-                  <h2 className="mb-4 text-xl font-semibold">
-                    {currentQuestion?.question}
+                  <h2 className="mb-4 text-base font-medium">
+                    <pre className="text-wrap">
+                      <code>{currentQuestion?.question}</code>
+                    </pre>
                   </h2>
 
                   <RadioGroup
@@ -263,36 +317,39 @@ const Topic = () => {
                     }}
                     className="mb-6 space-y-3"
                   >
-                    {(currentQuestion?.options ?? []).map((option) => (
-                      <div
-                        key={option.id}
-                        className={`flex cursor-pointer items-center space-x-2 rounded-lg border p-4 transition-colors ${
-                          selectedAnswer === option.id
-                            ? "bg-primary/10 border-primary/40"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          if (!isSubmitAnswerPending) {
-                            handleAnswer(option.id);
-                          }
-                        }}
-                      >
-                        <RadioGroupItem
-                          value={option.id}
-                          id={`option-${option.id}`}
-                          className="sr-only"
-                        />
-                        <Label
-                          htmlFor={`option-${option.id}`}
-                          className="flex w-full cursor-pointer items-center text-base"
+                    {(currentQuestion?.options ?? [])
+                      .filter((option) => option.text)
+                      .map((option) => (
+                        <div
+                          role="button"
+                          key={option.id}
+                          className={`flex cursor-pointer items-center space-x-2 rounded-lg border p-4 transition-colors ${
+                            selectedAnswer === option.id
+                              ? "bg-primary/10 border-primary/40"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            if (!isSubmitAnswerPending) {
+                              handleAnswer(option.id);
+                            }
+                          }}
                         >
-                          <span className="mr-2 font-semibold">
-                            {option.id.toUpperCase()}.
-                          </span>{" "}
-                          {option.text}
-                        </Label>
-                      </div>
-                    ))}
+                          <RadioGroupItem
+                            value={option.id}
+                            id={`option-${option.id}`}
+                            className="sr-only"
+                          />
+                          <Label
+                            htmlFor={`option-${option.id}`}
+                            className="flex w-full cursor-pointer items-center text-base"
+                          >
+                            <span className="mr-2 font-semibold">
+                              {option.id.toUpperCase()}.
+                            </span>{" "}
+                            {option.text}
+                          </Label>
+                        </div>
+                      ))}
                   </RadioGroup>
 
                   <div className="flex justify-end gap-3">
@@ -315,48 +372,56 @@ const Topic = () => {
 
             {quizState === "feedback" && (
               <div className="space-y-6">
-                <div className="flex items-center justify-end">
+                {/* <div className="flex items-center justify-end">
                   <h1 className="text-2xl font-bold">{topic.title}</h1>
                   <span className="text-sm font-medium">
-                    {/* Question {currentQuestion + 1} of{" "}
-                    {topic.questions.length} */}
+                    Question {currentQuestion + 1} of{" "}
+                    {topic.questions.length}
                   </span>
-                </div>
+                </div> */}
 
                 <Card className="p-8 py-6 sm:p-10">
-                  <h2 className="mb-4 text-xl font-semibold">
-                    {currentQuestion?.question}
+                  <h2 className="mb-4 text-base font-medium">
+                    <pre className="text-wrap">
+                      <code>{currentQuestion?.question}</code>
+                    </pre>
                   </h2>
 
                   <div className="mb-6 space-y-3">
-                    {(currentQuestion?.options ?? []).map((option) => (
-                      <div
-                        key={option.id}
-                        className={`flex items-center space-x-2 rounded-lg border p-4 ${
-                          option.id === submitResponse?.correct_answer
-                            ? "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
-                            : option.id === selectedAnswer
-                              ? option.id !== submitResponse?.correct_answer
-                                ? "border-red-500 bg-red-50 dark:border-red-800 dark:bg-red-950/20"
-                                : "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
-                              : ""
-                        }`}
-                      >
-                        <div className="flex w-full items-center text-base">
-                          <span className="mr-2 font-semibold">
-                            {option.id.toUpperCase()}.
-                          </span>{" "}
-                          {option.text}
-                          {option.id === submitResponse?.correct_answer && (
-                            <CheckCircle2 className="ml-auto h-5 w-5 text-green-500" />
-                          )}
-                          {option.id === selectedAnswer &&
-                            option.id !== submitResponse?.correct_answer && (
-                              <AlertCircle className="ml-auto h-5 w-5 text-red-500" />
+                    {(currentQuestion?.options ?? [])
+                      .filter((option) => option.text)
+                      .map((option) => (
+                        <div
+                          key={option.id}
+                          className={`flex items-center space-x-2 rounded-lg border p-4 ${
+                            option.id.toUpperCase() ===
+                            submitResponse?.correct_answer.toUpperCase()
+                              ? "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
+                              : option.id.toUpperCase() ===
+                                  selectedAnswer?.toUpperCase()
+                                ? option.id.toUpperCase() !==
+                                  submitResponse?.correct_answer.toUpperCase()
+                                  ? "border-red-500 bg-red-50 dark:border-red-800 dark:bg-red-950/20"
+                                  : "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
+                                : ""
+                          }`}
+                        >
+                          <div className="flex w-full items-center text-base">
+                            <span className="mr-2 font-semibold">
+                              {option.id.toUpperCase()}.
+                            </span>{" "}
+                            {option.text}
+                            {option.id === submitResponse?.correct_answer && (
+                              <CheckCircle2 className="ml-auto h-5 w-5 text-green-500" />
                             )}
+                            {option.id === selectedAnswer &&
+                              option.id.toUpperCase() !==
+                                submitResponse?.correct_answer.toUpperCase() && (
+                                <AlertCircle className="ml-auto h-5 w-5 text-red-500" />
+                              )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
 
                   <div className="bg-muted mb-6 rounded-lg p-4">
@@ -389,7 +454,7 @@ const Topic = () => {
                   <h2 className="mb-4 text-2xl font-bold">
                     Your Score:{" "}
                     {(submitResponse?.result?.correct_ids ?? [])?.length} out of{" "}
-                    {(submitResponse?.result?.correct_ids ?? [])?.length}
+                    {(submitResponse?.result?.administered ?? [])?.length}
                   </h2>
                   {/* <p className="mb-6">
                     You answered {Object.keys(answers).length} out of{" "}

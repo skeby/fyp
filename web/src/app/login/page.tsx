@@ -25,8 +25,7 @@ import { useAppMutation, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { User } from "@/types";
 import { useRouter } from "next-nprogress-bar";
-import { useEffect } from "react";
-import { message } from "@/components/misc/message-provider";
+// import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({
@@ -38,6 +37,7 @@ const LoginPage = () => {
   });
 
   const router = useRouter();
+  // const searchParams = useSearchParams();
 
   const { setUser } = useAppUser();
 
@@ -50,14 +50,15 @@ const LoginPage = () => {
     onSuccess: (data) => {
       if (data?.data?.user && data?.data?.token) {
         setUser(data.data.user, data.data.token);
-        router.push("/course/data-structures");
+        // const next = searchParams.get("next");
+        // router.push(next || "/course");
+        router.push("/course");
       }
     },
   });
 
   const onSubmit: SubmitHandler<LoginFields> = (data) => {
     login(data);
-    // message.success("Logged in successfully", 60);
   };
 
   return (
@@ -74,7 +75,11 @@ const LoginPage = () => {
         </CardHeader>
         <CardContent className="p-0">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              noValidate
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+            >
               <FormField
                 control={form.control}
                 name="email"

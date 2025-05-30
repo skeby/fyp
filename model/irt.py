@@ -35,12 +35,12 @@ class IRTModel(nn.Module):
             x = layer(x)
         return x
 
-    def update_ability(self, correct, question):
+    def update_ability(self, correct, question, q_idx):
         """
         Update ability based on the response to a question
         """
         # Extract question parameters (with safer index access)
-        q_idx = int(question.get('Question ID', 0)) - 1  # Assuming IDs start from 1
+        # q_idx = int(question.get('Question ID', 0)) - 1  # Assuming IDs start from 1
 
         # Use model parameters if available, otherwise fall back to question values
         if q_idx >= 0 and q_idx < len(self.discrimination):

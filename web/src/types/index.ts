@@ -18,12 +18,20 @@ export type Topic = {
   description: string;
   slug: string;
   cover_image?: string;
+  course?: {
+    title: string;
+    description: string;
+    slug: string;
+  };
   questions: {
     id: string;
     question: string;
     options: { id: string; text: string }[];
     correct_answer: string;
     explanation: string;
+    difficulty?: number;
+    discrimination?: number;
+    guessing_probability?: number;
   }[];
 };
 

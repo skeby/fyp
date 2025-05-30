@@ -23,7 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "mongoose": "^8.13.2",
-    "morgan": "^1.10.0",
+    "winston": "^3.17.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {

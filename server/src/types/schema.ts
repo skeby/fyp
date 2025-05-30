@@ -119,6 +119,18 @@ export const TopicSchema = z.object({
         required_error: "Explanation is required",
         invalid_type_error: "Explanation must be a string",
       }),
+      difficulty: z.number({
+        required_error: "Difficulty is required",
+        invalid_type_error: "Difficulty must be a number",
+      }),
+      discrimination: z.number({
+        required_error: "Discrimination is required",
+        invalid_type_error: "Discrimination must be a number",
+      }),
+      guessing_probability: z.number({
+        required_error: "Guessing probability is required",
+        invalid_type_error: "Guessing probability must be a number",
+      }),
     })
   ),
 });
@@ -144,10 +156,7 @@ export const AddQuestionsSchema = z.object({
             required_error: "Option ID is required",
             invalid_type_error: "Option ID must be a string",
           }),
-          text: z.string({
-            required_error: "Option text is required",
-            invalid_type_error: "Option text must be a string",
-          }),
+          text: z.string().optional(),
         })
       ),
       correct_answer: z.string({
@@ -157,6 +166,18 @@ export const AddQuestionsSchema = z.object({
       explanation: z.string({
         required_error: "Explanation is required",
         invalid_type_error: "Explanation must be a string",
+      }),
+      difficulty: z.number({
+        required_error: "Difficulty is required",
+        invalid_type_error: "Difficulty must be a number",
+      }),
+      discrimination: z.number({
+        required_error: "Discrimination is required",
+        invalid_type_error: "Discrimination must be a number",
+      }),
+      guessing_probability: z.number({
+        required_error: "Guessing probability is required",
+        invalid_type_error: "Guessing probability must be a number",
       }),
     })
   ),

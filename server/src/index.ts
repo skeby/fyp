@@ -7,8 +7,8 @@ import { dbConnect } from "./config/mongo.config";
 import authRouter from "./routers/auth.router";
 import courseRouter from "./routers/course.router";
 import userRouter from "./routers/user.router";
-import crypto from "crypto";
-import morgan from "morgan";
+// import crypto from "crypto";
+import logger from "./helpers/logger";
 
 dotenv.config();
 dbConnect("adaptlearn");
@@ -16,7 +16,11 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(morgan("dev"));
+// Middleware to log all requests
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+});
 
 app.get("/", (_, res) => {
   res.status(200).json({
@@ -34,7 +38,7 @@ const startServer = async () => {
   try {
     app.listen(port, () => {
       console.log(`Server running on port ${port || 2000}`);
-      console.log(crypto.randomBytes(32).toString("hex")); // Random bytes for secrets
+      // console.log(crypto.randomBytes(32).toString("hex")); // Random bytes for secrets
     });
     // Authenticate mongodb
   } catch (err) {

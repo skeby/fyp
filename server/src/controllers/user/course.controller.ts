@@ -7,6 +7,7 @@ import {
 } from "../../types/schema";
 import { AuthenticatedRequest } from "../../types";
 import { MODEL_BASE_URL } from "../../static";
+import logger from "../../helpers/logger";
 
 export const createCourse = async (
   req: Request<any, any, CourseFields>,
@@ -260,7 +261,12 @@ export const getTopic = async (
       status: "success",
       message: "Topic fetched successfully",
       data: {
-        topic: course?.topics.find((t) => t.slug === topic_slug) ?? null,
+        topic,
+        course: {
+          title: course.title,
+          description: course.description,
+          slug: course.slug,
+        },
       },
     });
   } catch (error) {
@@ -339,16 +345,16 @@ export const startTest = async (
             "Option B": q.options?.[1]?.text ?? "",
             "Option C": q.options?.[2]?.text ?? "",
             "Option D": q.options?.[3]?.text ?? "",
-            "Correct Answer": q.correct_answer,
+            "Correct Answer": q.correct_answer.toUpperCase(),
             Explanation: q.explanation,
-            Difficulty: 1.0,
-            Discrimination: 1.0,
-            "Guessing Probability": 0.25,
+            Difficulty: q.difficulty,
+            Discrimination: q.discrimination,
+            "Guessing Probability": q.guessing_probability,
           })),
         }),
       });
 
-      console.log("modelResponse", modelResponse);
+      console.log("modelResponse Body", JSON.stringify(modelResponse?.body));
 
       if (!modelResponse.ok) {
         res.status(400).json({
@@ -376,13 +382,15 @@ export const startTest = async (
           message: "An error occured while generating question",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      logger.error(error?.message);
       res.status(400).json({
         status: "error",
         message: "An error occured while generating question",
       });
     }
-  } catch (error) {
+  } catch (error: any) {
+    logger.error(error?.message);
     next(error);
   }
 };
@@ -426,7 +434,7 @@ export const submitAnswer = async (
       if (!modelResponse.ok) {
         res.status(400).json({
           status: "error",
-          message: "An error occured while generating question",
+          message: "An error occured while submitting answer",
         });
         return;
       }
@@ -443,6 +451,9 @@ export const submitAnswer = async (
             next_question: {
               id: string; // TODO: Add this to model
               question: string;
+              difficulty: number;
+              discrimination: number;
+              guessing_probability: number;
               options: { A: string; B: string; C: string; D: string };
             };
             result: {
@@ -466,13 +477,67 @@ export const submitAnswer = async (
           message: "An error occured while submitting answer",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      logger.error(error?.message);
       res.status(400).json({
         status: "error",
         message: "An error occured while submitting answer",
       });
     }
-  } catch (error) {
+  } catch (error: any) {
+    logger.error(error?.message);
     next(error);
   }
 };
+
+// Questions mapping
+// const questions = raw.map((q) => ({
+//     question: q["Question Text"],
+//     options: [
+//         {
+//             id: "a", text: q["Option A"]
+//         },
+//         {
+//             id: "b", text: q["Option B"]
+//         },
+//         {
+//             id: "c", text: q["Option C"]
+//         },
+//         {
+//             id: "d", text: q["Option D"]
+//         },
+//     ],
+//     correct_answer: q["Correct Answer"],
+//     explanation: q["Explanation"],
+//     difficulty: q["Difficulty"],
+//     guessing_probability: q["Guessing Probability"],
+// }))
+
+// function extractQuestions(data) {
+//   return data.results.map((item) => {
+//     const cleanText = (html) => {
+//       return html
+//         .replace(/<[^>]*>/g, "") // remove HTML tags
+//         .replace(/&nbsp;/g, " ")
+//         .replace(/\s+/g, " ") // collapse whitespace
+//         .trim();
+//     };
+
+//     const options = item.answers.map((answer, index) => ({
+//       id: String.fromCharCode(97 + index), // 'a', 'b', 'c', 'd', ...
+//       text: cleanText(answer.answer),
+//     }));
+
+//     const correctIndex = item.answers.findIndex((a) => a.correct);
+//     const correctAnswer = correctIndex >= 0
+//       ? String.fromCharCode(65 + correctIndex) // 'A', 'B', 'C', ...
+//       : null;
+
+//     return {
+//       question: cleanText(item.question),
+//       options,
+//       correct_answer: correctAnswer,
+//       explanation: cleanText(item.explanation),
+//     };
+//   });
+// }

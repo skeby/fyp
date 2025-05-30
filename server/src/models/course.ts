@@ -29,11 +29,14 @@ const courseSchema = new mongoose.Schema(
             options: [
               {
                 id: { type: String, required: true },
-                text: { type: String, required: true },
+                text: { type: String, required: false },
               },
             ],
             correct_answer: { type: String, required: true },
             explanation: { type: String, required: true },
+            difficulty: { type: Number, required: true },
+            discrimination: { type: Number, required: true },
+            guessing_probability: { type: Number, required: true },
           },
         ],
       },
