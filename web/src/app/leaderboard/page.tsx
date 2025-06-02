@@ -130,7 +130,7 @@ interface LeaderboardItemProps {
   rank: number;
 }
 
-export function LeaderboardItem({ user, rank }: LeaderboardItemProps) {
+const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
   const { username, first_name, xp, profile_picture, email } = user;
 
   // Get initials for avatar fallback
@@ -242,6 +242,6 @@ export function LeaderboardItem({ user, rank }: LeaderboardItemProps) {
       </div>
     </div>
   );
-}
+};
 
 export default Leaderboard;
