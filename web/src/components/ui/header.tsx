@@ -33,14 +33,14 @@ const Header = () => {
       href: "/courses",
       title: "Courses",
     },
+    // {
+    //   href: `/profile/${user?.username}`,
+    //   title: "Profile",
+    //   show: !!user,
+    // },
     {
-      href: `/profile/${user?.username}`,
-      title: "Profile",
-      show: !!user,
-    },
-    {
-      href: "/settings",
-      title: "Settings",
+      href: "/leaderboard",
+      title: "Leaderboard",
     },
   ];
 
@@ -75,14 +75,14 @@ const Header = () => {
         <div className="flex items-center gap-x-2">
           {user || loading ? (
             <>
-              {/* <Button
+              <Button
                 loading={loading}
                 variant="outline"
                 className="flex h-8 items-center gap-2 rounded-lg border bg-transparent px-2 py-0"
               >
                 <Coin />
-                <span className="text-sm leading-2">200</span>
-              </Button> */}
+                <span className="text-sm leading-2">{user?.xp ?? 0}</span>
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

@@ -199,9 +199,29 @@ export const GetTopicSchema = z.object({
   }),
 });
 
+export const GetLeaderBoardSchema = z.object({
+  limit: z
+    .number({
+      required_error: "Limit is required",
+      invalid_type_error: "Limit must be a number",
+    })
+    .nonnegative({
+      message: "Limit must be equal to or greater than 0",
+    }),
+  page: z
+    .number({
+      required_error: "Page is required",
+      invalid_type_error: "Page must be a number",
+    })
+    .nonnegative({
+      message: "Page must be equal to or greater than 0",
+    }),
+});
+
 export type SignUpFields = z.infer<typeof SignUpSchema>;
 export type LoginFields = z.infer<typeof LoginSchema>;
 export type CourseFields = z.infer<typeof CourseSchema>;
 export type TopicFields = z.infer<typeof TopicSchema>;
 export type GetTopicFields = z.infer<typeof GetTopicSchema>;
 export type AddQuestionsFields = z.infer<typeof AddQuestionsSchema>;
+export type GetLeaderBoardFields = z.infer<typeof GetLeaderBoardSchema>;

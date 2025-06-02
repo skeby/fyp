@@ -48,8 +48,8 @@ const CoursesPage = async () => {
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
             ...(data?.courses ?? []),
-            ...(data?.courses ?? []),
-            ...(data?.courses ?? []),
+            // ...(data?.courses ?? []),
+            // ...(data?.courses ?? []),
           ].map((course, index) => (
             <ListCard
               key={index}

@@ -12,8 +12,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "ade-yinka")
 # ─── MongoDB Setup ─────────────────────────────────────────────────────────────
 mongo_uri = os.environ.get(
     "MONGO_URI",
-    "mongodb://localhost:27017")
-    # "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
+    # "mongodb://localhost:27017")
+    "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
 client = MongoClient(mongo_uri)
 db     = client["adaptlearn"]
 users  = db["users"]
@@ -208,11 +208,34 @@ def submit_answer():
 
     # if 10 questions done
     if len(tester.administered) == 10:
-        # tear down this sub‐session
+        # Compute cumulative difficulty
+        administered_ids = tester.administered
+        total_difficulty = 0
+        question_count = 0
+
+        for q in questions:
+            if q.get("Question ID") in administered_ids:
+                try:
+                    diff = float(q.get("Difficulty", 0))
+                except (ValueError, TypeError):
+                    diff = 0
+                total_difficulty += diff
+                question_count += 1
+
+        avg_difficulty = total_difficulty / max(question_count, 1)
+
+        # Optional XP formula
+        xp_earned = int(avg_difficulty * 100)  # You can adjust scaling
+
+        # Tear down session
         users.update_one(
-          {"_id": user_oid},
-          {"$unset": {f"topics.{test_id}": ""}}
+            {"_id": user_oid},
+            {
+                "$unset": {f"topics.{test_id}": ""},
+                "$inc": {"xp": xp_earned}
+             }
         )
+
         return jsonify({
             "test_id": test_id,
             "submitted_answer": answer,
@@ -221,11 +244,14 @@ def submit_answer():
             "explanation": explanation,
             "current_theta": tester.theta,
             "result": {
-                "administered": list(tester.administered),
+                "administered": list(administered_ids),
                 "correct_ids":  correct_list,
-                "wrong_ids":    wrong_list
+                "wrong_ids":    wrong_list,
+                "average_difficulty": round(avg_difficulty, 2),
+                "xp_earned": xp_earned
             }
         }), 200
+
 
     # pick next
     next_idx   = tester.select_next_question(remaining,

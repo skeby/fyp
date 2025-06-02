@@ -38,6 +38,13 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+
+    // Gamification properties
+    xp: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: {
@@ -52,7 +59,6 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next(); // Skip if password wasn't changed
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  console.log("Hashed password: ", this.password);
   next();
 });
 

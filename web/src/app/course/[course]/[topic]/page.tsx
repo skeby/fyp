@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { message } from "@/components/misc/message-provider";
 import Link from "next/link";
 import ProgressBar from "@/components/ui/progress-bar";
+import { useQueryClient } from "@tanstack/react-query";
 
 type SubmitResponseType = {
   test_id: string;
@@ -32,6 +33,8 @@ type SubmitResponseType = {
     administered: string[];
     correct_ids: string[];
     wrong_ids: string[];
+    xp_earned: number;
+    average_difficulty: number;
   };
 };
 
@@ -66,7 +69,9 @@ const Topic = () => {
   const topic = data?.data?.topic;
   const course = data?.data?.course;
 
-  const { user } = useAppUser();
+  const { user, refetch } = useAppUser();
+
+  const queryClient = useQueryClient();
 
   const { mutate: startTest, isPending: isStartTestPending } = useAppMutation<{
     question: Omit<TopicType["questions"][0], "correct_answer" | "explanation">;
@@ -98,6 +103,12 @@ const Topic = () => {
           setSubmitResponse(data?.data);
           setCurrentTheta(data?.data?.current_theta);
           setQuizState("feedback");
+          if (data?.data?.result?.xp_earned) {
+            message.success(
+              `🎉 Well done! You just earned +${data?.data?.result?.xp_earned} XP for completing this test`,
+            );
+            refetch();
+          }
         }
       },
     });
@@ -237,7 +248,7 @@ const Topic = () => {
             <span className="text-sm">Loading</span>
           </div>
         ) : !topic ? (
-          <p>No quiz available</p>
+          "No quiz available"
         ) : (
           <>
             <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-0.5">
@@ -469,8 +480,7 @@ const Topic = () => {
                     {(submitResponse?.result?.administered ?? [])?.length}
                   </h2>
                   {/* <p className="mb-6">
-                    You answered {Object.keys(answers).length} out of{" "}
-                    {topic.questions.length} questions.
+                    XP Earned: {submitResponse?.result?.xp_earned ?? 0}
                   </p> */}
                   <div className="flex gap-3">
                     <Button size="lg" onClick={handleRetry}>

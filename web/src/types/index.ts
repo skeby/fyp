@@ -3,6 +3,8 @@ export type User = {
   last_name: string;
   email: string;
   username: string;
+  xp: number;
+  profile_picture?: string;
 };
 
 export type Course = {

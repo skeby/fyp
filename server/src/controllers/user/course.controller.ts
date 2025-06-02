@@ -471,12 +471,13 @@ export const submitAnswer = async (
               administered: string[];
               correct_ids: string[];
               wrong_ids: string[];
+              xp_earned: number;
+              average_difficulty: number;
             };
           }
         | undefined = await modelResponse.json();
 
       if (modelJSON) {
-        // const responseData = modelJSON?.message ?
         res.status(200).json({
           status: "success",
           message: "Answer submitted successfully",

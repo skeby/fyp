@@ -29,15 +29,15 @@ const nextConfig: NextConfig = {
     return config;
   },
   /* config options here */
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/courses",
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/courses",
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
   experimental: {
     turbo: {
       rules: {
