@@ -2,20 +2,25 @@ import mongoose, { HydratedDocument, InferSchemaType, Types } from "mongoose";
 
 const badgeSchema = new mongoose.Schema(
   {
-    image_url: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
       unique: true,
       trim: true,
     },
-    description: {
+    reason: {
       type: String,
       required: true,
       trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    image_url: {
+      type: String,
+      required: true,
     },
   },
   {

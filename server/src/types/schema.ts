@@ -218,6 +218,21 @@ export const GetLeaderBoardSchema = z.object({
     }),
 });
 
+export const BadgeSchema = z.object({
+  name: z.string({
+    required_error: "Name is required",
+    invalid_type_error: "Name must be a string",
+  }),
+  reason: z.string({
+    required_error: "Reason is required",
+    invalid_type_error: "Reason must be a string",
+  }),
+  image_url: z.string({
+    required_error: "Image url is required",
+    invalid_type_error: "Image url must be a string",
+  }),
+});
+
 export type SignUpFields = z.infer<typeof SignUpSchema>;
 export type LoginFields = z.infer<typeof LoginSchema>;
 export type CourseFields = z.infer<typeof CourseSchema>;
@@ -225,3 +240,4 @@ export type TopicFields = z.infer<typeof TopicSchema>;
 export type GetTopicFields = z.infer<typeof GetTopicSchema>;
 export type AddQuestionsFields = z.infer<typeof AddQuestionsSchema>;
 export type GetLeaderBoardFields = z.infer<typeof GetLeaderBoardSchema>;
+export type BadgeFields = z.infer<typeof BadgeSchema>;

@@ -3,7 +3,7 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
-import { useAppQuery } from "@/hooks/use-app";
+import { useAppQuery, useAppUser } from "@/hooks/use-app";
 import { cn } from "@/lib/utils";
 import { paths } from "@/services/endpoint";
 import { User } from "@/types";
@@ -72,7 +72,7 @@ const Leaderboard = () => {
               <Spinner className="size-6" />{" "}
               <span className="text-sm">Loading</span>
             </div>
-          ) : allUsers.length === 0 ? (
+          ) : allUsers.length === 0 && !isLoading ? (
             <div className="bg-card/30 border-border rounded-lg border p-8 text-center">
               <Trophy className="text-muted-foreground mx-auto mb-2 h-12 w-12 opacity-50" />
               <h3 className="mb-1 text-lg font-medium">No data available</h3>
@@ -133,6 +133,8 @@ interface LeaderboardItemProps {
 const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
   const { username, first_name, xp, profile_picture, email } = user;
 
+  const { user: currentUser } = useAppUser();
+
   // Get initials for avatar fallback
   const getInitials = () => {
     if (first_name) {
@@ -144,23 +146,25 @@ const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
   // Determine if this is a top 3 position
   const isTopThree = rank <= 3;
 
+  const isCurrentUser = currentUser?.username === username;
+
   // Get rank badge based on position
   const getRankBadge = () => {
     if (rank === 1) {
       return (
-        <div className="bg-chart-1 border-background absolute -top-1 -left-1 rounded-full border-2 p-1.5 shadow-lg">
+        <div className="bg-chart-1 border-background absolute -top-2 -left-2 rounded-full border-2 p-1.5 shadow-lg">
           <Trophy className="text-background h-4 w-4" />
         </div>
       );
     } else if (rank === 2) {
       return (
-        <div className="bg-chart-2 border-background absolute -top-1 -left-1 rounded-full border-2 p-1.5 shadow-lg">
+        <div className="bg-chart-2 border-background absolute -top-2 -left-2 rounded-full border-2 p-1.5 shadow-lg">
           <Medal className="text-background h-4 w-4" />
         </div>
       );
     } else if (rank === 3) {
       return (
-        <div className="bg-chart-3 border-background absolute -top-1 -left-1 rounded-full border-2 p-1.5 shadow-lg">
+        <div className="bg-chart-3 border-background absolute -top-2 -left-2 rounded-full border-2 p-1.5 shadow-lg">
           <Medal className="text-background h-4 w-4" />
         </div>
       );
@@ -172,9 +176,12 @@ const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
     <div
       className={cn(
         "relative flex items-center justify-between rounded-lg border p-4 transition-all",
-        isTopThree
+        isCurrentUser &&
+          "ring-primary/50 bg-primary/5 border-primary/30 ring-2",
+        isTopThree && !isCurrentUser
           ? "bg-card/60 border-primary/20 shadow-md"
-          : "bg-card/30 border-border hover:bg-card/50",
+          : !isCurrentUser && "bg-card/30 border-border hover:bg-card/50",
+        isCurrentUser && "shadow-lg",
       )}
     >
       {getRankBadge()}
@@ -237,7 +244,7 @@ const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
                   : "bg-primary/10 text-primary",
           )}
         >
-          {xp.toLocaleString()} XP
+          {(xp || 0).toLocaleString()} XP
         </div>
       </div>
     </div>

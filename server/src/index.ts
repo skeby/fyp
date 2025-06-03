@@ -9,6 +9,7 @@ import courseRouter from "./routers/course.router";
 import userRouter from "./routers/user.router";
 // import crypto from "crypto";
 import logger from "./helpers/logger";
+import badgeRouter from "./routers/badge.router";
 
 dotenv.config();
 dbConnect("adaptlearn");
@@ -32,6 +33,7 @@ app.get("/", (_, res) => {
 app.use("/auth", authRouter);
 app.use("/course", courseRouter);
 app.use("/user", userRouter);
+app.use("/badge", badgeRouter);
 
 const startServer = async () => {
   const port = process.env.PORT;

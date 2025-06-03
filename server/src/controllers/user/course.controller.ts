@@ -8,6 +8,8 @@ import {
 import { AuthenticatedRequest } from "../../types";
 import { MODEL_BASE_URL } from "../../static";
 import logger from "../../helpers/logger";
+import Badge, { BadgeType } from "../../models/badge";
+import User, { UserDocument } from "../../models/user";
 
 export const createCourse = async (
   req: Request<any, any, CourseFields>,
@@ -355,8 +357,6 @@ export const startTest = async (
         }),
       });
 
-      console.log("modelResponse Body", JSON.stringify(modelResponse?.body));
-
       if (!modelResponse.ok) {
         res.status(400).json({
           status: "error",
@@ -374,7 +374,6 @@ export const startTest = async (
           }
         | undefined = await modelResponse.json();
 
-      console.log(modelQuestion);
       if (modelQuestion) {
         res.status(200).json({
           status: "success",
@@ -472,12 +471,63 @@ export const submitAnswer = async (
               correct_ids: string[];
               wrong_ids: string[];
               xp_earned: number;
+              badges_earned: BadgeType[];
               average_difficulty: number;
             };
           }
         | undefined = await modelResponse.json();
 
       if (modelJSON) {
+        if (modelJSON?.result) {
+          const user: UserDocument | null = await User.findById(req.user?.id);
+
+          if (user) {
+            const topicsArray = Object.keys(user.topics).map((key) => ({
+              topic_id: key,
+              ...user.topics.get(key),
+            }));
+
+            const numCompletedTopics = topicsArray.filter(
+              (t) => (t?.administered?.length || 0) === 10
+            ).length;
+
+            const badgesEarned: any[] = [];
+
+            const badgeMap: Record<number, string> = {
+              1: "first-step-taken",
+              5: "silver",
+              20: "gold",
+              50: "diamond",
+              100: "red-emerald",
+            };
+
+            const badgeSlug = badgeMap[numCompletedTopics];
+
+            if (badgeSlug) {
+              const badge = await Badge.findOne({ slug: badgeSlug });
+
+              const hasBadge =
+                badge &&
+                user.badges.some((b) => b.toString() === badge._id.toString());
+
+              if (badge && !hasBadge) {
+                user.badges.push(badge._id);
+                await user.save();
+                badgesEarned.push(badge);
+              }
+            }
+
+            // Attach earned badges to modelJSON.result
+            modelJSON.result.badges_earned = badgesEarned;
+          }
+
+          res.status(200).json({
+            status: "success",
+            message: "Answer submitted successfully",
+            data: modelJSON,
+          });
+        }
+
         res.status(200).json({
           status: "success",
           message: "Answer submitted successfully",

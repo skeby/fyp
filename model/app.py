@@ -12,8 +12,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "ade-yinka")
 # ─── MongoDB Setup ─────────────────────────────────────────────────────────────
 mongo_uri = os.environ.get(
     "MONGO_URI",
-    # "mongodb://localhost:27017")
-    "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
+    "mongodb://localhost:27017")
+    # "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
 client = MongoClient(mongo_uri)
 db     = client["adaptlearn"]
 users  = db["users"]
@@ -225,13 +225,13 @@ def submit_answer():
         avg_difficulty = total_difficulty / max(question_count, 1)
 
         # Optional XP formula
-        xp_earned = int(avg_difficulty * 100)  # You can adjust scaling
+        xp_earned = int(avg_difficulty * 10)  # You can adjust scaling
 
         # Tear down session
         users.update_one(
             {"_id": user_oid},
             {
-                "$unset": {f"topics.{test_id}": ""},
+                # "$unset": {f"topics.{test_id}": ""},
                 "$inc": {"xp": xp_earned}
              }
         )

@@ -33,9 +33,10 @@ const authUser = async (
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET ?? "") as UserType;
-    const user: any = await User.findOne({
+    const user: UserDocument | null = await User.findOne({
       _id: decoded.id,
-    }).select("-password");
+    });
+    // .select("-password");
 
     if (!user) {
       res.status(404).json({

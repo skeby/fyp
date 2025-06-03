@@ -101,20 +101,23 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href={`/profile/${user?.username}`}>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
                         Profile
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
                     </Link>
                     <Link href="/settings">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer">
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                       </DropdownMenuItem>
                     </Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => removeUser()}>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => removeUser()}
+                  >
                     Log out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                   </DropdownMenuItem>

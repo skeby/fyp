@@ -45,6 +45,7 @@ export const getLeaderBoard = async (
     const users = await User.find({
       status: "active",
     })
+      .populate("badges")
       .select("-password")
       .sort({ xp: -1 })
       .skip(skip)

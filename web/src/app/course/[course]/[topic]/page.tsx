@@ -6,7 +6,7 @@ import { CheckCircle2, AlertCircle, ChevronLeft, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAppMutation, useAppQuery, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
-import { Course, Topic as TopicType, User } from "@/types";
+import { Badge, Course, Topic as TopicType, User } from "@/types";
 import { useParams } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import { Card } from "@/components/ui/card";
@@ -34,6 +34,7 @@ type SubmitResponseType = {
     correct_ids: string[];
     wrong_ids: string[];
     xp_earned: number;
+    badges_earned?: Badge[];
     average_difficulty: number;
   };
 };
@@ -106,8 +107,31 @@ const Topic = () => {
           if (data?.data?.result?.xp_earned) {
             message.success(
               `🎉 Well done! You just earned +${data?.data?.result?.xp_earned} XP for completing this test`,
+              8,
             );
             refetch();
+          }
+          if (
+            data?.data?.result?.badges_earned &&
+            data?.data?.result?.badges_earned?.length > 0
+          ) {
+            const badges_earned = data?.data?.result?.badges_earned;
+            badges_earned.forEach((badge) => {
+              message.success(
+                <>
+                  🎉 Well done! You just earned a{" "}
+                  <span className="font-semibold">{badge.name}</span>
+                  {badge.reason}.{" "}
+                  <Link
+                    href={user ? `/profile/${user?.username}` : ""}
+                    className="font-medium underline"
+                  >
+                    View badge
+                  </Link>
+                </>,
+                8,
+              );
+            });
           }
         }
       },

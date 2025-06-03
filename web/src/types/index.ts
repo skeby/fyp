@@ -1,10 +1,13 @@
+export type Params = { [key: string]: string };
+
 export type User = {
   first_name: string;
   last_name: string;
   email: string;
   username: string;
-  xp: number;
+  xp?: number;
   profile_picture?: string;
+  badges?: Badge[];
 };
 
 export type Course = {
@@ -37,4 +40,9 @@ export type Topic = {
   }[];
 };
 
-export type Params = { [key: string]: string };
+export type Badge = {
+  name: string;
+  reason: string;
+  image_url: string;
+  slug: string;
+};

@@ -22,11 +22,11 @@ type MessageType = "success" | "error";
 interface MessageData {
   id: number;
   type: MessageType;
-  content: string;
+  content: ReactNode;
 }
 
 interface MessageContextType {
-  showMessage: (type: MessageType, content: string) => void;
+  showMessage: (type: MessageType, content: ReactNode) => void;
 }
 
 const MessageContext = createContext<MessageContextType | undefined>(undefined);
@@ -35,7 +35,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [messages, setMessages] = useState<MessageData[]>([]);
 
   const showMessage = useCallback(
-    (type: MessageType, content: string, duration?: number) => {
+    (type: MessageType, content: ReactNode, duration?: number) => {
       const id = Date.now();
       const newMessage = { id, type, content };
 
@@ -118,13 +118,13 @@ export const useMessage = () => {
 };
 
 // lib/message.ts
-type MessageHandler = (content: string) => void;
+type MessageHandler = (content: ReactNode) => void;
 
 let initialized = false;
 
 export const message: {
-  success: (content: string, duration?: number) => void;
-  error: (content: string, duration?: number) => void;
+  success: (content: ReactNode, duration?: number) => void;
+  error: (content: ReactNode, duration?: number) => void;
 } = {
   success: () => {
     if (!initialized) throw new Error("Message provider not initialized.");
