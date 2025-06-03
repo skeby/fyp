@@ -241,7 +241,7 @@ const Topic = () => {
           <div className="max-w-res flex h-full items-center justify-between">
             <div className="min-w-[200px]">
               <Link
-                href={`/course`}
+                href={`/courses`}
                 className="hover:text-primary text-primary/80 flex w-full items-center gap-x-1.5 text-sm transition-all duration-200"
               >
                 <Home className="size-4 shrink-0" />
