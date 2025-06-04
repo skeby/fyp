@@ -16,11 +16,22 @@ export const getProfile = async (
       });
       return;
     }
+
+    const user = await User.findById(req.user._id).populate("badges")
+
+    if (!user) {
+      res.status(401).json({
+        status: "error",
+        message: "User not found",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       message: "User profile fetched successfully",
       data: {
-        user: req.user,
+        user,
       },
     });
   } catch (error) {
