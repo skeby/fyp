@@ -520,12 +520,6 @@ export const submitAnswer = async (
             // Attach earned badges to modelJSON.result
             modelJSON.result.badges_earned = badgesEarned;
           }
-
-          res.status(200).json({
-            status: "success",
-            message: "Answer submitted successfully",
-            data: modelJSON,
-          });
         }
 
         res.status(200).json({
