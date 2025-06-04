@@ -231,10 +231,17 @@ def submit_answer():
         users.update_one(
             {"_id": user_oid},
             {
-                # "$unset": {f"topics.{test_id}": ""},
+                "$set": {
+                    f"topics.{test_id}.administered":     list(tester.administered),
+                    f"topics.{test_id}.theta":            tester.theta,
+                    f"topics.{test_id}.response_history":  tester.response_history,
+                    f"topics.{test_id}.correct_responses": correct_list,
+                    f"topics.{test_id}.wrong_responses":   wrong_list,
+                    f"topics.{test_id}.current_index":     current_idx  
+                    },
                 "$inc": {"xp": xp_earned}
-             }
-        )
+                }
+            )
 
         return jsonify({
             "test_id": test_id,
