@@ -57,7 +57,7 @@ const Leaderboard = () => {
   };
 
   return (
-    <div className="px-6 py-12">
+    <main className="px-6 py-12">
       <div className="max-w-res">
         <h2 className="text-primary flex justify-between gap-x-2 font-medium">
           <span className="text-2xl">Leaderboard</span>
@@ -121,7 +121,7 @@ const Leaderboard = () => {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

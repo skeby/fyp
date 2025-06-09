@@ -10,6 +10,13 @@ export type User = {
   badges?: Badge[];
 };
 
+export type Badge = {
+  name: string;
+  reason: string;
+  image_url: string;
+  slug: string;
+};
+
 export type Course = {
   title: string;
   description: string;
@@ -38,11 +45,4 @@ export type Topic = {
     discrimination?: number;
     guessing_probability?: number;
   }[];
-};
-
-export type Badge = {
-  name: string;
-  reason: string;
-  image_url: string;
-  slug: string;
 };

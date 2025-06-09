@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { message } from "@/components/misc/message-provider";
 import Link from "next/link";
 import ProgressBar from "@/components/ui/progress-bar";
-import { useQueryClient } from "@tanstack/react-query";
 
 type SubmitResponseType = {
   test_id: string;
@@ -70,9 +69,7 @@ const Topic = () => {
   const topic = data?.data?.topic;
   const course = data?.data?.course;
 
-  const { user, refetch } = useAppUser();
-
-  const queryClient = useQueryClient();
+  const { user, setUser } = useAppUser();
 
   const { mutate: startTest, isPending: isStartTestPending } = useAppMutation<{
     question: Omit<TopicType["questions"][0], "correct_answer" | "explanation">;
@@ -104,12 +101,12 @@ const Topic = () => {
           setSubmitResponse(data?.data);
           setCurrentTheta(data?.data?.current_theta);
           setQuizState("feedback");
-          if (data?.data?.result?.xp_earned) {
+          if (typeof data?.data?.result?.xp_earned === "number" && data?.data?.result?.xp_earned) {
             message.success(
               `🎉 Well done! You just earned +${data?.data?.result?.xp_earned} XP for completing this test`,
               8,
             );
-            refetch();
+            setUser({...user, xp: user.xp + data?.data?.result?.xp_earned})
           }
           if (
             data?.data?.result?.badges_earned &&
