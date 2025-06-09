@@ -4,23 +4,24 @@ import User from "../../models/user";
 import { GetLeaderBoardFields } from "../../types/schema";
 
 export const getProfile = async (
-  req: AuthenticatedRequest<any, any>,
+  req: Request<any, any, {username: string}>,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    if (!req.user) {
-      res.status(401).json({
+    const username = req.body.username
+    if (!username) {
+      res.status(400).json({
         status: "error",
-        message: "You are not logged in",
+        message: "Username is required",
       });
       return;
     }
 
-    const user = await User.findById(req.user._id).populate("badges")
+    const user = await User.findOne({ username }).populate("badges")
 
     if (!user) {
-      res.status(401).json({
+      res.status(404).json({
         status: "error",
         message: "User not found",
       });

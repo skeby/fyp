@@ -156,8 +156,10 @@ export const useAppUser = () => {
     refetch,
   } = useAppQuery<{ user: User }>({
     queryKey: ["user"],
-    enabled: false,
     path: paths.user.profile.get,
+    enabled: false,
+    method: "POST",
+    data: { username: user?.username }
   });
 
   const setUser = (user: User, token?: string) => {
