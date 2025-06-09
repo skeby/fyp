@@ -106,12 +106,12 @@ const Header = () => {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
                     </Link>
-                    <Link href="/settings">
+                    {/* <Link href="/settings">
                       <DropdownMenuItem className="cursor-pointer">
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                       </DropdownMenuItem>
-                    </Link>
+                    </Link> */}
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

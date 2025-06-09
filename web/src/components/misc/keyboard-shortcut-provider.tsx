@@ -28,11 +28,11 @@ const KeyboardShortcutProvider = ({ children }: { children: ReactNode }) => {
         router.push(`/profile/${user?.username}`);
       }
 
-      if (isCommand && !isShift && key === "s") {
-        e.preventDefault();
-        message.success("Keyboard Shortcut - Open Settings");
-        router.push("/settings");
-      }
+      // if (isCommand && !isShift && key === "s") {
+      //   e.preventDefault();
+      //   message.success("Keyboard Shortcut - Open Settings");
+      //   router.push("/settings");
+      // }
     };
 
     window.addEventListener("keydown", handleKeyDown);
