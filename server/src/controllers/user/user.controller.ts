@@ -59,7 +59,7 @@ export const getLeaderBoard = async (
     })
       .populate("badges")
       .select("-password")
-      .sort({ xp: -1 })
+      .sort({ xp: -1, created_on: 1 })
       .skip(skip)
       .limit(limit)
       .lean();
