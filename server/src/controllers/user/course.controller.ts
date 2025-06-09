@@ -479,7 +479,7 @@ export const submitAnswer = async (
 
       if (modelJSON) {
         if (modelJSON?.result) {
-          const user: UserDocument | null = await User.findById(req.user?.id);
+          const user: UserDocument | null = await User.findById(req.user?._id);
 
           if (user) {
             const topicsArray = Object.keys(user.topics).map((key) => ({
