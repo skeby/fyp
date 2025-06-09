@@ -106,7 +106,7 @@ const Topic = () => {
               `🎉 Well done! You just earned +${data?.data?.result?.xp_earned} XP for completing this test`,
               8,
             );
-            setUser({...user, xp: user.xp + data?.data?.result?.xp_earned})
+            if(user) setUser({...user, xp: (user?.xp || 0) + (data?.data?.result?.xp_earned || 0)})
           }
           if (
             data?.data?.result?.badges_earned &&
