@@ -68,7 +68,7 @@ export const login = async (
     const { email, password } = req.body;
     const user: UserDocument | null = await User.findOne({
       email,
-    });
+    }).populate("badges")
 
     if (!user) {
       res.status(400).json({
@@ -95,6 +95,8 @@ export const login = async (
       email: user.email,
       username: user.username,
       xp: user.xp,
+      badges: user.xp,
+      topics: user.topics
     };
     const token = jwt.sign(userData, process.env.JWT_SECRET ?? "", {
       expiresIn: "14d",
