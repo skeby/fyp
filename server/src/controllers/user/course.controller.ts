@@ -483,10 +483,7 @@ export const submitAnswer = async (
           const user: UserDocument | null = await User.findById(req.user?._id);
 
           if (user) {
-            const topicsArray = Object.keys(user.topics).map((key) => ({
-              topic_id: key,
-              ...user.topics.get(key),
-            }));
+            const topicsArray = Array.from(user.topics.values());
 
             const numCompletedTopics = topicsArray.filter(
               (t) => (t?.administered?.length || 0) === 10

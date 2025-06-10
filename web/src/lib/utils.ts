@@ -14,7 +14,6 @@ export const setCookieWithEvent = (
   Cookies.set(name, value, options);
   const event = new CustomEvent("cookieChange", { detail: { name, value } });
   if (typeof window !== "undefined") {
-    console.log("event dispatched !!\nname: ", name, "\nvalue ", value)
     window.dispatchEvent(event);
   }
 };

@@ -66,9 +66,9 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     <MessageContext.Provider value={{ showMessage }}>
       <div className="fixed top-4 right-4 z-[1000000] flex w-[300px] flex-col gap-2">
         <AnimatePresence>
-          {messages.map((message) => (
+          {messages.map((message, index) => (
             <motion.div
-              key={message.id}
+              key={`${index + 1}-${message.id}`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

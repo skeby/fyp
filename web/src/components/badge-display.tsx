@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { Badge as BadgeType } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import Image from "next/image";
 
 interface BadgeDisplayProps {
@@ -15,14 +20,14 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {badges.map((badge, index) => (
           <div
             key={`${badge.slug}-${index}`}
-            className="flex flex-col items-center p-3 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors"
+            className="hover:bg-muted/50 flex cursor-pointer flex-col items-center rounded-lg border p-5 transition-colors"
             onClick={() => setSelectedBadge(badge)}
           >
-            <div className="relative w-12 h-12 mb-2">
+            <div className="relative mb-3 h-20 w-20">
               <Image
                 src={badge.image_url || "/placeholder.svg?height=48&width=48"}
                 alt={badge.name}
@@ -30,7 +35,7 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
                 className="object-contain"
               />
             </div>
-            <Badge variant="secondary" className="text-xs text-center">
+            <Badge variant="secondary" className="px-2 text-center text-xs">
               {badge.name}
             </Badge>
           </div>
@@ -38,14 +43,20 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
       </div>
 
       {/* Badge Detail Modal */}
-      <Dialog open={!!selectedBadge} onOpenChange={() => setSelectedBadge(null)}>
+      <Dialog
+        open={!!selectedBadge}
+        onOpenChange={() => setSelectedBadge(null)}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               {selectedBadge && (
-                <div className="relative w-8 h-8">
+                <div className="relative h-8 w-8">
                   <Image
-                    src={selectedBadge.image_url || "/placeholder.svg?height=32&width=32"}
+                    src={
+                      selectedBadge.image_url ||
+                      "/placeholder.svg?height=32&width=32"
+                    }
                     alt={selectedBadge.name}
                     fill
                     className="object-contain"
@@ -58,9 +69,12 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
           <div className="space-y-4">
             <div className="flex justify-center">
               {selectedBadge && (
-                <div className="relative w-24 h-24">
+                <div className="relative h-24 w-24">
                   <Image
-                    src={selectedBadge.image_url || "/placeholder.svg?height=96&width=96"}
+                    src={
+                      selectedBadge.image_url ||
+                      "/placeholder.svg?height=96&width=96"
+                    }
                     alt={selectedBadge.name}
                     fill
                     className="object-contain"
@@ -69,7 +83,7 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
               )}
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Reason</h4>
+              <h4 className="mb-2 font-semibold">Reason</h4>
               <p className="text-muted-foreground">{selectedBadge?.reason}</p>
             </div>
           </div>
