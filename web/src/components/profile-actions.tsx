@@ -58,7 +58,7 @@ const ProfileActions = ({ profileUser }: ProfileActionsProps) => {
   }
 
   return (
-    <Card className="sticky top-6">
+    <Card className="sticky top-6 max-w-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Settings className="h-5 w-5" />

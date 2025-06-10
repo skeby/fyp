@@ -60,9 +60,9 @@ const UserProfile = async ({
 
   return (
     <main className="px-6 py-12">
-      <div className="max-w-res grid gap-6 md:grid-cols-3">
+      <div className="max-w-res grid gap-6 grid-cols-1">
         {/* Profile Info */}
-        <div className="md:col-span-2 space-y-6">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <div className="flex items-start gap-4">
@@ -119,7 +119,7 @@ const UserProfile = async ({
         </div>
 
         {/* Profile Actions - Only visible to profile owner */}
-        <div className="md:col-span-1">
+        <div className="">
           <ProfileActions profileUser={user} />
         </div>
       </div>

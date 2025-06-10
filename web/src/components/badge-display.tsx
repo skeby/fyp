@@ -15,14 +15,14 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="flex flex-wrap gap-4">
         {badges.map((badge, index) => (
           <div
             key={`${badge.slug}-${index}`}
-            className="flex flex-col items-center p-3 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors"
+            className="flex flex-col items-center p-6 max-w-[200px] w-full rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors"
             onClick={() => setSelectedBadge(badge)}
           >
-            <div className="relative w-12 h-12 mb-2">
+            <div className="relative w-12 h-12 mb-3">
               <Image
                 src={badge.image_url || "/placeholder.svg?height=48&width=48"}
                 alt={badge.name}
@@ -30,7 +30,7 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
                 className="object-contain"
               />
             </div>
-            <Badge variant="secondary" className="text-xs text-center">
+            <Badge variant="secondary" className="text-xs px-3 py-1 text-center">
               {badge.name}
             </Badge>
           </div>
@@ -58,7 +58,7 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
           <div className="space-y-4">
             <div className="flex justify-center">
               {selectedBadge && (
-                <div className="relative w-24 h-24">
+                <div className="relative w-40 h-40">
                   <Image
                     src={selectedBadge.image_url || "/placeholder.svg?height=96&width=96"}
                     alt={selectedBadge.name}
