@@ -22,6 +22,7 @@ type SubmitResponseType = {
   was_correct: boolean;
   explanation: string; // TODO: Add this to model
   current_theta: number;
+  current_score_percentage: number;
   target_difficulty?: number;
   next_question?: {
     id: string; // TODO: Add this to model
@@ -51,6 +52,7 @@ const Topic = () => {
   const [submitResponse, setSubmitResponse] =
     useState<SubmitResponseType | null>(null);
   const [currentTheta, setCurrentTheta] = useState<number | null>(null);
+  const [currentScorePercentage, setCurrentScorePercentage] = useState<number | null>(null);
 
   const params = useParams();
   const course_slug = params?.course;
@@ -76,6 +78,7 @@ const Topic = () => {
     test_id: string;
     question_number: number;
     current_theta?: number;
+  current_score_percentage?: number;
   }>({
     mutationKey: ["test"],
     path: paths.course.topic.start,
@@ -86,6 +89,9 @@ const Topic = () => {
         setQuizState("quiz");
         if (typeof data?.data?.current_theta === "number") {
           setCurrentTheta(data?.data?.current_theta);
+        }
+        if (typeof data?.data?.current_score_percentage === "number") {
+          setCurrentScorePercentage(data?.data?.current_score_percentage);
         }
       }
     },
@@ -100,6 +106,7 @@ const Topic = () => {
         if (data?.data) {
           setSubmitResponse(data?.data);
           setCurrentTheta(data?.data?.current_theta);
+          setCurrentScorePercentage(data?.data?.current_score_percentage);
           setQuizState("feedback");
           if (typeof data?.data?.result?.xp_earned === "number" && data?.data?.result?.xp_earned) {
             message.success(
@@ -291,7 +298,26 @@ const Topic = () => {
                   }}
                 />
               )}
-              {typeof currentTheta === "number" && (
+              {typeof currentScorePercentage === "number" && (
+                <ProgressBar
+                  max={100}
+                  type="continuous"
+                  variant="success"
+                  value={Math.max(currentScorePercentage, 0)}
+                  label={{
+                    render: (value) =>
+                      `Performance: ${
+                        value <= 40
+                          ? "Poor"
+                          : value >= 70
+                            ? "Excellent"
+                            : "Average"
+                      }`,
+                    position: "right",
+                  }}
+                />
+              )}
+              {/* {typeof currentTheta === "number" && (
                 <ProgressBar
                   max={2.5}
                   type="discrete"
@@ -309,7 +335,7 @@ const Topic = () => {
                     position: "right",
                   }}
                 />
-              )}
+              )} */}
             </div>
             {quizState === "intro" && (
               <div className="space-y-6">
@@ -514,6 +540,7 @@ const Topic = () => {
                         setQuizState("intro");
                         setSubmitResponse(null);
                         setCurrentTheta(null);
+                        setCurrentScorePercentage(null)
                       }}
                     >
                       Back to Overview

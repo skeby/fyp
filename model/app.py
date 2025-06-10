@@ -250,6 +250,7 @@ def submit_answer():
             "was_correct": was_correct,
             "explanation": explanation,
             "current_theta": tester.theta,
+            "current_score_percentage": (len(correct_list) / 10) * 100,
             "result": {
                 "administered": list(administered_ids),
                 "correct_ids":  correct_list,
@@ -285,6 +286,7 @@ def submit_answer():
         "correct_answer":   correct_answer,
         "was_correct":      was_correct,
         "current_theta":    tester.theta,
+        "current_score_percentage": (len(correct_list) / 10) * 100,
         "explanation": explanation,
         "target_difficulty": target_diff,
         "next_question": {

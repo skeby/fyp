@@ -456,6 +456,7 @@ export const submitAnswer = async (
             was_correct: boolean;
             explanation: string; // TODO: Add this to model
             current_theta: number;
+            current_score_percentage: number;
             target_difficulty?: number;
             next_question: {
               id: string; // TODO: Add this to model
