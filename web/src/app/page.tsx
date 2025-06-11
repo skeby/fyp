@@ -205,7 +205,7 @@ export default function LandingPage() {
 
       {/* Testimonials Section */}
       <section className="bg-muted/30 w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-6">
+        <div className="max-w-res px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <Badge variant="outline">Testimonials</Badge>

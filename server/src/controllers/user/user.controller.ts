@@ -3,13 +3,48 @@ import { AuthenticatedRequest } from "../../types";
 import User from "../../models/user";
 import { GetLeaderBoardFields } from "../../types/schema";
 
-export const getProfile = async (
-  req: Request<any, any, {username: string}>,
+export const getUserProfile = async (
+  req: AuthenticatedRequest<any, any>,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const username = req.body.username
+    const user = req.user;
+
+    if (!user) {
+      res.status(404).json({
+        status: "error",
+        message: "User not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "User profile fetched successfully",
+      data: {
+        user: {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          username: user.username,
+          xp: user.xp,
+        },
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProfile = async (
+  req: Request<any, any, { username: string }>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const username = req.body.username;
     if (!username) {
       res.status(400).json({
         status: "error",
@@ -18,7 +53,7 @@ export const getProfile = async (
       return;
     }
 
-    const user = await User.findOne({ username }).populate("badges")
+    const user = await User.findOne({ username }).populate("badges");
 
     if (!user) {
       res.status(404).json({

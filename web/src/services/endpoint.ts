@@ -15,6 +15,7 @@ export const paths = {
   user: {
     profile: {
       get: user.concat("/profile"),
+      getMe: user.concat("/profile/me"),
       update: user.concat("/profile/update"),
     },
     leaderboard: user.concat("/leaderboard"),

@@ -52,7 +52,9 @@ const Topic = () => {
   const [submitResponse, setSubmitResponse] =
     useState<SubmitResponseType | null>(null);
   const [currentTheta, setCurrentTheta] = useState<number | null>(null);
-  const [currentScorePercentage, setCurrentScorePercentage] = useState<number | null>(null);
+  const [currentScorePercentage, setCurrentScorePercentage] = useState<
+    number | null
+  >(null);
 
   const params = useParams();
   const course_slug = params?.course;
@@ -71,14 +73,14 @@ const Topic = () => {
   const topic = data?.data?.topic;
   const course = data?.data?.course;
 
-  const { user, setUser } = useAppUser();
+  const { user, refetch: refetchUser } = useAppUser();
 
   const { mutate: startTest, isPending: isStartTestPending } = useAppMutation<{
     question: Omit<TopicType["questions"][0], "correct_answer" | "explanation">;
     test_id: string;
     question_number: number;
     current_theta?: number;
-  current_score_percentage?: number;
+    current_score_percentage?: number;
   }>({
     mutationKey: ["test"],
     path: paths.course.topic.start,
@@ -108,12 +110,15 @@ const Topic = () => {
           setCurrentTheta(data?.data?.current_theta);
           setCurrentScorePercentage(data?.data?.current_score_percentage);
           setQuizState("feedback");
-          if (typeof data?.data?.result?.xp_earned === "number" && data?.data?.result?.xp_earned) {
+          if (
+            typeof data?.data?.result?.xp_earned === "number" &&
+            data?.data?.result?.xp_earned
+          ) {
             message.success(
               `🎉 Well done! You just earned +${data?.data?.result?.xp_earned} XP for completing this test`,
-              8,
+              10,
             );
-            if(user) setUser({...user, xp: (user?.xp || 0) + (data?.data?.result?.xp_earned || 0)})
+            refetchUser();
           }
           if (
             data?.data?.result?.badges_earned &&
@@ -124,7 +129,7 @@ const Topic = () => {
               message.success(
                 <>
                   🎉 Well done! You just earned a{" "}
-                  <span className="font-semibold">{badge.name}</span>
+                  <span className="font-semibold">{badge.name}</span> badge{" "}
                   {badge.reason}.{" "}
                   <Link
                     href={user ? `/profile/${user?.username}` : ""}
@@ -133,7 +138,7 @@ const Topic = () => {
                     View badge
                   </Link>
                 </>,
-                8,
+                10,
               );
             });
           }
@@ -208,6 +213,8 @@ const Topic = () => {
   const handleRetry = () => {
     setQuizState("intro");
     setSubmitResponse(null);
+    setCurrentTheta(null);
+    setCurrentScorePercentage(null);
     handleStart();
   };
 
@@ -244,27 +251,27 @@ const Topic = () => {
         <div className="bg-background sticky top-12 z-50 h-12 border-b px-6 py-2">
           <div className="max-w-res flex h-full items-center justify-between">
             <div className="min-w-[200px]">
-              <Link
-                href={`/courses`}
-                className="hover:text-primary text-primary/80 flex w-full items-center gap-x-1.5 text-sm transition-all duration-200"
-              >
-                <Home className="size-4 shrink-0" />
-                <span className="font-medium">View Courses</span>
-              </Link>
-            </div>
-            <h1 className="w-full text-center text-sm font-medium capitalize">
-              {topic?.title}
-            </h1>
-            <div className="min-w-[200px]">
               {course && (
                 <Link
                   href={`/course/${course.slug}`}
-                  className="hover:text-primary text-primary/80 flex items-center justify-end gap-x-1 text-sm transition-all duration-200"
+                  className="hover:text-primary text-primary/80 flex items-center gap-x-1 text-sm transition-all duration-200"
                 >
                   <ChevronLeft className="size-4 shrink-0" />
                   <span className="font-medium">Back to {course?.title}</span>
                 </Link>
               )}
+            </div>
+            <h1 className="w-full text-center text-sm font-medium capitalize">
+              {topic?.title}
+            </h1>
+            <div className="min-w-[200px]">
+              <Link
+                href={`/courses`}
+                className="hover:text-primary text-primary/80 flex w-full items-center justify-end gap-x-1.5 text-sm transition-all duration-200"
+              >
+                <Home className="size-4 shrink-0" />
+                <span className="font-medium">View Courses</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -540,7 +547,7 @@ const Topic = () => {
                         setQuizState("intro");
                         setSubmitResponse(null);
                         setCurrentTheta(null);
-                        setCurrentScorePercentage(null)
+                        setCurrentScorePercentage(null);
                       }}
                     >
                       Back to Overview

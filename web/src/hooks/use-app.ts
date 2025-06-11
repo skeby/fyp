@@ -1,5 +1,5 @@
 import { setCookieWithEvent } from "@/lib/utils";
-import { apiCall } from "@/services/endpoint";
+import { apiCall, paths } from "@/services/endpoint";
 import { AUTH_TOKEN, LOGIN_ROUTE, protectedRoutes, USER } from "@/static";
 import { User } from "@/types";
 import {
@@ -149,18 +149,16 @@ export const useAppUser = () => {
   );
   const [loading, setLoading] = useState(true);
 
-  // const {
-  //   data: userData,
-  //   isLoading: isUserLoading,
-  //   isFetching: isUserFetching,
-  //   refetch,
-  // } = useAppQuery<{ user: User }>({
-  //   queryKey: ["user"],
-  //   path: paths.user.profile.get,
-  //   enabled: !!user,
-  //   method: "POST",
-  //   data: { username: user?.username }
-  // });
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+    refetch,
+  } = useAppQuery<{ user: User }>({
+    queryKey: ["user"],
+    path: paths.user.profile.getMe,
+    enabled: !!user,
+  });
 
   const setUser = (user: User, token?: string) => {
     setCookieWithEvent(USER, JSON.stringify(user), { expires: 14 });
@@ -170,7 +168,6 @@ export const useAppUser = () => {
   };
 
   const removeUser = () => {
-    console.log("user removed")
     // Remove the USER cookie and trigger the cookieChange event
     Cookies.remove(USER);
     const event = new CustomEvent("cookieChange", {
@@ -197,7 +194,6 @@ export const useAppUser = () => {
   useEffect(() => {
     const handleCookieChange = (event: CustomEvent) => {
       if (event.detail.name === USER) {
-        console.log("handle  cookie change: ", JSON.parse(event.detail.value))
         setUserState(JSON.parse(event.detail.value));
       }
     };
@@ -222,18 +218,25 @@ export const useAppUser = () => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (userData?.data?.user) {
-  //     setUser(userData.data.user);
-  //   }
-  // }, [userData]);
+  useEffect(() => {
+    if (userData?.data?.user) {
+      setUser({
+        first_name: userData.data.user.first_name,
+        last_name: userData.data.user.last_name,
+        email: userData.data.user.email,
+        username: userData.data.user.username,
+        xp: userData.data.user.xp,
+        profile_picture: userData.data.user.profile_picture,
+      });
+    }
+  }, [userData]);
 
   return {
     user,
     setUser,
     removeUser,
-    refetch: () => {},
-    loading: loading
-    // loading: loading || isUserLoading || isUserFetching,
+    refetch,
+    // loading: loading
+    loading: loading || isUserLoading || isUserFetching,
   };
 };
