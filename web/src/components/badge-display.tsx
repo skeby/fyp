@@ -20,11 +20,11 @@ const BadgeDisplay = ({ badges }: BadgeDisplayProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      <div className="flex flex-wrap gap-4">
         {badges.map((badge, index) => (
           <div
             key={`${badge.slug}-${index}`}
-            className="hover:bg-muted/50 flex cursor-pointer flex-col items-center rounded-lg border p-5 transition-colors"
+            className="hover:bg-muted/50 flex w-full max-w-[200px] cursor-pointer flex-col items-center rounded-lg border p-5 transition-colors"
             onClick={() => setSelectedBadge(badge)}
           >
             <div className="relative mb-3 h-20 w-20">

@@ -1,18 +1,18 @@
-import { paths } from "@/services/endpoint"
-import { API_BASE_URL } from "@/static"
-import type { User } from "@/types"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Trophy, Star } from "lucide-react"
-import ProfileActions from "@/components/profile-actions"
-import BadgeDisplay from "@/components/badge-display"
+import { paths } from "@/services/endpoint";
+import { API_BASE_URL } from "@/static";
+import type { User } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trophy, Star } from "lucide-react";
+import ProfileActions from "@/components/profile-actions";
+import BadgeDisplay from "@/components/badge-display";
 
 const UserProfile = async ({
   params,
 }: {
-  params?: Promise<{ username: string }>
+  params?: Promise<{ username: string }>;
 }) => {
-  const username = (await params)?.username
+  const username = (await params)?.username;
 
   const res = await fetch(API_BASE_URL.concat(paths.user.profile.get), {
     method: "POST",
@@ -21,54 +21,63 @@ const UserProfile = async ({
     },
     body: JSON.stringify({ username }),
     cache: "no-cache",
-  })
+  });
 
-  const json = await res.json()
+  const json = await res.json();
   const { status, message, data } = json as {
-    status: "error" | "success"
-    message: string
-    data?: { user: User }
-  }
+    status: "error" | "success";
+    message: string;
+    data?: { user: User };
+  };
 
-  const user = data?.user || null
+  const user = data?.user || null;
 
   if (!res.ok || status !== "success") {
     return (
       <main className="container mx-auto px-6 py-12">
-        <Card className="max-w-2xl mx-auto">
+        <Card className="mx-auto max-w-2xl">
           <CardContent className="pt-6">
-            <h1 className="text-2xl font-bold text-destructive">Error fetching profile</h1>
-            <p className="text-muted-foreground mt-2">{message || "Unable to load user profile"}</p>
+            <h1 className="text-destructive text-2xl font-bold">
+              Error fetching profile
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              {message || "Unable to load user profile"}
+            </p>
           </CardContent>
         </Card>
       </main>
-    )
+    );
   }
 
   if (!json || !data || !user) {
     return (
       <main className="container mx-auto px-6 py-12">
-        <Card className="max-w-2xl mx-auto">
+        <Card className="mx-auto max-w-2xl">
           <CardContent className="pt-6">
             <h1 className="text-2xl font-bold">User not found</h1>
-            <p className="text-muted-foreground mt-2">The requested user profile could not be found.</p>
+            <p className="text-muted-foreground mt-2">
+              The requested user profile could not be found.
+            </p>
           </CardContent>
         </Card>
       </main>
-    )
+    );
   }
 
   return (
     <main className="px-6 py-12">
-      <div className="max-w-res grid gap-6 md:grid-cols-3">
+      <div className="max-w-res grid grid-cols-1 gap-6">
         {/* Profile Info */}
-        <div className="md:col-span-2 space-y-6">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <div className="flex items-start gap-4">
                 <Avatar className="h-20 w-20">
                   <AvatarImage
-                    src={user.profile_picture || "/placeholder.svg?height=80&width=80"}
+                    src={
+                      user.profile_picture ||
+                      "/placeholder.svg?height=80&width=80"
+                    }
                     alt={`${user.first_name} ${user.last_name}`}
                   />
                   <AvatarFallback className="text-lg">
@@ -81,7 +90,9 @@ const UserProfile = async ({
                     {user.first_name} {user.last_name}
                   </CardTitle>
                   <p className="text-muted-foreground">@{user.username}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{user.email}</p>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    {user.email}
+                  </p>
                 </div>
               </div>
             </CardHeader>
@@ -96,7 +107,9 @@ const UserProfile = async ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">{user.xp?.toLocaleString() || 0} XP</div>
+              <div className="text-primary text-3xl font-bold">
+                {user.xp?.toLocaleString() || 0} XP
+              </div>
             </CardContent>
           </Card>
 
@@ -119,12 +132,12 @@ const UserProfile = async ({
         </div>
 
         {/* Profile Actions - Only visible to profile owner */}
-        <div className="md:col-span-1">
+        {/* <div className="">
           <ProfileActions profileUser={user} />
-        </div>
+        </div> */}
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;
