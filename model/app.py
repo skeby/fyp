@@ -12,8 +12,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "ade-yinka")
 # ─── MongoDB Setup ─────────────────────────────────────────────────────────────
 mongo_uri = os.environ.get(
     "MONGO_URI",
-    "mongodb://localhost:27017")
-    # "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
+    # "mongodb://localhost:27017")
+    "mongodb+srv://akinsanyaadeyinka4166:rUhSy7yhz4gI05QS@adaptlearn.s8xjzt2.mongodb.net")
 client = MongoClient(mongo_uri)
 db     = client["adaptlearn"]
 users  = db["users"]
