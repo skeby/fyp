@@ -381,7 +381,8 @@ const Topic = () => {
                 <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
-                      <code>{currentQuestion?.question}</code>
+                      <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }} />
+                      {/* <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }}>{currentQuestion?.question}</code> */}
                     </pre>
                   </h2>
 
@@ -423,7 +424,8 @@ const Topic = () => {
                             <span className="mr-2 font-semibold">
                               {option.id.toUpperCase()}.
                             </span>{" "}
-                            {option.text}
+                            <span dangerouslySetInnerHTML={{ __html: option.text || "" }} />
+                            {/* {option.text} */}
                           </Label>
                         </div>
                       ))}
@@ -460,7 +462,8 @@ const Topic = () => {
                 <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
-                      <code>{currentQuestion?.question}</code>
+                      <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }} />
+                      {/* <code>{currentQuestion?.question}</code> */}
                     </pre>
                   </h2>
 
@@ -487,7 +490,8 @@ const Topic = () => {
                             <span className="mr-2 font-semibold">
                               {option.id.toUpperCase()}.
                             </span>{" "}
-                            {option.text}
+                            <span dangerouslySetInnerHTML={{ __html: option.text || "" }}/>
+                            {/* {option.text} */}
                             {option.id === submitResponse?.correct_answer && (
                               <CheckCircle2 className="ml-auto h-5 w-5 text-green-500" />
                             )}
@@ -503,7 +507,8 @@ const Topic = () => {
 
                   <div className="bg-muted mb-6 rounded-lg p-4">
                     <h3 className="mb-2 font-semibold">Explanation:</h3>
-                    <p>{submitResponse?.explanation}</p>
+                    <p  dangerouslySetInnerHTML={{ __html: submitResponse?.explanation || "" }} />
+                    {/* <p  dangerouslySetInnerHTML={{ __html: submitResponse?.explanation || "" }}>{submitResponse?.explanation}</p> */}
                   </div>
 
                   <div className="flex justify-end gap-3">

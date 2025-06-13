@@ -544,6 +544,19 @@ export const submitAnswer = async (
   }
 };
 
+// export const endTest = async (
+//   req: AuthenticatedRequest<any, any, { test_id: string; }>,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const { test_id } = req.body
+//   } catch (error: any) {
+//     logger.error(error?.message)
+//     next(error)
+//   }
+// }
+
 // Questions mapping
 // const questions = raw.map((q) => ({
 //     question: q["Question Text"],
