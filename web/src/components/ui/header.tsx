@@ -2,7 +2,7 @@
 
 import { useAppUser } from "@/hooks/use-app";
 import { Button } from "./button";
-import Coin from "@/assets/icons/coin.svg";
+// import Coin from "@/assets/icons/coin.svg";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { LOGIN_ROUTE } from "@/static";
@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import { unslugify } from "@/lib/utils";
+import { Star } from "lucide-react";
 
 const Header = () => {
   const { user, removeUser, loading } = useAppUser();
@@ -80,7 +81,8 @@ const Header = () => {
                 variant="outline"
                 className="flex h-8 items-center gap-2 rounded-lg border bg-transparent px-2 py-0"
               >
-                <Coin />
+                {/* <Coin /> */}
+                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
                 <span className="text-sm leading-2">{user?.xp ?? 0}</span>
               </Button>
               <DropdownMenu>
