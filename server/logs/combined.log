@@ -798,3 +798,5 @@
 2025-06-11 10:33:30 [INFO] GET /user/profile/me
 2025-06-11 10:37:15 [INFO] GET /user/profile/me
 2025-06-11 12:29:56 [INFO] POST /user/profile
+2025-06-22 16:50:15 [INFO] GET /
+2025-06-22 16:50:17 [INFO] GET /favicon.ico
