@@ -358,9 +358,12 @@ export const startTest = async (
       });
 
       if (!modelResponse.ok) {
+        logger.error(modelResponse.statusText);
         res.status(400).json({
           status: "error",
-          message: "An error occured while generating question",
+          message:
+            "An error occured while generating question. Reason: model response not ok - " +
+            modelResponse.statusText,
         });
         return;
       }
@@ -388,7 +391,8 @@ export const startTest = async (
       } else {
         res.status(400).json({
           status: "error",
-          message: "An error occured while generating question",
+          message:
+            "An error occured while generating question. Reason: question not available",
         });
       }
     } catch (error: any) {
