@@ -513,9 +513,6 @@ export default function LandingPage() {
             <p className="text-muted-foreground text-xs">
               © 2024 AdaptLearn. All rights reserved.
             </p>
-            <p className="text-muted-foreground text-xs">
-              Made with ❤️ for data structures learners
-            </p>
           </div>
         </div>
       </footer>
