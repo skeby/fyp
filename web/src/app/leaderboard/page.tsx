@@ -62,7 +62,7 @@ const Leaderboard = () => {
         <h2 className="text-primary flex flex-col justify-between gap-x-2 gap-y-0.5 font-medium sm:flex-row">
           <span className="text-2xl">Leaderboard</span>
           <div className="text-muted-foreground flex flex-row-reverse items-center justify-end gap-x-2 sm:flex-row sm:justify-start">
-            <Trophy strokeWidth={1.6} />
+            <Trophy strokeWidth={1.6} className="shrink-0" />
             <span className="text-sm sm:text-base">Top performing users</span>
           </div>
         </h2>
