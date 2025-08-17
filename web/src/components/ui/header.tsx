@@ -190,7 +190,7 @@ const Header = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className={`hover:bg-muted px-6 py-3 text-sm font-medium capitalize duration-200 ${
+                    className={`hover:bg-muted px-1.5 py-3 text-sm font-medium capitalize duration-200 min-[370px]:px-2 sm:px-6 ${
                       isActive
                         ? "text-primary bg-muted"
                         : "text-muted-foreground"
