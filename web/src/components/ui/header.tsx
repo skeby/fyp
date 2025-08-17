@@ -54,7 +54,7 @@ const Header = () => {
   );
 
   return (
-    <header className="bg-secondary sticky top-0 left-0 z-50 h-12 border-b px-6">
+    <header className="bg-secondary sticky top-0 left-0 z-50 h-12 border-b px-1.5 min-[370px]:px-2 sm:px-6">
       <div className="max-w-res flex h-full items-center justify-between gap-3">
         <div className="flex h-full items-center space-x-2">
           <Link href="/" className="mr-6 flex items-center gap-2">

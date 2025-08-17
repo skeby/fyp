@@ -45,18 +45,18 @@ export default function LandingPage() {
                 on your performance to optimize learning.
               </p>
             </div>
-            <div className="space-x-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
               <Link href="/signup">
                 <Button
                   size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 w-[175px]"
                 >
                   Start Testing Free
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/login">
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" className="w-[175px]">
                   Continue to Login
                 </Button>
               </Link>
