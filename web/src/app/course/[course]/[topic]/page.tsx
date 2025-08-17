@@ -248,9 +248,9 @@ const Topic = () => {
   return (
     <main className="flex h-full min-h-[calc(100vh-48px)] w-full flex-col">
       {topic && (
-        <div className="bg-background sticky top-12 z-50 h-12 border-b px-6 py-2">
+        <div className="bg-background sticky top-12 z-50 h-12 border-b px-1.5 py-2 min-[370px]:px-2 sm:px-6">
           <div className="max-w-res flex h-full items-center justify-between">
-            <div className="min-w-[200px]">
+            <div className="sm:min-w-[200px]">
               {course && (
                 <Link
                   href={`/course/${course.slug}`}
@@ -261,10 +261,10 @@ const Topic = () => {
                 </Link>
               )}
             </div>
-            <h1 className="w-full text-center text-sm font-medium capitalize">
+            <h1 className="hidden text-center text-sm font-medium capitalize sm:block sm:w-full">
               {topic?.title}
             </h1>
-            <div className="min-w-[200px]">
+            <div className="sm:min-w-[200px]">
               <Link
                 href={`/courses`}
                 className="hover:text-primary text-primary/80 flex w-full items-center justify-end gap-x-1.5 text-sm transition-all duration-200"
@@ -276,7 +276,7 @@ const Topic = () => {
           </div>
         </div>
       )}
-      <div className="mx-auto h-full w-full max-w-4xl flex-grow px-6 py-12">
+      <div className="mx-auto h-full w-full max-w-4xl flex-grow px-3 py-12 sm:px-6">
         {isLoading || isFetching ? (
           <div className="mx-auto flex h-full w-fit items-center justify-center gap-2">
             <Spinner className="size-6" />{" "}
@@ -346,7 +346,7 @@ const Topic = () => {
             </div>
             {quizState === "intro" && (
               <div className="space-y-6">
-                <Card className="gap-0 p-7 sm:p-10">
+                <Card className="gap-0 p-5 sm:p-10">
                   <p className="mb-2.5 text-base font-semibold text-white">
                     {topic.description}
                   </p>
@@ -381,7 +381,11 @@ const Topic = () => {
                 <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
-                      <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }} />
+                      <code
+                        dangerouslySetInnerHTML={{
+                          __html: currentQuestion?.question || "",
+                        }}
+                      />
                       {/* <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }}>{currentQuestion?.question}</code> */}
                     </pre>
                   </h2>
@@ -424,7 +428,11 @@ const Topic = () => {
                             <span className="mr-2 font-semibold">
                               {option.id.toUpperCase()}.
                             </span>{" "}
-                            <span dangerouslySetInnerHTML={{ __html: option.text || "" }} />
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: option.text || "",
+                              }}
+                            />
                             {/* {option.text} */}
                           </Label>
                         </div>
@@ -462,7 +470,11 @@ const Topic = () => {
                 <Card className="p-7 sm:p-10">
                   <h2 className="mb-4 text-base font-medium">
                     <pre className="text-wrap">
-                      <code dangerouslySetInnerHTML={{ __html: currentQuestion?.question || "" }} />
+                      <code
+                        dangerouslySetInnerHTML={{
+                          __html: currentQuestion?.question || "",
+                        }}
+                      />
                       {/* <code>{currentQuestion?.question}</code> */}
                     </pre>
                   </h2>
@@ -490,7 +502,11 @@ const Topic = () => {
                             <span className="mr-2 font-semibold">
                               {option.id.toUpperCase()}.
                             </span>{" "}
-                            <span dangerouslySetInnerHTML={{ __html: option.text || "" }}/>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: option.text || "",
+                              }}
+                            />
                             {/* {option.text} */}
                             {option.id === submitResponse?.correct_answer && (
                               <CheckCircle2 className="ml-auto h-5 w-5 text-green-500" />
@@ -507,7 +523,11 @@ const Topic = () => {
 
                   <div className="bg-muted mb-6 rounded-lg p-4">
                     <h3 className="mb-2 font-semibold">Explanation:</h3>
-                    <p  dangerouslySetInnerHTML={{ __html: submitResponse?.explanation || "" }} />
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: submitResponse?.explanation || "",
+                      }}
+                    />
                     {/* <p  dangerouslySetInnerHTML={{ __html: submitResponse?.explanation || "" }}>{submitResponse?.explanation}</p> */}
                   </div>
 
