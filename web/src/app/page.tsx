@@ -29,8 +29,8 @@ export default function LandingPage() {
     <div className="flex min-h-screen w-full flex-col">
       {/* Hero Section */}
       <section className="from-background to-card h-screen w-full bg-gradient-to-br">
-        <div className="max-w-res my-auto px-6 py-12 md:py-24 lg:py-32 xl:py-40">
-          <div className="flex flex-col items-center space-y-4 text-center">
+        <div className="max-w-res h-full px-6 py-12 md:py-24 lg:py-32 xl:py-40">
+          <div className="flex h-full flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <Badge variant="secondary" className="px-3 py-1">
                 🎯 Adaptive MCQ Testing Platform
@@ -55,9 +55,11 @@ export default function LandingPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg">
-                View Demo
-              </Button>
+              <Link href="/login">
+                <Button variant="outline" size="lg">
+                  Continue to Login
+                </Button>
+              </Link>
             </div>
             <div className="text-muted-foreground flex items-center space-x-4 text-sm">
               <div className="flex items-center">

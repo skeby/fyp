@@ -43,11 +43,11 @@ const CoursePage = async ({
   return (
     <main className="px-6 py-12">
       <div className="max-w-res">
-        <h2 className="text-primary flex justify-between gap-x-2 font-medium">
+        <h2 className="text-primary flex flex-col justify-between gap-x-2 gap-y-0.5 font-medium sm:flex-row">
           <span className="text-2xl">{data?.course?.title}</span>
-          <div className="text-muted-foreground flex items-center gap-x-2">
+          <div className="text-muted-foreground flex flex-row-reverse items-center justify-end gap-x-2 sm:flex-row sm:justify-start">
             <BadgeCheck strokeWidth={1.6} />
-            <span>
+            <span className="text-sm sm:text-base">
               Hone your skills in any of these{" "}
               {data?.course?.title?.toLowerCase()} topics
             </span>

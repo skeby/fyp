@@ -17,12 +17,16 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import { unslugify } from "@/lib/utils";
-import { Star } from "lucide-react";
+import { Star, Menu, X } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const { user, removeUser, loading } = useAppUser();
   const pathname = usePathname();
   const { course } = useParams();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu toggle
 
   const navLinks = [
     {
@@ -45,35 +49,55 @@ const Header = () => {
     },
   ];
 
+  const filteredNavLinks = navLinks.filter(
+    (link) => typeof link.show === "undefined" || link.show === true,
+  );
+
   return (
     <header className="bg-secondary sticky top-0 left-0 z-50 h-12 border-b px-6">
       <div className="max-w-res flex h-full items-center justify-between gap-3">
         <div className="flex h-full items-center space-x-2">
-          <Link href="/" className="mr-6">
-            <p className="font-extrabold">AdaptLearn</p>
+          <Link href="/" className="mr-6 flex items-center gap-2">
+            <Image src="/logo.png" alt="AdaptLearn" width={32} height={32} />
+            <span className="font-bold">AdaptLearn</span>
           </Link>
-          {navLinks
-            .filter(
-              (link) => typeof link.show === "undefined" || link.show === true,
-            )
-            .map((link, index) => {
-              const isActive = link.href === pathname;
-              return (
-                <Link
-                  key={index}
-                  href={link.href}
-                  className={`flex h-full items-center justify-center duration-200 ${isActive ? "border-b border-white" : ""}`}
+          {filteredNavLinks.map((link, index) => {
+            const isActive = link.href === pathname;
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                className={`hidden h-full items-center justify-center duration-200 sm:flex ${isActive ? "border-b border-white" : ""}`}
+              >
+                <span
+                  className={`px-2 py-1.5 text-sm font-medium capitalize duration-200 ${isActive ? "text-primary" : "text-muted-foreground"}`}
                 >
-                  <span
-                    className={`px-2 py-1.5 text-sm font-medium capitalize duration-200 ${isActive ? "text-primary" : "text-muted-foreground"}`}
-                  >
-                    {link.title}
-                  </span>
-                </Link>
-              );
-            })}
+                  {link.title}
+                </span>
+              </Link>
+            );
+          })}
         </div>
+
         <div className="flex items-center gap-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex h-8 w-8 items-center justify-center p-0 sm:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <motion.div
+              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Menu className="h-4 w-4" />
+              )}
+            </motion.div>
+          </Button>
+
           {user || loading ? (
             <>
               <Button
@@ -149,6 +173,38 @@ const Header = () => {
           )}
         </div>
       </div>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="bg-secondary absolute top-12 left-0 w-full border-b shadow-lg sm:hidden"
+          >
+            <nav className="flex flex-col py-2">
+              {filteredNavLinks.map((link, index) => {
+                const isActive = link.href === pathname;
+                return (
+                  <Link
+                    key={index}
+                    href={link.href}
+                    className={`hover:bg-muted px-6 py-3 text-sm font-medium capitalize duration-200 ${
+                      isActive
+                        ? "text-primary bg-muted"
+                        : "text-muted-foreground"
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.title}
+                  </Link>
+                );
+              })}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

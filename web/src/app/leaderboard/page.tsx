@@ -59,11 +59,11 @@ const Leaderboard = () => {
   return (
     <main className="px-6 py-12">
       <div className="max-w-res">
-        <h2 className="text-primary flex justify-between gap-x-2 font-medium">
+        <h2 className="text-primary flex flex-col justify-between gap-x-2 gap-y-0.5 font-medium sm:flex-row">
           <span className="text-2xl">Leaderboard</span>
-          <div className="text-muted-foreground flex items-center gap-x-2">
+          <div className="text-muted-foreground flex flex-row-reverse items-center justify-end gap-x-2 sm:flex-row sm:justify-start">
             <Trophy strokeWidth={1.6} />
-            <span>Top performing users</span>
+            <span className="text-sm sm:text-base">Top performing users</span>
           </div>
         </h2>
         <div className="mt-6">
@@ -202,7 +202,7 @@ const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
           {rank}
         </div>
 
-        <div className="relative">
+        <Link href={`/profile/${username}`}>
           <Avatar
             className={cn(
               "h-12 w-12 border-2",
@@ -221,7 +221,7 @@ const LeaderboardItem = ({ user, rank }: LeaderboardItemProps) => {
             />
             <AvatarFallback>{getInitials()}</AvatarFallback>
           </Avatar>
-        </div>
+        </Link>
 
         <Link href={`/profile/${username}`}>
           <div className="flex flex-col">
