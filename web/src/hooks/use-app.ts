@@ -25,7 +25,8 @@ interface MutationData<T> {
   headers?: any;
   params?: any;
   showLoader?: boolean | string;
-  showMessage?: boolean;
+  showSuccess?: boolean;
+  showError?: boolean;
   removeQueries?: boolean;
 }
 
@@ -39,7 +40,8 @@ interface QueryData {
   headers?: any;
   params?: any;
   showLoader?: boolean | string;
-  showMessage?: boolean;
+  showSuccess?: boolean;
+  showError?: boolean;
   gcTime?: number;
   staleTime?: number;
   method?: string;
@@ -56,7 +58,8 @@ export const useAppMutation = <T>(mutationData: MutationData<T>) => {
     headers,
     params,
     showLoader,
-    showMessage,
+    showSuccess,
+    showError,
     removeQueries,
   } = mutationData ?? {};
   const queryClient = useQueryClient();
@@ -80,7 +83,8 @@ export const useAppMutation = <T>(mutationData: MutationData<T>) => {
         headers,
         params,
         showLoader,
-        showMessage,
+        showSuccess,
+        showError,
       );
     },
     onSuccess: (data) => {
@@ -118,7 +122,8 @@ export const useAppQuery = <T>(queryData: QueryData) => {
     headers,
     params,
     showLoader,
-    showMessage = false,
+    showSuccess = false,
+    showError = true,
     gcTime,
     staleTime,
     method = "get",
@@ -134,7 +139,8 @@ export const useAppQuery = <T>(queryData: QueryData) => {
         headers,
         params,
         showLoader,
-        showMessage,
+        showSuccess,
+        showError,
       ),
     enabled,
     gcTime,

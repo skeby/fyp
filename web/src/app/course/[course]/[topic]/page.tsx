@@ -103,6 +103,7 @@ const Topic = () => {
     useAppMutation<SubmitResponseType>({
       mutationKey: ["submit-answer"],
       path: paths.course.topic.submit,
+      showSuccess: false,
       onSuccess: (data) => {
         // Show feedback
         if (data?.data) {

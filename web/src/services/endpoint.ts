@@ -41,7 +41,8 @@ export const apiCall = async (
   headers?: any,
   params?: any,
   showLoader: boolean | string = false,
-  showMessage: boolean = true,
+  showSuccess: boolean = true,
+  showError: boolean = true,
 ) => {
   const messageId = "apicall-message-id";
   try {
@@ -99,7 +100,7 @@ export const apiCall = async (
         method !== "get" &&
         typeof window !== "undefined" &&
         responseData?.message &&
-        !!showMessage
+        !!showSuccess
       ) {
         message.success(responseData?.message);
       }
@@ -110,7 +111,7 @@ export const apiCall = async (
         method !== "get" &&
         typeof window !== "undefined" &&
         errorMessage &&
-        !!showMessage
+        !!showError
       ) {
         message.error(errorMessage, 6);
       }
@@ -121,7 +122,7 @@ export const apiCall = async (
       ? error?.message
       : "Something went wrong!";
     // const errorMessage = "Something went wrong!"
-    if (typeof window !== "undefined" && showMessage) {
+    if (typeof window !== "undefined" && !!showError) {
       message.error(errorMessage, 6);
       hide && hide();
     }
