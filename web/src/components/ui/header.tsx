@@ -2,7 +2,6 @@
 
 import { useAppUser } from "@/hooks/use-app";
 import { Button } from "./button";
-// import Coin from "@/assets/icons/coin.svg";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { LOGIN_ROUTE } from "@/static";
@@ -100,15 +99,30 @@ const Header = () => {
 
           {user || loading ? (
             <>
-              <Button
-                loading={loading}
-                variant="outline"
-                className="flex h-8 items-center gap-2 rounded-lg border bg-transparent px-2 py-0"
-              >
-                {/* <Coin /> */}
-                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                <span className="text-sm leading-2">{user?.xp ?? 0}</span>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    loading={loading}
+                    variant="outline"
+                    className="flex h-8 items-center gap-2 rounded-lg border bg-transparent px-2 py-0"
+                  >
+                    <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                    <span className="text-sm leading-2">{user?.xp ?? 0}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 pt-3">
+                  <DropdownMenuLabel className="flex justify-between gap-5">
+                    <div className="space-y-2">
+                      <p className="text-base font-medium">XP</p>
+                      <p className="text-xs">
+                        You have{" "}
+                        <span className="font-bold">{user?.xp ?? 0}</span> XP
+                      </p>
+                    </div>
+                    <Star className="h-12 shrink-0 fill-yellow-500 text-yellow-500" />
+                  </DropdownMenuLabel>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -120,8 +134,7 @@ const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
-                  {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                  <DropdownMenuLabel>
+                  <DropdownMenuLabel className="text-base font-semibold">
                     {user?.first_name} {user?.last_name}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -132,12 +145,6 @@ const Header = () => {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
                     </Link>
-                    {/* <Link href="/settings">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                    </Link> */}
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
@@ -190,7 +197,7 @@ const Header = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className={`hover:bg-muted px-1.5 py-3 text-sm font-medium capitalize duration-200 min-[370px]:px-2 sm:px-6 ${
+                    className={`hover:bg-muted px-3 py-3 text-sm font-medium capitalize duration-200 min-[370px]:px-4 ${
                       isActive
                         ? "text-primary bg-muted"
                         : "text-muted-foreground"

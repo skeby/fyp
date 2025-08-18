@@ -1,9 +1,9 @@
 "use client";
 
 import { useAppUser } from "@/hooks/use-app";
-import { useRouter } from "next-nprogress-bar";
 import { useEffect, ReactNode } from "react";
 import { message } from "./message-provider";
+import { useRouter } from "@bprogress/next/app";
 
 const KeyboardShortcutProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

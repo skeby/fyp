@@ -24,8 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useAppMutation, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { User } from "@/types";
-import { useRouter } from "next-nprogress-bar";
-// import { useSearchParams } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({

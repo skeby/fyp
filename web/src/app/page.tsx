@@ -64,7 +64,7 @@ export default function LandingPage() {
             <div className="text-muted-foreground flex items-center space-x-4 text-sm">
               <div className="flex items-center">
                 <Star className="mr-1 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span>4.9/5 from 10k+ learners</span>
+                <span>4.9/5 from 50+ learners</span>
               </div>
               <div>•</div>
               <div>Completely free</div>
@@ -333,23 +333,20 @@ export default function LandingPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="!border-secondary bg-transparent"
-              >
-                View Sample Questions
-              </Button>
+              <Link href="/courses">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="!border-secondary bg-transparent"
+                >
+                  View Courses
+                </Button>
+              </Link>
             </div>
             <div className="text-primary-foreground/80 flex items-center space-x-4 text-sm">
               <div className="flex items-center">
                 <CheckCircle className="mr-1 h-4 w-4" />
                 <span>100% Free</span>
-              </div>
-              <div>•</div>
-              <div className="flex items-center">
-                <Zap className="mr-1 h-4 w-4" />
-                <span>No registration required</span>
               </div>
               <div>•</div>
               <div className="flex items-center">

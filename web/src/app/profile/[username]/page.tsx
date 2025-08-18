@@ -71,13 +71,10 @@ const UserProfile = async ({
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col items-start gap-4 sm:flex-row">
                 <Avatar className="h-20 w-20">
                   <AvatarImage
-                    src={
-                      user.profile_picture ||
-                      "/placeholder.svg?height=80&width=80"
-                    }
+                    src={user.profile_picture}
                     alt={`${user.first_name} ${user.last_name}`}
                   />
                   <AvatarFallback className="text-lg">
@@ -86,7 +83,7 @@ const UserProfile = async ({
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <CardTitle className="text-2xl">
+                  <CardTitle className="text-2xl text-wrap">
                     {user.first_name} {user.last_name}
                   </CardTitle>
                   <p className="text-muted-foreground">@{user.username}</p>

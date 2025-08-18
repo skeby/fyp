@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { ProgressProvider } from "@bprogress/next/app";
 import { MessageProvider } from "./message-provider";
 import KeyboardShortcutProvider from "./keyboard-shortcut-provider";
 
@@ -19,25 +19,20 @@ const queryClient = new QueryClient({
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools
-        initialIsOpen={false}
-        buttonPosition="bottom-right"
-        position="right"
-      />
-      <ProgressBar
-        style="style"
-        options={{
-          showSpinner: false,
-          easing: "ease",
-          // speed: 200,
-          // trickle: true,
-          // trickleSpeed: 200,
-        }}
+      <ProgressProvider
+        color="#ffffff"
+        options={{ showSpinner: false }}
         shallowRouting
-      />
-      <MessageProvider>
-        <KeyboardShortcutProvider>{children}</KeyboardShortcutProvider>
-      </MessageProvider>
+      >
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          buttonPosition="bottom-right"
+          position="right"
+        />
+        <MessageProvider>
+          <KeyboardShortcutProvider>{children}</KeyboardShortcutProvider>
+        </MessageProvider>
+      </ProgressProvider>
     </QueryClientProvider>
   );
 };

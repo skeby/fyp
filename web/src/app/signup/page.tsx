@@ -11,7 +11,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,10 +21,10 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { useAppMutation, useAppUser } from "@/hooks/use-app";
+import { useAppMutation } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { LOGIN_ROUTE } from "../../static";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "@bprogress/next/app";
 
 const SignUpPage = () => {
   const router = useRouter();
