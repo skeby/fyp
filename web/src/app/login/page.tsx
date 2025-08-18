@@ -25,7 +25,7 @@ import { useAppMutation, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { User } from "@/types";
 import { useRouter } from "@bprogress/next/app";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({
@@ -37,7 +37,7 @@ const LoginPage = () => {
   });
 
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   const { setUser } = useAppUser();
 
@@ -50,8 +50,9 @@ const LoginPage = () => {
     onSuccess: (data) => {
       if (data?.data?.user && data?.data?.token) {
         setUser(data.data.user, data.data.token);
-        const next = searchParams.get("next");
-        router.push(next || "/courses");
+        // const next = searchParams.get("next");
+        // router.push(next || "/courses");
+        router.push("/courses");
       }
     },
   });
