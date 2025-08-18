@@ -249,7 +249,7 @@ const Topic = () => {
   return (
     <main className="flex h-full min-h-[calc(100vh-48px)] w-full flex-col">
       {topic && (
-        <div className="bg-background sticky top-12 z-50 h-12 border-b px-1.5 py-2 min-[370px]:px-2 sm:px-6">
+        <div className="bg-background sticky top-12 z-10 h-12 border-b px-1.5 py-2 min-[370px]:px-2 sm:px-6">
           <div className="max-w-res flex h-full items-center justify-between">
             <div className="sm:min-w-[200px]">
               {course && (
