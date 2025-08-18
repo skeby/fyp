@@ -25,6 +25,7 @@ import { useAppMutation, useAppUser } from "@/hooks/use-app";
 import { paths } from "@/services/endpoint";
 import { User } from "@/types";
 import { useRouter } from "@bprogress/next/app";
+import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const form = useForm<LoginFields>({
@@ -36,7 +37,7 @@ const LoginPage = () => {
   });
 
   const router = useRouter();
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
   const { setUser } = useAppUser();
 
@@ -49,9 +50,8 @@ const LoginPage = () => {
     onSuccess: (data) => {
       if (data?.data?.user && data?.data?.token) {
         setUser(data.data.user, data.data.token);
-        // const next = searchParams.get("next");
-        // router.push(next || "/course");
-        router.push("/courses");
+        const next = searchParams.get("next");
+        router.push(next || "/courses");
       }
     },
   });
@@ -61,7 +61,7 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-6 py-20">
+    <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-1.5 py-8 min-[370px]:px-2 sm:px-6 sm:py-12">
       <Card className="h-full w-full max-w-md p-6">
         <CardHeader className="p-0">
           <CardTitle className="p-0">Login</CardTitle>

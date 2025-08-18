@@ -53,7 +53,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-6 py-20">
+    <main className="flex min-h-[calc(100vh-48px)] flex-col items-center justify-center px-1.5 py-8 min-[370px]:px-2 sm:px-6 sm:py-12">
       <Card className="h-full w-full max-w-md p-6">
         <CardHeader className="p-0">
           <CardTitle className="p-0">Sign Up</CardTitle>

@@ -110,7 +110,7 @@ const Header = () => {
                     <span className="text-sm leading-2">{user?.xp ?? 0}</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 pt-3">
+                <DropdownMenuContent className="w-56 pt-2">
                   <DropdownMenuLabel className="flex justify-between gap-5">
                     <div className="space-y-2">
                       <p className="text-base font-medium">XP</p>
@@ -133,7 +133,7 @@ const Header = () => {
                     {user?.first_name?.charAt(0).toUpperCase()}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className="w-56 p-1">
                   <DropdownMenuLabel className="text-base font-semibold">
                     {user?.first_name} {user?.last_name}
                   </DropdownMenuLabel>

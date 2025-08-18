@@ -36,7 +36,7 @@ const CoursesPage = async () => {
   }
 
   return (
-    <main className="px-6 py-12">
+    <main className="px-1.5 py-8 min-[370px]:px-2 sm:px-6 sm:py-12">
       <div className="max-w-res">
         <h2 className="text-primary flex flex-col justify-between gap-x-2 gap-y-0.5 font-medium sm:flex-row">
           <span className="text-2xl">Courses</span>

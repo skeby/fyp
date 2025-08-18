@@ -65,7 +65,7 @@ const UserProfile = async ({
   }
 
   return (
-    <main className="px-6 py-12">
+    <main className="px-1.5 py-3 min-[370px]:px-2 sm:px-6 sm:py-12">
       <div className="max-w-res grid grid-cols-1 gap-6">
         {/* Profile Info */}
         <div className="space-y-6">

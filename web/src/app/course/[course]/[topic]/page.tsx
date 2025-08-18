@@ -277,7 +277,7 @@ const Topic = () => {
           </div>
         </div>
       )}
-      <div className="mx-auto h-full w-full max-w-4xl flex-grow px-3 py-12 sm:px-6">
+      <div className="mx-auto h-full w-full max-w-4xl flex-grow px-1.5 py-8 min-[370px]:px-2 sm:px-6 sm:py-12">
         {isLoading || isFetching ? (
           <div className="mx-auto flex h-full w-fit items-center justify-center gap-2">
             <Spinner className="size-6" />{" "}
@@ -287,71 +287,55 @@ const Topic = () => {
           "No quiz available"
         ) : (
           <>
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-0.5">
-              {currentQuestion && (
-                <ProgressBar
-                  max={2.5}
-                  type="discrete"
-                  variant="danger"
-                  value={Math.max(currentQuestion?.difficulty || 0, 0)}
-                  label={{
-                    render: (value) =>
-                      `Difficulty: ${
-                        value <= 0.5
-                          ? "Easy"
-                          : value > 0.5 && value <= 1.5
-                            ? "Medium"
-                            : "Hard"
-                      }`,
-                  }}
-                />
-              )}
-              {typeof currentScorePercentage === "number" && (
-                <ProgressBar
-                  max={100}
-                  type="continuous"
-                  variant="success"
-                  value={Math.max(currentScorePercentage, 0)}
-                  label={{
-                    render: (value) =>
-                      `Performance: ${
-                        value <= 40
-                          ? "Poor"
-                          : value >= 70
-                            ? "Excellent"
-                            : "Average"
-                      }`,
-                    position: "right",
-                  }}
-                />
-              )}
-              {/* {typeof currentTheta === "number" && (
-                <ProgressBar
-                  max={2.5}
-                  type="discrete"
-                  variant="success"
-                  value={Math.max(currentTheta, 0)}
-                  label={{
-                    render: (value) =>
-                      `Performance: ${
-                        value < -1
-                          ? "Poor"
-                          : value > 1
-                            ? "Excellent"
-                            : "Average"
-                      }`,
-                    position: "right",
-                  }}
-                />
-              )} */}
-            </div>
+            {(currentQuestion ||
+              typeof currentScorePercentage === "number") && (
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-0.5">
+                {currentQuestion && (
+                  <ProgressBar
+                    max={2.5}
+                    type="discrete"
+                    variant="danger"
+                    value={Math.max(currentQuestion?.difficulty || 0, 0)}
+                    label={{
+                      render: (value) =>
+                        `Difficulty: ${
+                          value <= 0.5
+                            ? "Easy"
+                            : value > 0.5 && value <= 1.5
+                              ? "Medium"
+                              : "Hard"
+                        }`,
+                    }}
+                  />
+                )}
+                {typeof currentScorePercentage === "number" && (
+                  <ProgressBar
+                    max={100}
+                    type="continuous"
+                    variant="success"
+                    value={Math.max(currentScorePercentage, 0)}
+                    label={{
+                      render: (value) =>
+                        `Performance: ${
+                          value <= 40
+                            ? "Poor"
+                            : value >= 70
+                              ? "Excellent"
+                              : "Average"
+                        }`,
+                      position: "right",
+                    }}
+                  />
+                )}
+              </div>
+            )}
             {quizState === "intro" && (
               <div className="space-y-6">
                 <Card className="gap-0 p-5 sm:p-10">
-                  <p className="mb-2.5 text-base font-semibold text-white">
+                  <p className="mb-2.5 text-sm font-medium text-white sm:text-base sm:font-semibold">
                     {topic.description}
                   </p>
-                  <p className="mb-6 text-sm text-neutral-100">
+                  <p className="mb-6 text-xs text-neutral-100 sm:text-sm">
                     This adaptive test contains {topic.questions.length}{" "}
                     possible questions you can be tested on. Each question has
                     multiple-choice answers, and you will receive feedback on
