@@ -1,0 +1,169 @@
+Question ID,Question Text,Option A,Option B,Option C,Option D,Correct Answer,Explanation,Concept,Difficulty,Discrimination,Guessing Probability
+1,"What will the output of the below code?
+        C++
+        
+        #include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+
+    int arr[2] = { 1, 2 };
+    cout &lt;&lt; arr[0] &lt;&lt; &quot;, &quot; &lt;&lt; arr[1] &lt;&lt; endl;
+    return 0;
+}
+
+        
+    
+        Java
+        
+        public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2};
+        System.out.println(arr[0] + &quot;, &quot; + arr[1]);
+    }
+}","1, 2",Syntax error,Run time error,None,A,"The code declares an integer array arr with two elements, 1 and 2, and then prints them as 1, 2 using cout.",Array,Easy,Medium,0.25
+2,The minimum number of comparisons required to determine if an integer appears more than n/2 times in a sorted array of n integers is,Θ(n),Θ(logn),Θ(n*logn),Θ(1),B,"If you answered Theta(1), then think of examples {1, 2, 2, 2, 4, 4}, {1, 1, 2, 2, 2, 2, 3, 3} The Best way to find out whether an integer appears more than n/2 times in a sorted array(Ascending Order) of n integers, would be binary search approach.The First occurrence of an element can be found out in O(log(n)) time using divide and conquer technique,lets say it is i.The Last occurrence of an element can be found out in O(log(n)) time using divide and conquer technique,lets say it is j.Now number of occurrence of that element(count) is (j-i+1). Overall time complexity = log n +log n +1 = O(logn)See Check for Majority Element in a sorted array This solution is contributed by Nirmal Bharadwaj",Array,Hard,High,0.25
+3,"An algorithm performs (logN)1/2  find operations, N insert operations, (logN)1/2 , delete operations, and (logN)1/2  decrease-key operations on a set of data items with keys drawn from a linearly ordered set. For a delete operation, a pointer is provided to the record that must be deleted. For the decrease-key operation, a pointer is provided to the record that has its key decreased. Which one of the following data structures is the most suited for the algorithm to use, if the goal is to achieve the best total asymptotic complexity considering all the operations?",Unsorted array,Min-heap,Sorted array,Sorted doubly linked list,A,"The time complexity of insert in unsorted array is O(1), O(Logn) in Min-Heap, O(n) in sorted array and sorted DLL. For unsorted array, we can always insert an element at end and do insert in O(1) timeFor Min Heap, insertion takes O(Log n) time. Refer Binary Heap operations for details. For sorted array, insert takes O(n) time as we may have to move all elements worst case. For sorted doubly linked list, insert takes O(n) time to find position of element to be inserted. Since number of insertion operations is asymptotically higher, unsorted array is preferred.",Array,Hard,High,0.25
+4,Consider an array consisting of –ve and +ve numbers. What would be the worst case time complexity of an algorithm to segregate the numbers having same sign altogether i.e all +ve on one side and then all -ve on the other ?,O(N),O(N Log N),O(N * N),O(N Log Log N),A,Here we can use the partition algorithm of quick sort for segregation and answer will be O(N).,Array,Medium,High,0.25
+5,"Let A[1...n] be an array of n distinct numbers. If i &lt; j and A[i] &gt; A[j], then the pair (i, j) is called an inversion of A. What is the expected number of inversions in any permutation on n elements ?",n(n-1)/2,n(n-1)/4,n(n+1)/4,2n[logn],B,"There are n(n-1)/2 pairs such that i &lt; j. For a pair (ai, aj), probability of being inversion is 1/2. Therefore expected value of inversions = 1/2 * (n(n-1)/2) = n(n-1)/4.",Array,Hard,High,0.25
+6,"Consider a two dimensional array A[20][10]. Assume 4 words per memory cell, the base address of array A is 100, elements are stored in row-major order and first element is A[0][0]. What is the address of A[11][5] ?",560,460,570,575,A,"Element A[11][0] is stored at ""Base Address + 11 * 10 * 4"" which is  ""Base Address + 440"" = 540.  So A[11][5] is stored at 540 + 5*4 = 560.",Array,Medium,Medium,0.25
+7,"An array A consists of n integers in locations A[0], A[1] ....A[n-1]. It is required to shift the elements of the array cyclically to the left by k places, where 1 &lt;= k &lt;= (n-1). An incomplete algorithm for doing this in linear time, without using another array is given below. Complete the algorithm by filling in the blanks. Assume alt the variables are suitably declared.
+        C++
+        
+        min = n; i = 0;
+
+while (___________) {	
+
+     temp = A[i]; j = i;
+
+     while (________) {
+
+     A[j] = ________	
+
+     j= (j + k) mod n ;
+
+     If ( j&lt; min ) then
+
+         min = j;
+
+}
+
+A[(n + i — k) mod n] = _________
+
+i = __________",i &gt; min; j!= (n+i)mod n; A[j + k]; temp; i + 1 ;,i &lt; min; j!= (n+i)mod n; A[j + k]; temp; i + 1;,i &gt; min; j!= (n+i+k)mod n; A[(j + k)]; temp; i + 1;,i &lt; min; j!= (n+i-k)mod n; A[(j + k)mod n]; temp; i + 1;,D,"In the five blanks given in the question, the last two blanks must be temp and i+1 because all the given options for the fourth and fifth blanks have temp and i+1. Now, for the first blank, it must be imin then the control goes out of the while loop in the initial case when i=0 and min=n So, the first blank is i &lt; min which implies either option (B) or option (D) is correct. Assume option (B) is correct then in the bracket of while we have j!=(n+i)modn That means whenever j becomes equal to (n+i)modn then control goes out of the while loop. Now (n+i)modn=i and j is always equal to i because in line 3 of the code we are assigning the value of i to j. So, if option (B) is true control never enters the second while loop but it has to enter the second while loop to shift the nos. K places left. Hence, option (D) is correct.",Array,Hard,High,0.25
+8,Which of the following correctly declares an array?,int geeks[20];,int geeks;,geeks{20};,array geeks[20];,A,"Option A is correct. Int is the data type used, geeks is the name of the array and 20 is the size of the array.",Array,Easy,Low,0.25
+9,"A three dimensional array in ‘C++’ is declared as int A[x][y][z]. Consider that array elements are stored in row major order and indexing begins from 0. Here, the address of an item at the location A[p][q][r] can be computed as follows (where w is the word length of an integer):",&amp;A[0][0][0] + w(y * z * q + z * p + r),&amp;A[0][0][0] + w(y * z * p + z*q + r),&amp;A[0][0][0] + w(x * y * p + z * q+ r),&amp;A[0][0][0] + w(x * y * q + z * p + r),B,"According to above question we have to find the address of A[p][q][r] To reach pth row we must have to cross 0 to p-1 row i.e. p rows and each rows contains y∗z elements Hence , = y∗z∗p Now to reach qth element in pth row we have to cross q rows and each row contains z(total columns) elements =z∗q to reach rth elements we have to cross r elements in (p+1)th row Total elements to cross =(y∗z∗p+z∗q+r) Now each element occupies m amount of space in memory Therefore total space occupied by these elements = m(y∗z∗p+z∗q+r) Hence , address of A[p][q][r]=base address+ Space Occupied by the Elements Before it. =&amp;A[0][0][0]+m(y*z*p+z*q+r) Hence Option (B) is correct.",Array,Hard,High,0.25
+10,Let A be a square matrix of size n x n. Consider the following program. What is the expected output?&nbsp;C = 100for i = 1 to n do    for j = 1 to n do    {        Temp = A[i][j] + C        A[i][j] = A[j][i]        A[j][i] = Temp - C    } for i = 1 to n do    for j = 1 to n do        Output(A[i][j]);,The matrix A itself,Transpose of matrix A,Adding 100 to the upper diagonal elements and subtracting 100 from diagonal elements of A,Inverse of matrix A,A,"If we take look at the inner statements of first loops, we can notice that the statements swap A[i][j] and A[j][i] for all i and j. Since the loop runs for all elements, every element A[l][m] would be swapped twice, once for i = l and j = m and then for i = m and j = l. Swapping twice means the matrix doesn’t change.",Array,Medium,Medium,0.25
+11,A program P reads in 500 integers in the range [0..100] representing the scores of 500 students. It then prints the frequency of each score above 50. What would be the best way for P to store the frequencies?&nbsp;,An array of 50 numbers&nbsp;,An array of 100 numbers&nbsp;,An array of 500 numbers&nbsp;,A dynamically allocated array of 550 numbers&nbsp;,A,An array of 50 numbers is correct.,Array,Easy,Low,0.25
+12,"What will the output of the below code, be if the base address of the array is 1200?
+        C++
+        
+        #include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+
+    int arr[] = { 1, 2, 3, 4, 5 };
+    cout &lt;&lt; arr &lt;&lt; &quot;, &quot; &lt;&lt; &amp;arr &lt;&lt; &quot;, &quot; &lt;&lt; &amp;arr[0] &lt;&lt; endl;
+    return 0;
+}","1200, 1202, 1204",1200 1200 1200,"1200, 1204, 1208","1200, 1204, 1208",B,"Given that, the base address of the array is 1200.arr, &amp;arr is pointing to the base address of the array arr.&amp;arr[0] is pointing to the address of the first element array arr (base address).Hence the correct option is (B)",Array,Medium,Medium,0.25
+13,"What is the correct way to call the function (fun) in the below program?
+        C++
+        
+        #include &lt;bits/stdc++.h&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+void fun(char* arr)
+{
+    int i;
+    unsigned int n = strlen(arr);
+    for (i = 0; i &lt; n; i++)
+        cout &lt;&lt; &quot; &quot; &lt;&lt; arr[i];
+}
+
+// Driver program
+int main()
+{
+    char arr[]
+        = { &#39;g&#39;, &#39;e&#39;, &#39;e&#39;, &#39;k&#39;, &#39;s&#39;, &#39;q&#39;, &#39;u&#39;, &#39;i&#39;, &#39;z&#39; };
+    // How to call the above function here to print the char
+    // elements?
+
+    return 0;
+}",fun(&amp;arr);,fun(*arr);,fun(arr),None,C,fun(arr) is the correct syntax to call the function having array (arr) as a Parameter.Hence option(C) is correct.&nbsp;,Array,Easy,Low,0.25
+14,"Let A be a matrix of size n x n. Consider the following program. What is the expected output?&nbsp;
+        C++
+        
+        void fun(int A[][N])
+{
+    for (int i = 0; i &lt; N; i++)
+        for (int j = i + 1; j &lt; N; j++)
+            swap(A[i][j], A[j][i]);
+}",Matrix A,Diagonal Of matrix A,Transpose of matrix A,None,C,"In the above program, we are just swapping(arr[i][j]) to arr[j][i]). That means row will become column and column will become row.That means the Transpose of the graph.Hence (C) is the correct output.",Array,Medium,Medium,0.25
+15,"What will do the following code?
+        C++
+        
+        void fun(int arr[], int n)
+{
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = i; j &lt; n; j++) {
+            for (int k = i; k &lt;= j; k++)
+                cout &lt;&lt; arr[k] &lt;&lt; &quot; &quot;;
+
+            cout &lt;&lt; endl;
+        }
+    }
+}",Prints the subsequence of the article.,Prints the elements of the array,Prints the subarray of the element.,None,C,The above code will print subarray of the elements.Hence the correct option is(C).,Array,Medium,Medium,0.25
+16,Which of the following is the limitation of the array?,elements can be accessed from anywhere.,The size of the array is fixed.,Indexing is started from Zero.,Memory waste if an array's elements are smaller than the size allotted to them,D,"Suppose we have an arry like : arr[5] ={1, 2, 3}Here we have declared the size of the array as 5, but we have initialized only &nbsp;3 values to it. So it leads to memory wastage.Hence Option (D) is correct.",Array,Easy,Low,0.25
+17,"Consider the below program, and what is doing this program basically?
+        C++
+        
+        #include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+void print(char a[], int n, int ind)
+{
+    for (int i = ind; i &lt; n + ind; i++)
+        cout &lt;&lt; a[(i % n)] &lt;&lt; &quot; &quot;;
+}
+
+int main()
+{
+    char a[] = { &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39; };
+    int n = sizeof(a) / sizeof(a[0]);
+    print(a, n, 3);
+    return 0;
+}",It is printing the normal array,It is printing circular array rotated by 3,Syntax error,None,B,"In the above program, we are just shifting the array elements by 3 circularly.we are running loop from i = 3 to 9.Inside the loop we are printing arr[3%6] = arr[3] = 'D'arr[4 % 6] = arr[4] &nbsp;= 'E'arr[5 % 6] = arr[5] = 'F'arr[6 % 6] = arr[0] = 'A'arr[7 % 6] = arr[1] = 'B'arr[8 % 6] = arr[2] = 'C'Hence Option (B) is correct.",Array,Medium,High,0.25
+18,"Fill in the blanks for completing the program to rotate an array by d elements.
+        C++
+        
+        /*Function to left rotate arr[] of size n by d*/
+void Rotate(int arr[], int d, int n)
+{
+    int p = 1;
+    while (_______) {
+        int last = arr[0];
+        for (int i = 0; ______ i++) {
+            arr[i] = arr[i + 1];
+        }
+        __________
+        p++;
+    }
+}","p &lt;= d , i &lt; n - 1 , arr[n - 1] = last;","p &lt; d, i &lt; n, arr[n] = last;","p &gt;=d, i &gt;n , arr[n] = &nbsp;last",None,A,"In the three blanks given in the questions.The first blank will be a conditional statement which should be (p.&lt;=d) because p starts with 1 and goes till d.The second blank should be the condition for looping, which is (i &lt; n-1), because the loop will run till n-1 elements.and the last blank will be updating the last element.Hence Option(A) is correct.",Array,Hard,High,0.25
+19,Refer the below diagram and identify the problem.&nbsp;,Normal traversal of the matrix.,Row-wise traversal of the matrix.,Column-wise traversal of the matrix.,spiral traversal of the matrix.,D,The image is for the spiral traversal of the matrix.Refer the below article:https://www.geeksforgeeks.org/print-a-given-matrix-in-spiral-form/Hence Option (D) is correct.,Array,Medium,Medium,0.25
+20,"Consider the below program. What is the expected output?&nbsp;
+        C++
+        
+        void fun(int arr[], int start, int end)
+{
+    while (start &lt; end) {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+}",swapping the elements pairwise,sorting the elements,Reverse an array,None,C,"The above code is for reversing an array of elements., we are just swapping the first and last element of the array, and the whole array is reversed.For more reference:https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/Hence Option(C) is correct.&nbsp;",Array,Medium,Medium,0.25

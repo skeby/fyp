@@ -1,0 +1,9 @@
+node_modules
+logs
+
+dist
+
+.env
+.env.*
+!.env.sample
+.vercel

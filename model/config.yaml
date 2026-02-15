@@ -1,0 +1,23 @@
+
+model:
+  n_question: 301               # Update this to match your EXACT number of questions
+  question_dim: 3               # Keep as-is (3 IRT parameters)
+  dropout: 0.2                  # Good default
+
+training:
+  data_path: student_interactions.csv  # <--- Add this at the top
+  batch_size: 8                 # Start small (4-16) unless you have GPU
+  epochs: 20                     # Reduce for initial testing
+  lr: 0.001                     # Standard Adam optimizer LR
+  eval_every: 2                 # More frequent early evaluation
+
+adaptive_testing:
+  max_questions: 5              # Shorter tests during development
+  min_theta_se: 0.5             # Looser stopping criterion initially
+  content_balance:              # MUST match your CSV's "Concept" values exactly
+    Array: 0.66
+    Linked List: 1.63
+    Stack: 1.00
+    Queue: 1.00
+    Tree: 3.12
+    Graph: 2.59
